@@ -2,45 +2,50 @@
 
 ## System Design
 
--   The **mockup outline** can be found [here](./docs/page-view-diagram.pdf).
+-   The **mockup outline** can be found [here](./docs/page-outline.pdf).
 
 *   ### **Pages**
 
-    | Page Component    | Page Route                  | Component Hierarchy Tree                                   |
-    | ----------------- | --------------------------- | ---------------------------------------------------------- |
-    | LandingPage       | /                           | [App](./misc/app-diagram.pdf)                              |
-    | LoginPage         | /login                      | [Login](./misc/login-diagram.pdf)                          |
-    | SignUpPage        | /signup                     |                                                            |
-    | Search            | /search                     | [Search](./misc/search-diagram.pdf)                        |
-    | RecipeView        | /recipe/:recipe_id          | [RecipeView](./misc/recipe-view-diagram.pdf)               |
-    | RecipeEdit        | /recipe/edit/:recipe_id     | [RecipeEdit](./misc/recipe-edit-diagram.pdf)               |
-    | CollectionsList   | /collections                | [CollectionsList](./misc/collection-list-diagram.pdf)      |
-    | CollectionRecipes | /collections/:collection_id | [CollectionRecipes](./misc/collection-recipes-diagram.pdf) |
-    | ShopCart          | /cart                       | [ShopCart](./misc/shop-cart-diagram.pdf)                   |
-    | BakingCalculator  | /calculator                 | [BakingCalculator](./misc/calculator-diagram.pdf)          |
+    | Page Component | Page Route         | Component Hierarchy Tree |
+    | -------------- | ------------------ | ------------------------ |
+    | LandingPage    | /                  | [PlayerTables]()         |
+    | LoginPage      | /login             | [Login]()                |
+    | SignUpPage     | /signup            |                          |
+    | LeaguesGrid    | /leagues/          | [UsersLeagues]()         |
+    | LeagueView     | /league/:league_id | [LeagueView]()           |
+    | Search         | /search            | [Search]()               |
+    | PlayerView     | /player/:player_id | [PlayerView]()           |
+    | TeamView       | /team/:team_id     | [TeamView]()             |
+    | SimulationView | /simulation        | [SimulationView]()       |
+    | Settings       | /settings          | [Settings]()             |
 
 *   ### **Components**
 
-    | Component             | Props                                                |
-    | --------------------- | ---------------------------------------------------- |
-    | NavBar                |                                                      |
-    | Footer                |                                                      |
-    | ButtonComponent       | clickHandler, style                                  |
-    | SocialLink            | clickHandler, style                                  |
-    | FormComponent         | array of formObjects`{label,inputType}`, saveHandler |
-    | HamburgerMenu         |                                                      |
-    | SearchBar             |                                                      |
-    | RecipeCard            | recipeData                                           |
-    | RecipeSummary         | recipe ingredients#, prep time, calories#            |
-    | NutrientsCard         | recipe ingredients array                             |
-    | IngredientsView       | recipe ingredients array                             |
-    | RelatedCarousel       | recipe title, ingredients array                      |
-    | IngredientsForm       | recipe ingredients array                             |
-    | CollectionCard        | collectionData`{title, recipeId array }`             |
-    | CollectionRecipesCard | recipeId                                             |
-    | ShopCartForm          | array of cartItems`{ingredient,quantity,unit}`       |
-    | PrintButton           | array of cartItems?????                              |
-    | CalculatorForm        | recipe ingredients array                             |
+    | Component        | Props                                                |
+    | ---------------- | ---------------------------------------------------- |
+    | NavBar           |                                                      |
+    | Footer           |                                                      |
+    | ButtonComponent  | clickHandler, style                                  |
+    | SocialLink       | clickHandler, style                                  |
+    | FormComponent    | array of formObjects`{label,inputType}`, saveHandler |
+    | HamburgerMenu    |                                                      |
+    | SearchBar        |                                                      |
+    | TableCard        |                                                      |
+    | PlayerChart      | player stats                                         |
+    | PlayerStatsTable | player stats                                         |
+
+*   ### **REST API**
+
+    | Endpoint                               | Details                                                      |
+    | -------------------------------------- | ------------------------------------------------------------ |
+    | playerData                             | gets general data of players(name, image, college etc.)      |
+    | player/:player_id                      | gets complete info about the player including fantasy scores |
+    | topPlayers/?position=[POS]             | gets list of top players at their position                   |
+    | topPlayers/?position=[POS]&year=[YEAR] | gets list of top players at their position in a given year   |
+    | users                                  | gets list of registered users                                |
+    | users/:user_id                         | gets info of requested user                                  |
+    | leagues/:user_id                       | gets list of user's leagues                                  |
+    | teams/:league_id                       | gets list of of teams from the requested league              |
 
 -   ### **Contexts**
 
@@ -49,42 +54,41 @@
 
 ## **Timeline**
 
-| Type             | Feature             | Task            | Done                  | Time           | Day          |
-| ---------------- | ------------------- | --------------- | --------------------- | -------------- | ------------ |
-| **Must Have**    |                     |                 |                       |                |              |
-|                  | **APIs**            |                 | :white_check_mark:    | **3.5 hours**  | Thursday     |
-|                  |                     | Edamam          | :white_check_mark:    | 2 hours        | Thursday     |
-|                  |                     | FDC             | :white_check_mark:    | 0.5 hours      | Thursday     |
-|                  |                     | Mockup          | :white_check_mark:    | 0.5 hours      | Thursday     |
-|                  |                     | Spoonacular     | :white_check_mark:    | 0.5 hours      | Thursday     |
-|                  | **Recipes**         |                 | :white_check_mark:    | **11.5 hours** |              |
-|                  |                     | RecipeCard      | :white_check_mark:    | 2 hours        | Thursday     |
-|                  |                     | RecipeView      | :white_check_mark:    | 2 hours        | Thursday     |
-|                  |                     | RecipeSummary   | :white_check_mark:    | 0.5 hours      | Saturday eve |
-|                  |                     | NutrientsCard   | :white_check_mark:    | 3 hours        | Saturday eve |
-|                  |                     | IngredientsView | :white_check_mark:    | 2 hours        | Sunday       |
-|                  | **Netlify**         |                 | :white_check_mark:    | **2 hours**    | Sunday       |
-|                  | **Login**           |                 | :white_check_mark:    | **6 hours**    |              |
-|                  |                     | LoginPage       | :white_check_mark:    | 3 hours        | Sunday       |
-|                  |                     | SignUpPage      | :white_check_mark:    | 3 hours        | Monday       |
-|                  | **Collections**     |                 | :white_check_mark:    | **6 hours**    | Monday       |
-|                  |                     | List            | :white_check_mark:    | 2 hours        | Monday       |
-|                  |                     | Recipes         | :white_check_mark:    | 2 hours        | Monday       |
-|                  |                     | Create          | :white_check_mark:    | 2 hours        | Monday       |
-|                  | **Search**          |                 | :white_check_mark:    | **4 hours**    | Monday       |
-|                  |                     | SearchBar       | :white_check_mark:    | 3 hours        |              |
-|                  |                     | SearchList      | :white_check_mark:    | 1 hours        |              |
-|                  | **Styling**         |                 | :white_check_mark:    | **8 hours**    | Tuesday      |
-| **Nice To Have** |                     |                 |                       |                |              |
-|                  | **Hamburger**       |                 | :black_square_button: | **2 hours**    | Tuesday      |
-|                  | **Shop Cart**       |                 | :black_square_button: | **3 hours**    | Tuesday      |
-|                  | **Calculator**      |                 | :black_square_button: | **8 hours**    | Wednesday    |
-|                  | **RelatedCarousel** |                 | :black_square_button: | **1.5 hours**  | Wednesday    |
-|                  | **SocialLinks**     |                 | :black_square_button: | **1.5 hours**  | Wednesday    |
-|                  |                     | RecipeEdit      | :black_square_button: | 2 hours        |              |
-|                  |                     | IngredientsForm | :black_square_button: | 2 hours        |              |
-| **Future**       |                     |                 |                       |                |              |
-|                  | **scroll** \*       |                 | :black_square_button: |                |              |
+| Type             | Feature         | Task            | Done                  | Time        | Day |
+| ---------------- | --------------- | --------------- | --------------------- | ----------- | --- |
+| **Must Have**    |                 |                 |                       |             |     |
+|                  | **plan :)**     |                 | :white_check_mark:    | **3 hours** |     |
+|                  | **Server**      |                 | :black_square_button: | **4 days**  |     |
+|                  |                 | routing         | :black_square_button: | 1 Day       |     |
+|                  | **APIs**        |                 | :black_square_button: | **3 days**  |     |
+|                  |                 | playerData      | :black_square_button: | 1 Day       |     |
+|                  |                 | player          | :black_square_button: | 5 hours     |     |
+|                  |                 | topPlayers      | :black_square_button: | 4 hours     |     |
+|                  |                 | users           | :black_square_button: | 8 hours     |     |
+|                  |                 | leagues         | :black_square_button: | 4 hours     |     |
+|                  |                 | teams           | :black_square_button: | 3 hours     |     |
+|                  | **Deployment**  |                 | :black_square_button: | **6 hours** |     |
+|                  | **Pages**       |                 | :black_square_button: | **5 days**  |     |
+|                  |                 | LandingPage     | :black_square_button: | 6 hours     |     |
+|                  |                 | LoginPage       | :black_square_button: | 3 hours     |     |
+|                  |                 | SignUpPage      | :black_square_button: | 3 hours     |     |
+|                  |                 | LeaguesGrid     | :black_square_button: | 4 hours     |     |
+|                  |                 | LeagueView      | :black_square_button: | 4 hours     |     |
+|                  |                 | Search          | :black_square_button: | 6 hours     |     |
+|                  |                 | PlayerView      | :black_square_button: | 4 hours     |     |
+|                  |                 | TeamView        | :black_square_button: | 3 hours     |     |
+| **Nice To Have** |                 |                 |                       |             |     |
+|                  | **Pages**       |                 | :black_square_button: | **1 day**   |     |
+|                  |                 | SimulationView  | :black_square_button: | ?           |     |
+|                  |                 | Settings        | :black_square_button: | ?           |     |
+|                  | **Hamburger**   |                 | :black_square_button: | **3 hours** |     |
+|                  | **Footer**      |                 | :black_square_button: | **2 hours** |     |
+|                  | **Testing**     |                 | :black_square_button: | **3 hours** |     |
+|                  | **SocialLinks** |                 | :black_square_button: | **2 hours** |     |
+|                  |                 | RecipeEdit      | :black_square_button: | 2 hours     |     |
+|                  |                 | IngredientsForm | :black_square_button: | 2 hours     |     |
+| **Future**       |                 |                 |                       |             |     |
+|                  | **scroll** \*   |                 | :black_square_button: |             |     |
 
 #### **Notes**
 
