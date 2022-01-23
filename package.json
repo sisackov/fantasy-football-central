@@ -1,0 +1,27 @@
+{
+  "name": "fantasy-football-central",
+  "version": "1.0.0",
+  "description": "-   The **mockup outline** can be found [here](./docs/page-outline.pdf).",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sisackov/fantasy-football-central.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sisackov/fantasy-football-central/issues"
+  },
+  "homepage": "https://github.com/sisackov/fantasy-football-central#readme",
+  "dependencies": {
+    "puppeteer": "^13.1.1"
+  }
+}

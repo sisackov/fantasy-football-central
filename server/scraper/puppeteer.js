@@ -20,6 +20,7 @@ const qbTableHeaders = [
     'fumbles',
     'fumblesLost',
 ];
+
 const wrTableHeaders = [
     'week',
     'opponent',
@@ -71,6 +72,24 @@ const defenseTableHeaders = [
     'fantasyScore',
 ];
 
+const kickerTableHeaders = [
+    'week',
+    'opponent',
+    'result',
+    'fieldGoal',
+    'fieldGoalAttempts',
+    'fgPercentage',
+    'bellow19yards',
+    'bellow29yards',
+    'bellow39yards',
+    'bellow49yards',
+    'above50yards',
+    'longestFieldGoal',
+    'extraPoints',
+    'extraPointsAttempts',
+    'fantasyScore',
+];
+
 async function getTableRows(page, selector) {
     return page.$$eval(selector, (trs) =>
         trs.map((tr) => {
@@ -89,6 +108,8 @@ const getTableHeaders = (playerPosition) => {
             return wrTableHeaders;
         case 'RB':
             return rbTableHeaders;
+        case 'K':
+            return kickerTableHeaders;
         default:
             return qbTableHeaders;
     }
@@ -139,7 +160,7 @@ async function getPlayerStatsNFL(playerName, playerPosition) {
 // getPlayerStatsNFL('dalvin-cook', 'RB');
 // getPlayerStatsNFL('mike-evans', 'WR');
 
-const neededOffensivePositions = ['QB', 'RB', 'WR', 'TE'];
+const neededOffensivePositions = ['QB', 'RB', 'WR', 'TE', 'K'];
 const playerDataTableHeader = [
     'imageLink',
     'name',
@@ -421,21 +442,22 @@ async function getKickerStats(playerName) {
     const selector = 'table.table > tbody > tr';
     await page.waitForSelector(selector);
     let tableRows = await getTableRows(page, selector);
-    console.log(tableRows);
-    // tableRows = tableRows.filter(
-    //     (row) => row.length === kickerTableHeaders.length
-    // );
+    // console.log(tableRows);
 
-    // const data = tableRows.map((row) => {
-    //     const rowData = {};
-    //     row.forEach((cell, index) => {
-    //         rowData[kickerTableHeaders[index]] = cell;
-    //     });
-    //     return rowData;
-    // });
+    const tableHeaders = getTableHeaders('K');
 
-    // await browser.close();
-    // return data;
+    const data = tableRows.map((row) => {
+        const rowData = {};
+        row.forEach((cell, index) => {
+            rowData[tableHeaders[index]] = cell;
+        });
+        rowData.year = 2021;
+        return rowData;
+    });
+    console.log(data);
+
+    await browser.close();
+    return data;
 }
 
 async function startRun() {
@@ -444,4 +466,6 @@ async function startRun() {
     console.log(team);
 }
 
-startRun();
+// startRun();
+
+module.exports = { getKickerStats };
