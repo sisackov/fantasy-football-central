@@ -90,7 +90,7 @@ const kickerTableHeaders = [
     'fantasyScore',
 ];
 
-async function getTableRows(page, selector) {
+async function getTableContent(page, selector) {
     return page.$$eval(selector, (trs) =>
         trs.map((tr) => {
             const tds = [...tr.querySelectorAll('td')];
@@ -100,6 +100,7 @@ async function getTableRows(page, selector) {
 }
 
 const getTableHeaders = (playerPosition) => {
+    //TODO: make all positions constants
     switch (playerPosition) {
         case 'QB':
             return qbTableHeaders;
@@ -108,11 +109,22 @@ const getTableHeaders = (playerPosition) => {
             return wrTableHeaders;
         case 'RB':
             return rbTableHeaders;
-        case 'K':
+        case 'PK':
             return kickerTableHeaders;
         default:
             return qbTableHeaders;
     }
+};
+
+const getDataFromTableContent = (tableContent, tableHeaders) => {
+    return tableContent.map((row) => {
+        const rowData = {};
+        row.forEach((cell, index) => {
+            rowData[tableHeaders[index]] = cell;
+        });
+        rowData.year = 2021;
+        return rowData;
+    });
 };
 
 async function getPlayerStatsNFL(playerName, playerPosition) {
@@ -126,14 +138,10 @@ async function getPlayerStatsNFL(playerName, playerPosition) {
         // Instructs the blank page to navigate a URL
         await page.goto(url);
 
-        // Waits until the `title` meta element is rendered
-        // await page.waitForSelector('title');
-
-        // const selector = '.d3-o-table > tbody > tr ';
         const selector = 'table[summary="Recent Games"] > tbody > tr ';
         await page.waitForSelector(selector);
 
-        const tableRows = await page.$$eval(selector, (trs) =>
+        const tableContent = await page.$$eval(selector, (trs) =>
             trs.map((tr) => {
                 const tds = [...tr.querySelectorAll('td')];
                 return tds.map((td) => td.textContent);
@@ -142,18 +150,7 @@ async function getPlayerStatsNFL(playerName, playerPosition) {
 
         const tableHeaders = getTableHeaders(playerPosition);
 
-        // const data = tableRows.map((row) => {
-        return tableRows.map((row) => {
-            const rowData = {};
-            row.forEach((cell, index) => {
-                rowData[tableHeaders[index]] = cell;
-            });
-            rowData.year = 2021;
-            return rowData;
-        });
-        // console.log(data); //Works!!!
-
-        // return data;
+        return getDataFromTableContent(tableContent, tableHeaders);
     } catch (err) {
         console.log(err);
     } finally {
@@ -214,18 +211,8 @@ const espnTeamRosterLinks = [
     'lar/los-angeles-rams',
 ];
 
-async function getPlayersData(teamName) {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-
-    // Instructs the blank page to navigate a URL
-    await page.goto(`https://www.espn.com/nfl/team/roster/_/name/${teamName}`);
-
-    // Waits until the `title` meta element is rendered
-    await page.waitForSelector('title');
-
-    const selector = 'div.ResponsiveTable.Offense table > tbody > tr';
-    const tableRows = await page.$$eval(selector, (trs) =>
+const getPlayerDataTableContent = async (page, selector) => {
+    return page.$$eval(selector, (trs) =>
         trs.map((tr) => {
             const tds = [...tr.querySelectorAll('td')];
             return tds.map((td, index) => {
@@ -245,8 +232,10 @@ async function getPlayersData(teamName) {
             });
         })
     );
+};
 
-    const data = tableRows
+const getPlayerDataFiltered = async (tableContent, filterArray, teamName) => {
+    return tableContent
         .map((row) => {
             const rowData = {};
             row.forEach((cell, index) => {
@@ -266,11 +255,40 @@ async function getPlayersData(teamName) {
             });
             return rowData;
         })
-        .filter((player) => neededOffensivePositions.includes(player.position));
+        .filter((player) => filterArray.includes(player.position));
+};
+
+async function getPlayersData(teamName) {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+
+    // Instructs the blank page to navigate a URL
+    const url = `https://www.espn.com/nfl/team/roster/_/name/${teamName}`;
+    console.log(url);
+    await page.goto(url);
+
+    let selector = 'div.ResponsiveTable.Offense table > tbody > tr';
+    // Waits until the selector element is rendered
+    await page.waitForSelector(selector);
+
+    let tableContent = await getPlayerDataTableContent(page, selector);
+    const data = await getPlayerDataFiltered(
+        tableContent,
+        neededOffensivePositions,
+        teamName
+    );
+
+    selector = 'div.ResponsiveTable.Special.Teams table > tbody > tr';
+    tableContent = await getPlayerDataTableContent(page, selector);
+    const specialTeams = await getPlayerDataFiltered(
+        tableContent,
+        ['PK'],
+        teamName
+    );
+    data.push(...specialTeams);
 
     await browser.close();
     return data;
-    // console.log(data); //Works!!!
 }
 
 const fnflTeams = [
@@ -420,7 +438,7 @@ async function getTeamDefenseStats(team) {
 
     const selector = 'table.tableType-weeks > tbody > tr';
     await page.waitForSelector(selector);
-    let tableRows = await getTableRows(page, selector);
+    let tableRows = await getTableContent(page, selector);
     tableRows = tableRows.filter(
         (row) => row.length === defenseTableHeaders.length
     );
@@ -438,33 +456,31 @@ async function getTeamDefenseStats(team) {
 }
 
 async function getKickerStats(playerName) {
-    const browser = await puppeteer.launch({ headless: false });
-    const page = await browser.newPage();
+    // const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch();
+    try {
+        const page = await browser.newPage();
 
-    const url = `https://www.fantasypros.com/nfl/games/${playerName}.php`;
+        const url = `https://www.fantasypros.com/nfl/games/${playerName}.php`;
 
-    // Instructs the blank page to navigate a URL
-    await page.goto(url);
+        // Instructs the blank page to navigate a URL
+        await page.goto(url);
 
-    const selector = 'table.table > tbody > tr';
-    await page.waitForSelector(selector);
-    let tableRows = await getTableRows(page, selector);
-    // console.log(tableRows);
+        const selector = 'table.table > tbody > tr';
+        await page.waitForSelector(selector);
+        let tableContent = await getTableContent(page, selector);
 
-    const tableHeaders = getTableHeaders('K');
+        const tableHeaders = getTableHeaders('PK');
 
-    const data = tableRows.map((row) => {
-        const rowData = {};
-        row.forEach((cell, index) => {
-            rowData[tableHeaders[index]] = cell;
-        });
-        rowData.year = 2021;
-        return rowData;
-    });
-    console.log(data);
-
-    await browser.close();
-    return data;
+        return getDataFromTableContent(tableContent, tableHeaders).filter(
+            (row) => row.opponent !== 'BYE Week'
+        );
+    } catch (e) {
+        console.log(e);
+    } finally {
+        await browser.close();
+    }
+    return [];
 }
 
 async function startRun() {
