@@ -2,11 +2,12 @@ const express = require('express');
 require('./db/mongoose');
 const userRouter = require('./routes/user');
 const morgan = require('morgan');
+const { ROUTES_PREFIX } = require('./utils/constants');
 
 const app = express();
 
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(userRouter);
+app.use(ROUTES_PREFIX, userRouter);
 
 module.exports = app;
