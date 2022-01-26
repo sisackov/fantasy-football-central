@@ -70,7 +70,6 @@ userSchema.methods.generateAuthToken = async function (userAgent) {
         process.env.JWT_SECRET
     );
 
-    //todo: add device name to the token
     user.tokens = user.tokens.concat({ token, userAgent });
     await user.save();
 

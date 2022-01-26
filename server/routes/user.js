@@ -73,6 +73,7 @@ router.get('/users/:id', async (req, res) => {
 });
 
 router.patch('/users/auth', auth, async (req, res) => {
+    const user = req.user;
     const updates = Object.keys(req.body);
     const allowedUpdates = ['name', 'password'];
     const isValidOperation = updates.every((update) =>
@@ -84,9 +85,11 @@ router.patch('/users/auth', auth, async (req, res) => {
     }
 
     try {
-        updates.forEach((update) => (req.user[update] = req.body[update]));
-        await req.user.save();
-        res.send(req.user);
+        updates.forEach((update) => (user[update] = req.body[update]));
+        user.tokens = []; //updating a user should log him out from all devices
+        const token = await user.generateAuthToken(req.get('user-agent'));
+        // await req.user.save();
+        res.send({ user, token });
     } catch (e) {
         res.status(400).send(e);
     }

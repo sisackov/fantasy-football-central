@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const { PLAYER_DATA_TABLE_COLUMNS } = require('./constants');
 
 const qbTableHeaders = [
     'week',
@@ -116,11 +117,11 @@ const getTableHeaders = (playerPosition) => {
     }
 };
 
-const getDataFromTableContent = (tableContent, tableHeaders) => {
+const getDataFromTableContent = (tableContent, tableColumns) => {
     return tableContent.map((row) => {
         const rowData = {};
         row.forEach((cell, index) => {
-            rowData[tableHeaders[index]] = cell;
+            rowData[tableColumns[index]] = cell;
         });
         rowData.year = 2021;
         return rowData;
@@ -164,52 +165,7 @@ async function getPlayerStatsNFL(playerName, playerPosition) {
 // getPlayerStatsNFL('dalvin-cook', 'RB');
 // getPlayerStatsNFL('mike-evans', 'WR');
 
-const neededOffensivePositions = ['QB', 'RB', 'WR', 'TE'];
-const playerDataTableHeader = [
-    'imageLink',
-    'name',
-    'position',
-    'age',
-    'height',
-    'weight',
-    'experience',
-    'college',
-];
-
-const espnTeamRosterLinks = [
-    'buf/buffalo-bills',
-    'mia/miami-dolphins',
-    'ne/new-england-patriots',
-    'nyj/new-york-jets',
-    'bal/baltimore-ravens',
-    'cin/cincinnati-bengals',
-    'cle/cleveland-browns',
-    'pit/pittsburgh-steelers',
-    'hou/houston-texans',
-    'ind/indianapolis-colts',
-    'jax/jacksonville-jaguars',
-    'ten/tennessee-titans',
-    'den/denver-broncos',
-    'kc/kansas-city-chiefs',
-    'oak/oakland-raiders',
-    'lac/los-angeles-chargers',
-    'chi/chicago-bears',
-    'det/detroit-lions',
-    'gb/green-bay-packers',
-    'min/minnesota-vikings',
-    'dal/dallas-cowboys',
-    'nyg/new-york-giants',
-    'phi/philadelphia-eagles',
-    'wsh/washington',
-    'atl/atlanta-falcons',
-    'car/carolina-panthers',
-    'no/new-orleans-saints',
-    'tb/tampa-bay-buccaneers',
-    'ari/arizona-cardinals',
-    'sf/san-francisco-49ers',
-    'sea/seattle-seahawks',
-    'lar/los-angeles-rams',
-];
+const NEEDED_OFFENSIVE_POSITIONS = ['QB', 'RB', 'WR', 'TE'];
 
 const getPlayerDataTableContent = async (page, selector) => {
     return page.$$eval(selector, (trs) =>
@@ -220,9 +176,12 @@ const getPlayerDataTableContent = async (page, selector) => {
                     if (index === 0) {
                         return td.querySelector('img').getAttribute('alt');
                     } else if (index === 1) {
-                        return `${td.querySelector('a').textContent}__${
-                            td.querySelector('span').textContent
-                        }`;
+                        const linkContent = td.querySelector('a').textContent;
+                        const spanContent = td.querySelector('span')
+                            ? td.querySelector('span').textContent
+                            : '-1'; //*player without a number
+
+                        return `${linkContent}__${spanContent}`;
                     }
                     return td.textContent;
                 } catch (err) {
@@ -234,25 +193,33 @@ const getPlayerDataTableContent = async (page, selector) => {
     );
 };
 
-const getPlayerDataFiltered = async (tableContent, filterArray, teamName) => {
+const getPlayerDataFiltered = async (
+    tableContent,
+    tableColumns,
+    filterArray,
+    teamName
+) => {
     return tableContent
         .map((row) => {
             const rowData = {};
             row.forEach((cell, index) => {
                 if (index === 0) {
-                    rowData[playerDataTableHeader[index]] = cell;
+                    rowData[tableColumns[index]] = cell;
                     rowData.espnId = cell
                         .slice(cell.lastIndexOf('/') + 1)
                         .split('.')[0];
                 } else if (index === 1) {
                     const split = cell.split('__');
-                    rowData[playerDataTableHeader[index]] = split[0];
+                    rowData[tableColumns[index]] = split[0];
                     rowData.number = split[1];
-                    rowData.teamName = teamName.split('/')[1];
+                    rowData.team = teamName.split('/')[1];
                 } else {
-                    rowData[playerDataTableHeader[index]] = cell;
+                    rowData[tableColumns[index]] = cell;
                 }
             });
+            if (rowData.age === '--') {
+                rowData.age = '-1';
+            }
             return rowData;
         })
         .filter((player) => filterArray.includes(player.position));
@@ -274,18 +241,20 @@ async function getPlayersData(teamName) {
     let tableContent = await getPlayerDataTableContent(page, selector);
     const data = await getPlayerDataFiltered(
         tableContent,
-        neededOffensivePositions,
+        PLAYER_DATA_TABLE_COLUMNS,
+        NEEDED_OFFENSIVE_POSITIONS,
         teamName
     );
 
-    selector = 'div.ResponsiveTable.Special.Teams table > tbody > tr';
-    tableContent = await getPlayerDataTableContent(page, selector);
-    const specialTeams = await getPlayerDataFiltered(
-        tableContent,
-        ['PK'],
-        teamName
-    );
-    data.push(...specialTeams);
+    // selector = 'div.ResponsiveTable.Special.Teams table > tbody > tr';
+    // tableContent = await getPlayerDataTableContent(page, selector);
+    // const specialTeams = await getPlayerDataFiltered(
+    //     tableContent,
+    //     PLAYER_DATA_TABLE_COLUMNS,
+    //     ['PK'],
+    //     teamName
+    // );
+    // data.push(...specialTeams);
 
     await browser.close();
     return data;
@@ -493,7 +462,6 @@ async function startRun() {
 
 module.exports = {
     getKickerStats,
-    espnTeamRosterLinks,
     getPlayersData,
     getPlayerStatsNFL,
 };
