@@ -47,13 +47,79 @@ const playerDataSchema = new mongoose.Schema(
             type: String,
             trim: true,
         },
+        stats: {
+            year: {
+                type: Number,
+            },
+            games: [
+                {
+                    week: {
+                        type: String,
+                    },
+                    opponent: {
+                        type: String,
+                    },
+                    result: {
+                        type: String,
+                    },
+                    completions: {
+                        type: Number,
+                    },
+                    passAttempts: {
+                        type: Number,
+                    },
+                    passYards: {
+                        type: Number,
+                    },
+                    passAverage: {
+                        type: Number,
+                    },
+                    passTouchdowns: {
+                        type: Number,
+                    },
+                    interceptions: {
+                        type: Number,
+                    },
+                    sacks: {
+                        type: Number,
+                    },
+                    sackYards: {
+                        type: Number,
+                    },
+                    qbRating: {
+                        type: Number,
+                    },
+                    rushAttempts: {
+                        type: Number,
+                    },
+                    rushYards: {
+                        type: Number,
+                    },
+                    rushAverage: {
+                        type: Number,
+                    },
+                    rushTouchdowns: {
+                        type: Number,
+                    },
+                    fumbles: {
+                        type: Number,
+                    },
+                    fumblesLost: {
+                        type: Number,
+                    },
+
+                    fantasyScore: {
+                        type: Number,
+                    },
+                },
+            ],
+        },
     },
     {
         timestamps: true,
     }
 );
 
-//todo: use this for saving the user's leagues
 // playerDataSchema.virtual('playerStats', {
 //     ref: 'PlayerStats',
 //     localField: '_id',

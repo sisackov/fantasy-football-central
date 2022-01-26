@@ -18,6 +18,28 @@ exports.createPlayerData = async (player) => {
     }
 };
 
+exports.getAllPlayerData = async () => {
+    try {
+        const playerData = await PlayerData.find();
+        console.log('getAllPlayerData length: ', playerData.length);
+        return playerData;
+    } catch (e) {
+        console.error('Failed to get all player data: ', e);
+    }
+    return [];
+};
+
+exports.getAllPlayersByPosition = async (position) => {
+    try {
+        const playerData = await PlayerData.find({ position });
+        console.log('getAllPlayersByPosition length: ', playerData.length);
+        return playerData;
+    } catch (e) {
+        console.error('Failed to get all player data: ', e);
+    }
+    return [];
+};
+
 exports.deletePlayerDataCollection = async () => {
     try {
         await PlayerData.deleteMany({});

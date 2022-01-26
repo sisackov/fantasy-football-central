@@ -1,11 +1,15 @@
-const PlayerData = require('../models/playerData.model');
 const PlayerDataService = require('../services/playerData.service');
 const TeamDefenseStatsService = require('../services/teamDefenseStats.service');
 const { ESPN_TEAM_ROSTER_LINKS, FNFL_TEAM_IDS } = require('../utils/constants');
-const { getPlayersData, getTeamDefenseStats } = require('../utils/puppeteer');
+const {
+    getPlayersData,
+    getTeamDefenseStats,
+    getKickerStats,
+    getPlayerStatsNFL,
+} = require('../utils/puppeteer');
 
 async function scrapePlayerData() {
-    performance.mark('scrapePlayerData_START');
+    performance.mark('spd_START');
 
     const playersDataList = [];
 
@@ -26,12 +30,8 @@ async function scrapePlayerData() {
     }
     console.log('Saved all player data to DB');
 
-    performance.mark('scrapePlayerData_END');
-    const measure = performance.measure(
-        'scrapePlayerData',
-        'scrapePlayerData_START',
-        'scrapePlayerData_END'
-    );
+    performance.mark('spd_END');
+    const measure = performance.measure('spd', 'spd_START', 'spd_END');
     console.log(
         `scrapePlayerData performance measure: ${
             measure.duration / 60000
@@ -40,28 +40,38 @@ async function scrapePlayerData() {
 }
 
 async function scrapePlayerStats() {
-    console.log('Starting server...');
-    const playerData = await getPlayersData(espnTeamRosterLinks[0]);
-    console.log('Roster: ', playerData);
+    performance.mark('sps_START');
+    // const playerDataList = await PlayerDataService.getAllPlayerData();
+    const playerDataList = await PlayerDataService.getAllPlayersByPosition(
+        'QB'
+    );
+    // console.log('Roster: ', playerData);
     const playersInfo = [];
 
-    for (const player of playerData) {
-        const pName = player.name.toLowerCase().split(' ').join('-');
+    for (const playerData of playerDataList.slice(0, 3)) {
+        const pName = playerData.name.toLowerCase().split(' ').join('-');
         console.log(`Getting data for ${pName}`);
         let playerInfo = {};
-        if (player.position === 'PK') {
+        if (playerData.position === 'PK') {
             playerInfo = await getKickerStats(pName);
         } else {
-            playerInfo = await getPlayerStatsNFL(pName, player.position);
+            playerInfo = await getPlayerStatsNFL(pName, playerData.position);
         }
         playersInfo.push(playerInfo);
     }
     console.log('Total players:', playersInfo);
+
+    performance.mark('sps_END');
+    const measure = performance.measure('sps', 'sps_START', 'sps_END');
+    console.log(
+        `scrapePlayerStats performance measure: ${
+            measure.duration / 60000
+        } minutes`
+    );
 }
-// scrapePlayerStats();
 
 async function scrapeTeamDefenseStats() {
-    performance.mark('scrapeTeamDefenseStats_START');
+    performance.mark('stds_START');
 
     const dataList = [];
 
@@ -82,12 +92,8 @@ async function scrapeTeamDefenseStats() {
     }
     console.log('Saved all team defense data to DB');
 
-    performance.mark('scrapeTeamDefenseStats_END');
-    const measure = performance.measure(
-        'scrapeTeamDefenseStats',
-        'scrapeTeamDefenseStats_START',
-        'scrapeTeamDefenseStats_END'
-    );
+    performance.mark('stds_END');
+    const measure = performance.measure('stds', 'stds_START', 'stds_END');
     console.log(
         `scrapeTeamDefenseStats performance measure: ${
             measure.duration / 60000
