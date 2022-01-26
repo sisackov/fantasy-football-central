@@ -18,7 +18,7 @@ exports.createPlayerData = async (player) => {
     }
 };
 
-exports.getAllPlayerData = async () => {
+exports.getAllPlayers = async () => {
     try {
         const playerData = await PlayerData.find();
         console.log('getAllPlayerData length: ', playerData.length);

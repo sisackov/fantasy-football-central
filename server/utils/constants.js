@@ -270,4 +270,5 @@ module.exports = Object.freeze({
     POS_TIGHT_END: 'TE',
     POS_DEFENSE: 'DEF',
     POS_KICKER: 'PK',
+    NEEDED_OFFENSIVE_POSITIONS: ['QB', 'RB', 'WR', 'TE'],
 });

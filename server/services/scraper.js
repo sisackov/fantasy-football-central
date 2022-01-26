@@ -1,3 +1,4 @@
+const PlayerData = require('../models/playerData.model');
 const PlayerDataService = require('../services/playerData.service');
 const TeamDefenseStatsService = require('../services/teamDefenseStats.service');
 const { ESPN_TEAM_ROSTER_LINKS, FNFL_TEAM_IDS } = require('../utils/constants');
@@ -41,25 +42,25 @@ async function scrapePlayerData() {
 
 async function scrapePlayerStats() {
     performance.mark('sps_START');
-    // const playerDataList = await PlayerDataService.getAllPlayerData();
-    const playerDataList = await PlayerDataService.getAllPlayersByPosition(
-        'PK'
-    );
-    // console.log('Roster: ', playerData);
-    const playersInfo = [];
+    const playerDataList = await PlayerData.find();
 
-    for (const playerData of playerDataList.slice(0, 3)) {
+    for (const playerData of playerDataList) {
         const pName = playerData.name.toLowerCase().split(' ').join('-');
+        const { position } = playerData;
         console.log(`Getting data for ${pName}`);
-        let playerInfo = {};
-        if (playerData.position === 'PK') {
-            playerInfo = await getKickerStats(pName);
+        if (position === 'PK') {
+            playerData.stats = await getKickerStats(pName);
         } else {
-            playerInfo = await getPlayerStatsNFL(pName, playerData.position);
+            playerData.stats = await getPlayerStatsNFL(pName, position);
         }
-        playersInfo.push(playerInfo);
+
+        try {
+            // console.log('Saving data for', playerData.name);
+            await playerData.save();
+        } catch (e) {
+            console.error('Failed to save data for: ', playerData, e);
+        }
     }
-    console.log('Total players:', playersInfo);
 
     performance.mark('sps_END');
     const measure = performance.measure('sps', 'sps_START', 'sps_END');

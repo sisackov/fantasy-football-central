@@ -11,16 +11,17 @@ const {
     POS_TIGHT_END,
     POS_RUNNING_BACK,
     POS_KICKER,
+    NEEDED_OFFENSIVE_POSITIONS,
 } = require('./constants');
 
-async function getTableContent(page, selector) {
+const getTableContent = async (page, selector) => {
     return page.$$eval(selector, (trs) =>
         trs.map((tr) => {
             const tds = [...tr.querySelectorAll('td')];
             return tds.map((td) => td.textContent || '');
         })
     );
-}
+};
 
 const getTableColumns = (playerPosition) => {
     switch (playerPosition) {
@@ -42,14 +43,18 @@ const getDataFromTableContent = (tableContent, tableColumns) => {
     return tableContent.map((row) => {
         const rowData = {};
         row.forEach((cell, index) => {
-            rowData[tableColumns[index]] = cell;
+            if (index > 2) {
+                rowData[tableColumns[index]] = isNaN(cell) ? 0 : Number(cell);
+            } else {
+                rowData[tableColumns[index]] = cell;
+            }
         });
-        rowData.year = 2021;
+        // rowData.year = 2021;
         return rowData;
     });
 };
 
-async function getPlayerStatsNFL(playerName, playerPosition) {
+const getPlayerStatsNFL = async (playerName, playerPosition) => {
     const browser = await puppeteer.launch();
     try {
         const page = await browser.newPage();
@@ -72,21 +77,20 @@ async function getPlayerStatsNFL(playerName, playerPosition) {
 
         const tableColumns = getTableColumns(playerPosition);
 
-        return getDataFromTableContent(tableContent, tableColumns);
+        const games = getDataFromTableContent(tableContent, tableColumns);
+        return { year: 2021, games };
     } catch (err) {
-        console.log(err);
+        console.error(err.message);
     } finally {
         await browser.close();
         console.log('done');
     }
-    return [];
-}
+    return {};
+};
 // getPlayerStatsNFL('tom-brady', 'QB');
 // getPlayerStatsNFL('travis-kelce', 'TE');
 // getPlayerStatsNFL('dalvin-cook', 'RB');
 // getPlayerStatsNFL('mike-evans', 'WR');
-
-const NEEDED_OFFENSIVE_POSITIONS = ['QB', 'RB', 'WR', 'TE'];
 
 const getPlayerDataTableContent = async (page, selector) => {
     return page.$$eval(selector, (trs) =>
@@ -100,13 +104,13 @@ const getPlayerDataTableContent = async (page, selector) => {
                         const linkContent = td.querySelector('a').textContent;
                         const spanContent = td.querySelector('span')
                             ? td.querySelector('span').textContent
-                            : '-1'; //*player without a number
+                            : '-1'; //!player without a number
 
                         return `${linkContent}__${spanContent}`;
                     }
                     return td.textContent;
                 } catch (err) {
-                    console.log(err);
+                    console.error(err.message);
                 }
                 return '';
             });
@@ -146,7 +150,7 @@ const getPlayerDataFiltered = async (
         .filter((player) => filterArray.includes(player.position));
 };
 
-async function getPlayersData(teamName) {
+const getPlayersData = async (teamName) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
@@ -179,9 +183,9 @@ async function getPlayersData(teamName) {
 
     await browser.close();
     return data;
-}
+};
 
-async function getTeamDefenseStats(team) {
+const getTeamDefenseStats = async (team) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
     const tableColumns = DEFENSE_TABLE_COLUMNS;
@@ -205,9 +209,7 @@ async function getTeamDefenseStats(team) {
         const rowData = {};
         row.forEach((cell, index) => {
             if (index > 2) {
-                rowData[tableColumns[index]] = isNaN(parseFloat(cell))
-                    ? '0'
-                    : cell;
+                rowData[tableColumns[index]] = isNaN(cell) ? '0' : cell;
             } else {
                 rowData[tableColumns[index]] = cell;
             }
@@ -218,9 +220,10 @@ async function getTeamDefenseStats(team) {
 
     await browser.close();
     return data;
-}
+};
+// getTeamDefenseStats(FNFL_TEAM_IDS[0]);
 
-async function getKickerStats(playerName) {
+const getKickerStats = async (playerName) => {
     // const browser = await puppeteer.launch({ headless: false });
     const browser = await puppeteer.launch();
     try {
@@ -240,21 +243,14 @@ async function getKickerStats(playerName) {
         return getDataFromTableContent(tableContent, tableColumns).filter(
             (row) => row.opponent !== 'BYE Week'
         );
-    } catch (e) {
-        console.log(e);
+    } catch (err) {
+        console.error(err.message);
     } finally {
         await browser.close();
     }
     return [];
-}
-
-async function startRun() {
-    // const team = await getTeamDefenseStats(fnflTeams[0]);
-    const team = await getKickerStats('nick-folk');
-    console.log(team);
-}
-
-// startRun();
+};
+//getKickerStats('nick-folk');
 
 module.exports = {
     getKickerStats,

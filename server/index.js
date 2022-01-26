@@ -17,6 +17,6 @@ rule.tz = 'Etc/UTC'; //this will execute the job at 10:00 UTC every day
 schedule.scheduleJob(rule, scrapePlayerData);
 
 //runs at minute 47 every 3rd hour
-schedule.scheduleJob('47 */3 * * *', scrapeTeamDefenseStats);
+// schedule.scheduleJob('47 */3 * * *', scrapeTeamDefenseStats);
 
 scrapePlayerStats();

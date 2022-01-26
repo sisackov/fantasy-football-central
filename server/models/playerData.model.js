@@ -47,143 +47,130 @@ const playerDataSchema = new mongoose.Schema(
             type: String,
             trim: true,
         },
-        stats: {
-            year: {
-                type: Number,
-            },
-            games: [
-                {
-                    week: {
-                        type: String,
-                    },
-                    opponent: {
-                        type: String,
-                    },
-                    result: {
-                        type: String,
-                    },
-                    completions: {
-                        type: Number,
-                    },
-                    passingAttempts: {
-                        type: Number,
-                    },
-                    passingYards: {
-                        type: Number,
-                    },
-                    passingAverage: {
-                        type: Number,
-                    },
-                    passingTouchdowns: {
-                        type: Number,
-                    },
-                    interceptions: {
-                        type: Number,
-                    },
-                    sacks: {
-                        type: Number,
-                    },
-                    sackYards: {
-                        type: Number,
-                    },
-                    qbRating: {
-                        type: Number,
-                    },
-                    rushingAttempts: {
-                        type: Number,
-                    },
-                    rushingYards: {
-                        type: Number,
-                    },
-                    rushingAverage: {
-                        type: Number,
-                    },
-                    rushingTouchdowns: {
-                        type: Number,
-                    },
-                    fumbles: {
-                        type: Number,
-                    },
-                    fumblesLost: {
-                        type: Number,
-                    },
-                    receptions: {
-                        type: Number,
-                    },
-                    receivingYards: {
-                        type: Number,
-                    },
-                    receivingAverage: {
-                        type: Number,
-                    },
-                    longestReception: {
-                        type: Number,
-                    },
-                    receivingTouchdowns: {
-                        type: Number,
-                    },
-                    longestRush: {
-                        type: Number,
-                    },
-                    fieldGoals: {
-                        type: Number,
-                    },
-                    fieldGoalAttempts: {
-                        type: Number,
-                    },
-                    fgPercentage: {
-                        type: String,
-                    },
-                    bellow19yards: {
-                        type: Number,
-                    },
-                    bellow29yards: {
-                        type: Number,
-                    },
-                    bellow39yards: {
-                        type: Number,
-                    },
-                    bellow49yards: {
-                        type: Number,
-                    },
-                    fiftyYardsPlus: {
-                        type: Number,
-                    },
-                    longestFieldGoal: {
-                        type: Number,
-                    },
-                    extraPoints: {
-                        type: Number,
-                    },
-                    extraPointAttempts: {
-                        type: Number,
-                    },
-                    fantasyScore: {
-                        type: Number,
-                    },
+        stats: [
+            {
+                year: {
+                    type: Number,
                 },
-            ],
-        },
+                games: [
+                    {
+                        week: {
+                            type: String,
+                        },
+                        opponent: {
+                            type: String,
+                        },
+                        result: {
+                            type: String,
+                        },
+                        completions: {
+                            type: Number,
+                        },
+                        passingAttempts: {
+                            type: Number,
+                        },
+                        passingYards: {
+                            type: Number,
+                        },
+                        passingAverage: {
+                            type: Number,
+                        },
+                        passingTouchdowns: {
+                            type: Number,
+                        },
+                        interceptions: {
+                            type: Number,
+                        },
+                        sacks: {
+                            type: Number,
+                        },
+                        sackYards: {
+                            type: Number,
+                        },
+                        qbRating: {
+                            type: Number,
+                        },
+                        rushingAttempts: {
+                            type: Number,
+                        },
+                        rushingYards: {
+                            type: Number,
+                        },
+                        rushingAverage: {
+                            type: Number,
+                        },
+                        rushingTouchdowns: {
+                            type: Number,
+                        },
+                        fumbles: {
+                            type: Number,
+                        },
+                        fumblesLost: {
+                            type: Number,
+                        },
+                        receptions: {
+                            type: Number,
+                        },
+                        receivingYards: {
+                            type: Number,
+                        },
+                        receivingAverage: {
+                            type: Number,
+                        },
+                        longestReception: {
+                            type: Number,
+                        },
+                        receivingTouchdowns: {
+                            type: Number,
+                        },
+                        longestRush: {
+                            type: Number,
+                        },
+                        fieldGoals: {
+                            type: Number,
+                        },
+                        fieldGoalAttempts: {
+                            type: Number,
+                        },
+                        fgPercentage: {
+                            type: String,
+                        },
+                        bellow19yards: {
+                            type: Number,
+                        },
+                        bellow29yards: {
+                            type: Number,
+                        },
+                        bellow39yards: {
+                            type: Number,
+                        },
+                        bellow49yards: {
+                            type: Number,
+                        },
+                        fiftyYardsPlus: {
+                            type: Number,
+                        },
+                        longestFieldGoal: {
+                            type: Number,
+                        },
+                        extraPoints: {
+                            type: Number,
+                        },
+                        extraPointAttempts: {
+                            type: Number,
+                        },
+                        fantasyScore: {
+                            type: Number,
+                        },
+                    },
+                ],
+            },
+        ],
     },
     {
         timestamps: true,
     }
 );
-
-// playerDataSchema.virtual('playerStats', {
-//     ref: 'PlayerStats',
-//     localField: '_id',
-//     foreignField: 'player',
-// });
-
-// playerDataSchema.methods.updateFields = async function (fields) {
-//     const playerData = this;
-//     const playerDataObject = playerData.toObject();
-//     for (const [key, value] of Object.entries(fields)) {
-//         playerDataObject[key] = value;
-//     }
-//     return playerDataObject;
-// };
 
 const calculateFantasyScore = (game) => {
     let fantasyScore = 0;
@@ -200,14 +187,14 @@ const calculateFantasyScore = (game) => {
     fantasyScore += (game.fieldGoals || 0) * 3; //0-39 yards:3 pts, 40-49 yards:4 pts, 50+ yards:5 pts
     fantasyScore += (game.bellow49yards || 0) * 1;
     fantasyScore += (game.fiftyYardsPlus || 0) * 2;
-    return fantasyScore;
+    return fantasyScore.toFixed(3);
 };
 
 playerDataSchema.pre('save', async function (next) {
     const playerData = this;
     if (playerData.isModified('stats')) {
-        for (const stat of playerData.stats) {
-            for (const game of stat.games) {
+        for (const yearData of playerData.stats) {
+            for (const game of yearData.games) {
                 if (!game.fantasyScore) {
                     game.fantasyScore = calculateFantasyScore(game);
                 }
@@ -216,24 +203,6 @@ playerDataSchema.pre('save', async function (next) {
     }
     next();
 });
-
-playerDataSchema.statics.findByName = async (name) => {
-    const player = await PlayerData.findOne({ name });
-
-    if (!player) {
-        throw new Error('Unable to find player');
-    }
-
-    return player;
-};
-
-// todo:
-// Delete user tasks when user is removed
-// userSchema.pre('remove', async function (next) {
-//     const player = this;
-//     await PlayerStats.deleteMany({ player: player._id });
-//     next();
-// });
 
 const PlayerData = mongoose.model('PlayerData', playerDataSchema);
 
