@@ -2,82 +2,16 @@ const puppeteer = require('puppeteer');
 const {
     PLAYER_DATA_TABLE_COLUMNS,
     DEFENSE_TABLE_COLUMNS,
+    QB_TABLE_COLUMNS,
+    WR_TABLE_COLUMNS,
+    RB_TABLE_COLUMNS,
+    KICKER_TABLE_COLUMNS,
+    POS_QUARTERBACK,
+    POS_WIDE_RECEIVER,
+    POS_TIGHT_END,
+    POS_RUNNING_BACK,
+    POS_KICKER,
 } = require('./constants');
-
-const qbTableHeaders = [
-    'week',
-    'opponent',
-    'result',
-    'completions',
-    'passingAttempts',
-    'passingYards',
-    'passingAverage',
-    'passingTouchdowns',
-    'interceptions',
-    'sacks',
-    'sackYards',
-    'qbRating',
-    'rushingAttempts',
-    'rushingYards',
-    'rushingAverage',
-    'rushingTouchdowns',
-    'fumbles',
-    'fumblesLost',
-];
-
-const wrTableHeaders = [
-    'week',
-    'opponent',
-    'result',
-    'receptions',
-    'receivingYards',
-    'receivingAverage',
-    'longestReception',
-    'receivingTouchdowns',
-    'rushingAttempts',
-    'rushingYards',
-    'rushingAverage',
-    'longestRush',
-    'rushingTouchdowns',
-    'fumbles',
-    'fumblesLost',
-];
-
-const rbTableHeaders = [
-    'week',
-    'opponent',
-    'result',
-    'rushingAttempts',
-    'rushingYards',
-    'rushingAverage',
-    'longestRush',
-    'rushingTouchdowns',
-    'receptions',
-    'receivingYards',
-    'receivingAverage',
-    'longestReception',
-    'receivingTouchdowns',
-    'fumbles',
-    'fumblesLost',
-];
-
-const kickerTableHeaders = [
-    'week',
-    'opponent',
-    'result',
-    'fieldGoals',
-    'fieldGoalAttempts',
-    'fgPercentage',
-    'bellow19Yards',
-    'bellow29Yards',
-    'bellow39Yards',
-    'bellow49Yards',
-    'fiftyYardsPlus',
-    'longestFieldGoal',
-    'extraPoints',
-    'extraPointsAttempts',
-    'fantasyScore',
-];
 
 async function getTableContent(page, selector) {
     return page.$$eval(selector, (trs) =>
@@ -88,20 +22,19 @@ async function getTableContent(page, selector) {
     );
 }
 
-const getTableHeaders = (playerPosition) => {
-    //TODO: make all positions constants
+const getTableColumns = (playerPosition) => {
     switch (playerPosition) {
-        case 'QB':
-            return qbTableHeaders;
-        case 'WR':
-        case 'TE':
-            return wrTableHeaders;
-        case 'RB':
-            return rbTableHeaders;
-        case 'PK':
-            return kickerTableHeaders;
+        case POS_QUARTERBACK:
+            return QB_TABLE_COLUMNS;
+        case POS_WIDE_RECEIVER:
+        case POS_TIGHT_END:
+            return WR_TABLE_COLUMNS;
+        case POS_RUNNING_BACK:
+            return RB_TABLE_COLUMNS;
+        case POS_KICKER:
+            return KICKER_TABLE_COLUMNS;
         default:
-            return qbTableHeaders;
+            return QB_TABLE_COLUMNS;
     }
 };
 
@@ -137,9 +70,9 @@ async function getPlayerStatsNFL(playerName, playerPosition) {
             })
         );
 
-        const tableHeaders = getTableHeaders(playerPosition);
+        const tableColumns = getTableColumns(playerPosition);
 
-        return getDataFromTableContent(tableContent, tableHeaders);
+        return getDataFromTableContent(tableContent, tableColumns);
     } catch (err) {
         console.log(err);
     } finally {
@@ -302,9 +235,9 @@ async function getKickerStats(playerName) {
         await page.waitForSelector(selector);
         let tableContent = await getTableContent(page, selector);
 
-        const tableHeaders = getTableHeaders('PK');
+        const tableColumns = getTableColumns('PK');
 
-        return getDataFromTableContent(tableContent, tableHeaders).filter(
+        return getDataFromTableContent(tableContent, tableColumns).filter(
             (row) => row.opponent !== 'BYE Week'
         );
     } catch (e) {
