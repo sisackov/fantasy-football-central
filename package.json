@@ -27,6 +27,7 @@
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^6.1.8",
         "morgan": "^1.10.0",
+        "node-schedule": "^2.1.0",
         "puppeteer": "^13.1.1",
         "validator": "^13.7.0"
     },

@@ -1,12 +1,11 @@
-const PlayerData = require('../models/playerData');
-const { ESPN_TEAM_ROSTER_LINKS } = require('../utils/constants');
-const { getPlayersData } = require('../utils/puppeteer');
+const PlayerData = require('../models/playerData.model');
+const PlayerDataService = require('../services/playerData.service');
+const TeamDefenseStatsService = require('../services/teamDefenseStats.service');
+const { ESPN_TEAM_ROSTER_LINKS, FNFL_TEAM_IDS } = require('../utils/constants');
+const { getPlayersData, getTeamDefenseStats } = require('../utils/puppeteer');
 
 async function scrapePlayerData() {
     performance.mark('scrapePlayerData_START');
-
-    // const teamRoster = await getPlayersData('sf/san-francisco-49ers');
-    // console.log('Roster: ', teamRoster);
 
     const playersDataList = [];
 
@@ -16,11 +15,11 @@ async function scrapePlayerData() {
         playersDataList.push(...teamRoster);
     }
 
+    PlayerDataService.deletePlayerDataCollection();
     for (const player of playersDataList) {
         try {
             console.log('Saving data for', player.name);
-            const playerData = new PlayerData(player);
-            await playerData.save();
+            await PlayerDataService.createPlayerData(player); //todo: is await needed here?
         } catch (e) {
             console.error('Failed to save data for: ', player, e);
         }
@@ -33,7 +32,11 @@ async function scrapePlayerData() {
         'scrapePlayerData_START',
         'scrapePlayerData_END'
     );
-    console.log(measure);
+    console.log(
+        `scrapePlayerData performance measure: ${
+            measure.duration / 60000
+        } minutes`
+    );
 }
 
 async function scrapePlayerStats() {
@@ -57,7 +60,43 @@ async function scrapePlayerStats() {
 }
 // scrapePlayerStats();
 
+async function scrapeTeamDefenseStats() {
+    performance.mark('scrapeTeamDefenseStats_START');
+
+    const dataList = [];
+
+    for (const team of FNFL_TEAM_IDS) {
+        console.log(`Getting data for ${JSON.stringify(team)}`);
+        const games = await getTeamDefenseStats(team);
+        dataList.push({ team: team.team, games });
+    }
+
+    TeamDefenseStatsService.deleteDefenseStatsCollection();
+    for (const data of dataList) {
+        try {
+            console.log('Saving data for', data.team);
+            await TeamDefenseStatsService.createDefenseStats(data); //todo: is await needed here?
+        } catch (e) {
+            console.error('Failed to save data for: ', data.team, e);
+        }
+    }
+    console.log('Saved all team defense data to DB');
+
+    performance.mark('scrapeTeamDefenseStats_END');
+    const measure = performance.measure(
+        'scrapeTeamDefenseStats',
+        'scrapeTeamDefenseStats_START',
+        'scrapeTeamDefenseStats_END'
+    );
+    console.log(
+        `scrapeTeamDefenseStats performance measure: ${
+            measure.duration / 60000
+        } minutes`
+    );
+}
+
 module.exports = {
     scrapePlayerData,
     scrapePlayerStats,
+    scrapeTeamDefenseStats,
 };

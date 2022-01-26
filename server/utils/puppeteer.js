@@ -1,5 +1,8 @@
 const puppeteer = require('puppeteer');
-const { PLAYER_DATA_TABLE_COLUMNS } = require('./constants');
+const {
+    PLAYER_DATA_TABLE_COLUMNS,
+    DEFENSE_TABLE_COLUMNS,
+} = require('./constants');
 
 const qbTableHeaders = [
     'week',
@@ -56,21 +59,6 @@ const rbTableHeaders = [
     'receivingTouchdowns',
     'fumbles',
     'fumblesLost',
-];
-
-const defenseTableHeaders = [
-    'week',
-    'opponent',
-    'result',
-    'sacks',
-    'interceptions',
-    'fumbleRecoveries',
-    'safeties',
-    'defensiveTouchdowns',
-    'defensive2PtReturns',
-    'returnedTouchdowns',
-    'pointsAllowed',
-    'fantasyScore',
 ];
 
 const kickerTableHeaders = [
@@ -246,154 +234,24 @@ async function getPlayersData(teamName) {
         teamName
     );
 
-    // selector = 'div.ResponsiveTable.Special.Teams table > tbody > tr';
-    // tableContent = await getPlayerDataTableContent(page, selector);
-    // const specialTeams = await getPlayerDataFiltered(
-    //     tableContent,
-    //     PLAYER_DATA_TABLE_COLUMNS,
-    //     ['PK'],
-    //     teamName
-    // );
-    // data.push(...specialTeams);
+    selector = 'div.ResponsiveTable.Special.Teams table > tbody > tr';
+    tableContent = await getPlayerDataTableContent(page, selector);
+    const specialTeams = await getPlayerDataFiltered(
+        tableContent,
+        PLAYER_DATA_TABLE_COLUMNS,
+        ['PK'],
+        teamName
+    );
+    data.push(...specialTeams);
 
     await browser.close();
     return data;
 }
 
-const fnflTeams = [
-    {
-        team: 'Buffalo Bills',
-        teamId: '100003',
-    },
-    {
-        team: 'Miami Dolphins',
-        teamId: '100019',
-    },
-    {
-        team: 'New England Patriots',
-        teamId: '100021',
-    },
-    {
-        team: 'New York Jets',
-        teamId: '100024',
-    },
-    {
-        team: 'Baltimore Ravens',
-        teamId: '100002',
-    },
-    {
-        team: 'Cincinnati Bengals',
-        teamId: '100006',
-    },
-    {
-        team: 'Cleveland Browns',
-        teamId: '100007',
-    },
-    {
-        team: 'Pittsburgh Steelers',
-        teamId: '100027',
-    },
-    {
-        team: 'Houston Texans',
-        teamId: '100013',
-    },
-    {
-        team: 'Indianapolis Colts',
-        teamId: '100014',
-    },
-    {
-        team: 'Jacksonville Jaguars',
-        teamId: '100015',
-    },
-    {
-        team: 'Tennessee Titans',
-        teamId: '100012',
-    },
-    {
-        team: 'Denver Broncos',
-        teamId: '100009',
-    },
-    {
-        team: 'Kansas City Chiefs',
-        teamId: '100016',
-    },
-    {
-        team: 'Oakland Raiders',
-        teamId: '100018',
-    },
-    {
-        team: 'Los Angeles Chargers',
-        teamId: '100028',
-    },
-    {
-        team: 'Chicago Bears',
-        teamId: '100005',
-    },
-    {
-        team: 'Detroit Lions',
-        teamId: '100010',
-    },
-    {
-        team: 'Green Bay Packers',
-        teamId: '100011',
-    },
-    {
-        team: 'Minnesota Vikings',
-        teamId: '100020',
-    },
-    {
-        team: 'Dallas Cowboys',
-        teamId: '100008',
-    },
-    {
-        team: 'New York Giants',
-        teamId: '100023',
-    },
-    {
-        team: 'Philadelphia Eagles',
-        teamId: '100025',
-    },
-    {
-        team: 'Washington',
-        teamId: '100032',
-    },
-    {
-        team: 'Atlanta Falcons',
-        teamId: '100001',
-    },
-    {
-        team: 'Carolina Panthers',
-        teamId: '100004',
-    },
-    {
-        team: 'New Orleans Saints',
-        teamId: '100022',
-    },
-    {
-        team: 'Tampa Bay Buccaneers',
-        teamId: '100031',
-    },
-    {
-        team: 'Arizona Cardinals',
-        teamId: '100026',
-    },
-    {
-        team: 'San Francisco 49ers',
-        teamId: '100029',
-    },
-    {
-        team: 'Seattle Seahawks',
-        teamId: '100030',
-    },
-    {
-        team: 'Los Angeles Rams',
-        teamId: '100017',
-    },
-];
-
 async function getTeamDefenseStats(team) {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
+    const tableColumns = DEFENSE_TABLE_COLUMNS;
 
     const url = `https://fantasy.nfl.com/players/card?leagueId=0&playerId=${team.teamId}`;
 
@@ -408,15 +266,20 @@ async function getTeamDefenseStats(team) {
     const selector = 'table.tableType-weeks > tbody > tr';
     await page.waitForSelector(selector);
     let tableRows = await getTableContent(page, selector);
-    tableRows = tableRows.filter(
-        (row) => row.length === defenseTableHeaders.length
-    );
+    tableRows = tableRows.filter((row) => row.length === tableColumns.length);
 
     const data = tableRows.map((row) => {
         const rowData = {};
         row.forEach((cell, index) => {
-            rowData[defenseTableHeaders[index]] = cell;
+            if (index > 2) {
+                rowData[tableColumns[index]] = isNaN(parseFloat(cell))
+                    ? '0'
+                    : cell;
+            } else {
+                rowData[tableColumns[index]] = cell;
+            }
         });
+        rowData.year = 2021;
         return rowData;
     });
 
@@ -464,4 +327,5 @@ module.exports = {
     getKickerStats,
     getPlayersData,
     getPlayerStatsNFL,
+    getTeamDefenseStats,
 };

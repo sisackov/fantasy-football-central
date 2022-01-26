@@ -60,6 +60,15 @@ const playerDataSchema = new mongoose.Schema(
 //     foreignField: 'player',
 // });
 
+// playerDataSchema.methods.updateFields = async function (fields) {
+//     const playerData = this;
+//     const playerDataObject = playerData.toObject();
+//     for (const [key, value] of Object.entries(fields)) {
+//         playerDataObject[key] = value;
+//     }
+//     return playerDataObject;
+// };
+
 playerDataSchema.statics.findByName = async (name) => {
     const player = await PlayerData.findOne({ name });
 
