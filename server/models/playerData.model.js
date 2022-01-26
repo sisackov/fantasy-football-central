@@ -65,16 +65,16 @@ const playerDataSchema = new mongoose.Schema(
                     completions: {
                         type: Number,
                     },
-                    passAttempts: {
+                    passingAttempts: {
                         type: Number,
                     },
-                    passYards: {
+                    passingYards: {
                         type: Number,
                     },
-                    passAverage: {
+                    passingAverage: {
                         type: Number,
                     },
-                    passTouchdowns: {
+                    passingTouchdowns: {
                         type: Number,
                     },
                     interceptions: {
@@ -184,6 +184,38 @@ const playerDataSchema = new mongoose.Schema(
 //     }
 //     return playerDataObject;
 // };
+
+const calculateFantasyScore = (game) => {
+    let fantasyScore = 0;
+    fantasyScore += (game.passingYards || 0) * 0.04;
+    fantasyScore += (game.rushingYards || 0) * 0.1;
+    fantasyScore += (game.receivingYards || 0) * 0.1;
+    fantasyScore += (game.rushingTouchdowns || 0) * 6;
+    fantasyScore += (game.receivingTouchdowns || 0) * 6;
+    fantasyScore += (game.passingTouchdowns || 0) * 4;
+    fantasyScore += (game.receptions || 0) * 0.5;
+    fantasyScore += (game.interceptions || 0) * -1;
+    fantasyScore += (game.fumblesLost || 0) * -2;
+    fantasyScore += (game.extraPoints || 0) * 1;
+    fantasyScore += (game.fieldGoals || 0) * 3; //0-39 yards:3 pts, 40-49 yards:4 pts, 50+ yards:5 pts
+    fantasyScore += (game.bellow49yards || 0) * 1;
+    fantasyScore += (game.fiftyYardsPlus || 0) * 2;
+    return fantasyScore;
+};
+
+playerDataSchema.pre('save', async function (next) {
+    const playerData = this;
+    if (playerData.isModified('stats')) {
+        for (const stat of playerData.stats) {
+            for (const game of stat.games) {
+                if (!game.fantasyScore) {
+                    game.fantasyScore = calculateFantasyScore(game);
+                }
+            }
+        }
+    }
+    next();
+});
 
 playerDataSchema.statics.findByName = async (name) => {
     const player = await PlayerData.findOne({ name });
