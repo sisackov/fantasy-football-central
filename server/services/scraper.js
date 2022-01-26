@@ -43,7 +43,7 @@ async function scrapePlayerStats() {
     performance.mark('sps_START');
     // const playerDataList = await PlayerDataService.getAllPlayerData();
     const playerDataList = await PlayerDataService.getAllPlayersByPosition(
-        'QB'
+        'PK'
     );
     // console.log('Roster: ', playerData);
     const playersInfo = [];

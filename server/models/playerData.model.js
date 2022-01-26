@@ -89,16 +89,16 @@ const playerDataSchema = new mongoose.Schema(
                     qbRating: {
                         type: Number,
                     },
-                    rushAttempts: {
+                    rushingAttempts: {
                         type: Number,
                     },
-                    rushYards: {
+                    rushingYards: {
                         type: Number,
                     },
-                    rushAverage: {
+                    rushingAverage: {
                         type: Number,
                     },
-                    rushTouchdowns: {
+                    rushingTouchdowns: {
                         type: Number,
                     },
                     fumbles: {
@@ -107,7 +107,57 @@ const playerDataSchema = new mongoose.Schema(
                     fumblesLost: {
                         type: Number,
                     },
-
+                    receptions: {
+                        type: Number,
+                    },
+                    receivingYards: {
+                        type: Number,
+                    },
+                    receivingAverage: {
+                        type: Number,
+                    },
+                    longestReception: {
+                        type: Number,
+                    },
+                    receivingTouchdowns: {
+                        type: Number,
+                    },
+                    longestRush: {
+                        type: Number,
+                    },
+                    fieldGoals: {
+                        type: Number,
+                    },
+                    fieldGoalAttempts: {
+                        type: Number,
+                    },
+                    fgPercentage: {
+                        type: String,
+                    },
+                    bellow19yards: {
+                        type: Number,
+                    },
+                    bellow29yards: {
+                        type: Number,
+                    },
+                    bellow39yards: {
+                        type: Number,
+                    },
+                    bellow49yards: {
+                        type: Number,
+                    },
+                    fiftyYardsPlus: {
+                        type: Number,
+                    },
+                    longestFieldGoal: {
+                        type: Number,
+                    },
+                    extraPoints: {
+                        type: Number,
+                    },
+                    extraPointAttempts: {
+                        type: Number,
+                    },
                     fantasyScore: {
                         type: Number,
                     },
