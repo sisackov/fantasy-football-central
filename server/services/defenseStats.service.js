@@ -1,4 +1,4 @@
-const TeamDefenseStats = require('../models/teamDefenseStats.model');
+const TeamDefenseStats = require('../models/defenseStats.model');
 
 exports.createDefenseStats = async (teamStats) => {
     try {

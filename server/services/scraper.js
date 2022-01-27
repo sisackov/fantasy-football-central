@@ -1,6 +1,6 @@
 const PlayerData = require('../models/playerData.model');
 const PlayerDataService = require('../services/playerData.service');
-const TeamDefenseStatsService = require('../services/teamDefenseStats.service');
+const TeamDefenseStatsService = require('./defenseStats.service');
 const { ESPN_TEAM_ROSTER_LINKS, FNFL_TEAM_IDS } = require('../utils/constants');
 const {
     getPlayersData,
@@ -55,7 +55,6 @@ async function scrapePlayerStats() {
         }
 
         try {
-            // console.log('Saving data for', playerData.name);
             await playerData.save();
         } catch (e) {
             console.error('Failed to save data for: ', playerData, e);

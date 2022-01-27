@@ -1,6 +1,6 @@
 const express = require('express');
 require('./db/mongoose');
-const userRouter = require('./routes/user');
+const userRouter = require('./routes/user.routes');
 const morgan = require('morgan');
 const {
     ROUTES_API_PREFIX,

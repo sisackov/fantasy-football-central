@@ -66,7 +66,8 @@ const getPlayerStatsNFL = async (playerName, playerPosition) => {
         await page.goto(url);
 
         const selector = 'table[summary="Recent Games"] > tbody > tr ';
-        await page.waitForSelector(selector);
+        //8 seconds should be enough to load the page(instead of the default 30 seconds)
+        await page.waitForSelector(selector, { timeout: 8000 });
 
         const tableContent = await page.$$eval(selector, (trs) =>
             trs.map((tr) => {
