@@ -29,6 +29,51 @@ exports.getAllPlayers = async () => {
     return [];
 };
 
+exports.getAutocomplete = async (query) => {
+    try {
+        const playerData = await PlayerData.find({
+            $or: [
+                { name: { $regex: query, $options: 'i' } },
+                { position: { $regex: query, $options: 'i' } },
+            ],
+        });
+        console.log('getAutocomplete length: ', playerData.length);
+        return playerData.map((player) => player.name); //returns a list of player names
+    } catch (e) {
+        console.error('Failed to get autocomplete player data: ', e);
+    }
+    return [];
+};
+
+exports.getQueriedPlayers = async (query) => {
+    try {
+        const playerData = await PlayerData.find({
+            $or: [
+                { name: { $regex: query, $options: 'i' } },
+                { position: { $regex: query, $options: 'i' } },
+                { team: { $regex: query, $options: 'i' } },
+                { college: { $regex: query, $options: 'i' } },
+            ],
+        });
+        console.log('getQueriedPlayers length: ', playerData.length);
+        return playerData;
+    } catch (e) {
+        console.error('Failed to get queried player data: ', e);
+    }
+    return [];
+};
+
+exports.getPlayerById = async (id) => {
+    try {
+        const playerData = await PlayerData.findById(id);
+        console.log('getPlayerById : ', playerData);
+        return playerData;
+    } catch (e) {
+        console.error('Failed to get player data by id: ', e);
+    }
+    return null;
+};
+
 exports.getAllPlayersByPosition = async (position) => {
     try {
         const playerData = await PlayerData.find({ position });

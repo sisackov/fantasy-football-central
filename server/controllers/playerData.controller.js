@@ -1,3 +1,45 @@
 const PlayerDataService = require('../services/playerData.service');
 
-exports;
+exports.getAllPlayers = async (req, res) => {
+    try {
+        const playerData = await PlayerDataService.getAllPlayers();
+        res.send(playerData);
+    } catch (e) {
+        console.error(e);
+        res.status(500).send();
+    }
+};
+
+exports.getAutocomplete = async (req, res) => {
+    try {
+        const playerData = await PlayerDataService.getAutocomplete(
+            req.query.query
+        );
+        res.send(playerData);
+    } catch (e) {
+        console.error(e);
+        res.status(500).send();
+    }
+};
+
+exports.getQueriedPlayers = async (req, res) => {
+    try {
+        const playerData = await PlayerDataService.getQueriedPlayers(
+            req.query.query
+        );
+        res.send(playerData);
+    } catch (e) {
+        console.error(e);
+        res.status(500).send();
+    }
+};
+
+exports.getPlayerById = async (req, res) => {
+    try {
+        const playerData = await PlayerDataService.getPlayerById(req.params.id);
+        res.send(playerData);
+    } catch (e) {
+        console.error(e);
+        res.status(500).send();
+    }
+};
