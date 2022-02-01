@@ -1,5 +1,7 @@
 const express = require('express');
 const morgan = require('morgan');
+const cors = require('cors');
+const path = require('path');
 const mongoose = require('mongoose');
 mongoose.connect(process.env.MONGODB_URL);
 
@@ -12,11 +14,17 @@ const {
 } = require('./utils/constants');
 
 const app = express();
+
+const publicPath = path.join(__dirname, 'build');
+app.use(cors());
+app.use(express.static(publicPath));
+
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 } else {
     app.use(morgan('short'));
 }
+
 app.use(express.json());
 app.use(ROUTES_SERVER_PREFIX, userRouter);
 app.use(ROUTES_API_PREFIX, playerDataRouter);
