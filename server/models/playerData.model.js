@@ -52,6 +52,9 @@ const playerDataSchema = new mongoose.Schema(
                 year: {
                     type: Number,
                 },
+                averageFantasyScore: {
+                    type: Number,
+                },
                 games: [
                     {
                         week: {
@@ -194,11 +197,16 @@ playerDataSchema.pre('save', async function (next) {
     const playerData = this;
     if (playerData.isModified('stats')) {
         for (const yearData of playerData.stats) {
+            let averageFantasyScore = 0;
             for (const game of yearData.games) {
                 if (!game.fantasyScore) {
                     game.fantasyScore = calculateFantasyScore(game);
                 }
+                averageFantasyScore += game.fantasyScore;
             }
+            yearData.averageFantasyScore = (
+                averageFantasyScore / yearData.games.length
+            ).toFixed(3);
         }
     }
     next();

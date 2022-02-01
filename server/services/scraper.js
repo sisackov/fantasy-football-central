@@ -24,7 +24,7 @@ async function scrapePlayerData() {
     for (const player of playersDataList) {
         try {
             console.log('Saving data for', player.name);
-            await PlayerDataService.createPlayerData(player); //todo: is await needed here?
+            await PlayerDataService.createPlayerData(player); //! w/out await the db crashes because of too many calls
         } catch (e) {
             console.error('Failed to save data for: ', player, e);
         }

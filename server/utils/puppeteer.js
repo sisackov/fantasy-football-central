@@ -49,7 +49,6 @@ const getDataFromTableContent = (tableContent, tableColumns) => {
                 rowData[tableColumns[index]] = cell;
             }
         });
-        // rowData.year = 2021;
         return rowData;
     });
 };
