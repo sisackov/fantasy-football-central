@@ -187,39 +187,45 @@ const getPlayersData = async (teamName) => {
 
 const getTeamDefenseStats = async (team) => {
     const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    const tableColumns = DEFENSE_TABLE_COLUMNS;
+    let games = [];
+    try {
+        const page = await browser.newPage();
+        const tableColumns = DEFENSE_TABLE_COLUMNS;
 
-    const url = `https://fantasy.nfl.com/players/card?leagueId=0&playerId=${team.teamId}`;
+        const url = `https://fantasy.nfl.com/players/card?leagueId=0&playerId=${team.teamId}`;
 
-    // Instructs the blank page to navigate a URL
-    await page.goto(url);
+        // Instructs the blank page to navigate a URL
+        await page.goto(url);
 
-    const statsSelector =
-        'div.player-card-season-stats-graph-handle > span.stats';
-    await page.waitForSelector(statsSelector);
-    await page.click(statsSelector);
+        const statsSelector =
+            'div.player-card-season-stats-graph-handle > span.stats';
+        await page.waitForSelector(statsSelector);
+        await page.click(statsSelector);
 
-    const selector = 'table.tableType-weeks > tbody > tr';
-    await page.waitForSelector(selector);
-    let tableRows = await getTableContent(page, selector);
-    tableRows = tableRows.filter((row) => row.length === tableColumns.length);
+        const selector = 'table.tableType-weeks > tbody > tr';
+        await page.waitForSelector(selector);
+        let tableRows = await getTableContent(page, selector);
+        tableRows = tableRows.filter(
+            (row) => row.length === tableColumns.length
+        );
 
-    const data = tableRows.map((row) => {
-        const rowData = {};
-        row.forEach((cell, index) => {
-            if (index > 2) {
-                rowData[tableColumns[index]] = isNaN(cell) ? '0' : cell;
-            } else {
-                rowData[tableColumns[index]] = cell;
-            }
+        games = tableRows.map((row) => {
+            const rowData = {};
+            row.forEach((cell, index) => {
+                if (index > 2) {
+                    rowData[tableColumns[index]] = isNaN(cell) ? '0' : cell;
+                } else {
+                    rowData[tableColumns[index]] = cell;
+                }
+            });
+            return rowData;
         });
-        rowData.year = 2021;
-        return rowData;
-    });
-
-    await browser.close();
-    return data;
+    } catch (err) {
+        console.error(err.message);
+    } finally {
+        await browser.close();
+    }
+    return { year: 2021, games }; //todo: get year from url
 };
 // getTeamDefenseStats(FNFL_TEAM_IDS[0]);
 

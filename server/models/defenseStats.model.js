@@ -1,52 +1,62 @@
 const mongoose = require('mongoose');
 
-const teamDefenseStatsSchema = new mongoose.Schema(
+const defenseStatsSchema = new mongoose.Schema(
     {
         team: {
             type: String,
             required: true,
             unique: true,
         },
-        games: [
+        stats: [
             {
-                week: {
-                    type: String,
-                    required: true,
-                    trim: true,
-                },
-                opponent: {
-                    type: String,
-                },
-                result: {
-                    type: String,
-                },
-                sacks: {
+                year: {
                     type: Number,
                 },
-                interceptions: {
+                averageFantasyScore: {
                     type: Number,
                 },
-                fumbleRecoveries: {
-                    type: Number,
-                },
-                safeties: {
-                    type: Number,
-                },
-                defensiveTouchdowns: {
-                    type: Number,
-                },
-                defensive2PtReturns: {
-                    type: Number,
-                },
-                returnedTouchdowns: {
-                    type: Number,
-                },
-                pointsAllowed: {
-                    type: Number,
-                },
-                fantasyScore: {
-                    type: Number,
-                },
+                games: [
+                    {
+                        week: {
+                            type: String,
+                            required: true,
+                            trim: true,
+                        },
+                        opponent: {
+                            type: String,
+                        },
+                        result: {
+                            type: String,
+                        },
+                        sacks: {
+                            type: Number,
+                        },
+                        interceptions: {
+                            type: Number,
+                        },
+                        fumbleRecoveries: {
+                            type: Number,
+                        },
+                        safeties: {
+                            type: Number,
+                        },
+                        defensiveTouchdowns: {
+                            type: Number,
+                        },
+                        defensive2PtReturns: {
+                            type: Number,
+                        },
+                        returnedTouchdowns: {
+                            type: Number,
+                        },
+                        pointsAllowed: {
+                            type: Number,
+                        },
+                        fantasyScore: {
+                            type: Number,
+                        },
+                    },
+                ],
             },
         ],
     },
@@ -55,7 +65,7 @@ const teamDefenseStatsSchema = new mongoose.Schema(
     }
 );
 
-teamDefenseStatsSchema.statics.findByTeam = async (teamName) => {
+defenseStatsSchema.statics.findByTeam = async (teamName) => {
     return TeamDefenseStats.findOne({ teamName });
 
     // if (!team) {
@@ -65,9 +75,20 @@ teamDefenseStatsSchema.statics.findByTeam = async (teamName) => {
     // return team;
 };
 
-const TeamDefenseStats = mongoose.model(
-    'TeamDefenseStats',
-    teamDefenseStatsSchema
-);
+defenseStatsSchema.pre('save', async function (next) {
+    const defenseStats = this;
+    if (defenseStats.isModified('stats')) {
+        for (const yearData of defenseStats.stats) {
+            const averageFantasyScore =
+                yearData.games.reduce(
+                    (acc, game) => acc + game.fantasyScore,
+                    0
+                ) / yearData.games.length;
+            yearData.averageFantasyScore = averageFantasyScore.toFixed(2);
+        }
+    }
+});
 
-module.exports = TeamDefenseStats;
+const DefenseStats = mongoose.model('DefenseStats', defenseStatsSchema);
+
+module.exports = DefenseStats;

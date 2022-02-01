@@ -1,7 +1,7 @@
 const app = require('./app');
 const {
     scrapePlayerData,
-    scrapeTeamDefenseStats,
+    scrapeDefenseStats,
     scrapePlayerStats,
 } = require('./services/scraper');
 const port = process.env.PORT;
@@ -13,6 +13,8 @@ app.listen(port, () => {
 
 // scrapePlayerStats();
 
+scrapeDefenseStats();
+
 // const rule = new schedule.RecurrenceRule();
 // rule.hour = 10;
 // rule.dayOfWeek = 2;
@@ -20,6 +22,6 @@ app.listen(port, () => {
 // schedule.scheduleJob(rule, scrapePlayerData);
 
 //runs at minute 10 every 3rd hour
-// schedule.scheduleJob('10 */3 * * *', scrapeTeamDefenseStats);
+// schedule.scheduleJob('10 */3 * * *', scrapeDefenseStats);
 
 // schedule.scheduleJob('25 */3 * * *', scrapePlayerStats);
