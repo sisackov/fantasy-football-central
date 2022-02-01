@@ -83,7 +83,7 @@ const getPlayerStatsNFL = async (playerName, playerPosition) => {
         console.error(err.message);
     } finally {
         await browser.close();
-        console.log('done');
+        // console.log('done');
     }
     return {};
 };
@@ -246,9 +246,11 @@ const getKickerStats = async (playerName) => {
 
         const tableColumns = getTableColumns('PK');
 
-        return getDataFromTableContent(tableContent, tableColumns).filter(
-            (row) => row.opponent !== 'BYE Week'
-        );
+        return getDataFromTableContent(tableContent, tableColumns);
+
+        // return getDataFromTableContent(tableContent, tableColumns).filter(
+        //     (row) => row.opponent !== 'BYE Week'
+        // );
     } catch (err) {
         console.error(err.message);
     } finally {

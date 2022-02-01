@@ -6,10 +6,20 @@ const {
 } = require('./utils/scraper');
 const port = process.env.PORT;
 const schedule = require('node-schedule');
+const DefenseStats = require('./models/defenseStats.model');
+const PlayerData = require('./models/playerData.model');
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port);
 });
+
+async function testDb() {
+    const teamInDB = await DefenseStats.findOne({ team: 'Buffalo Bills' });
+    await teamInDB.save();
+    const playerData = await PlayerData.findOne({ name: 'Stefon Diggs' });
+    await playerData.save();
+}
+// testDb();
 
 async function scrapeAll() {
     await scrapePlayerData();

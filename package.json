@@ -7,9 +7,13 @@
         "doc": "docs"
     },
     "scripts": {
+        "server": "env-cmd -f config/dev.env nodemon server/index.js",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "env-cmd -f config/dev.env nodemon server/index.js",
-        "dev": "env-cmd -f config/dev.env nodemon server/index.js"
+        "start": "node server/index.js",
+        "client": "npm run start --prefix client",
+        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "copy": "cp -r client/build server/",
+        "heroku-postbuild": "npm install --prefix client && npm run build --prefix client && npm run copy"
     },
     "repository": {
         "type": "git",
@@ -23,11 +27,14 @@
     "homepage": "https://github.com/sisackov/fantasy-football-central#readme",
     "dependencies": {
         "bcryptjs": "^2.4.3",
+        "cors": "^2.8.5",
+        "dotenv": "^15.0.0",
         "express": "^4.17.2",
         "jsonwebtoken": "^8.5.1",
         "mongoose": "^6.1.8",
         "morgan": "^1.10.0",
         "node-schedule": "^2.1.0",
+        "path": "^0.12.7",
         "puppeteer": "^13.1.1",
         "validator": "^13.7.0"
     },

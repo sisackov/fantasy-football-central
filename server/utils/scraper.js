@@ -56,6 +56,7 @@ async function scrapePlayerStats() {
             playerData.stats = await getKickerStats(pName);
         } else {
             playerData.stats = await getPlayerStatsNFL(pName, position);
+            playerData.stats.games.reverse();
         }
 
         try {
@@ -76,7 +77,7 @@ async function scrapePlayerStats() {
 
 //dataList: { team: String, stats: {year:Number, games:[]} }
 async function saveDefenseStats(dataList) {
-    // DefenseStatsService.deleteDefenseStatsCollection();
+    DefenseStatsService.deleteDefenseStatsCollection();
     for (const teamData of dataList) {
         const team = teamData.team;
         try {
