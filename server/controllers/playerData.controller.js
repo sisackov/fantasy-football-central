@@ -2,7 +2,9 @@ const PlayerDataService = require('../services/playerData.service');
 
 exports.getAllPlayers = async (req, res) => {
     try {
-        const playerData = await PlayerDataService.getAllPlayers();
+        const playerData = await PlayerDataService.getAllPlayers(
+            req.query.limit
+        );
         res.send(playerData);
     } catch (e) {
         console.error(e);

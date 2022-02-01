@@ -3,7 +3,7 @@ const PlayerDataController = require('../controllers/playerData.controller');
 const auth = require('../services/auth');
 const router = new express.Router();
 
-//get all players(limited to 50)
+//get all players
 router.get('/players', PlayerDataController.getAllPlayers);
 
 //gets list of player names by autocomplete query string

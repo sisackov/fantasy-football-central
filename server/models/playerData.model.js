@@ -215,7 +215,10 @@ playerDataSchema.pre('save', async function (next) {
 playerDataSchema.methods.toJSON = function () {
     const playerDataObject = this.toObject();
     delete playerDataObject.__v;
-    delete playerDataObject.stats[0].games;
+    if (playerDataObject.stats.length) {
+        //todo: remove this after testing
+        delete playerDataObject.stats[0].games;
+    }
     return playerDataObject;
 };
 
