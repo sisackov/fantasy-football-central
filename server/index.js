@@ -13,7 +13,7 @@ app.listen(port, () => {
 
 // scrapePlayerStats();
 
-scrapeDefenseStats();
+// scrapeDefenseStats();
 
 // const rule = new schedule.RecurrenceRule();
 // rule.hour = 10;

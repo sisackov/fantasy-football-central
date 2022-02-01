@@ -45,20 +45,53 @@ exports.getAutocomplete = async (query) => {
     return [];
 };
 
+const createQueryList = (query) => {
+    if (!query) {
+        throw new Error('No query parameters provided');
+    }
+    const { name, position, team, college, sort } = query;
+    const queryList = [];
+    if (name) {
+        queryList.push({ name: { $regex: name, $options: 'i' } });
+    }
+    if (position) {
+        if (['QB', 'RB', 'WR', 'TE', 'PK'].includes(position)) {
+            queryList.push({ position: position });
+        } else {
+            throw new Error('Invalid position queried');
+        }
+    }
+    if (team) {
+        queryList.push({ team: { $regex: team, $options: 'i' } });
+    }
+    if (college) {
+        queryList.push({ college: { $regex: college, $options: 'i' } });
+    }
+    return queryList;
+};
+
 exports.getQueriedPlayers = async (query) => {
+    const queryList = createQueryList(query);
+    const { limit, sort } = query;
     try {
-        const playerData = await PlayerData.find({
-            $or: [
-                { name: { $regex: query, $options: 'i' } },
-                { position: { $regex: query, $options: 'i' } },
-                { team: { $regex: query, $options: 'i' } },
-                { college: { $regex: query, $options: 'i' } },
-            ],
-        });
+        const dbQuery = queryList.length
+            ? PlayerData.find({
+                  $and: queryList,
+              })
+            : PlayerData.find();
+
+        if (sort) {
+            dbQuery.sort({ 'stats.averageFantasyScore': -1 });
+        }
+        if (limit) {
+            dbQuery.limit(limit);
+        }
+
+        const playerData = await dbQuery;
         console.log('getQueriedPlayers length: ', playerData.length);
         return playerData;
     } catch (e) {
-        console.error('Failed to get queried player data: ', e);
+        console.error('Failed to get queried player data: ', e.message);
     }
     return [];
 };

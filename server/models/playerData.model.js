@@ -212,6 +212,13 @@ playerDataSchema.pre('save', async function (next) {
     next();
 });
 
+playerDataSchema.methods.toJSON = function () {
+    const playerDataObject = this.toObject();
+    delete playerDataObject.__v;
+    delete playerDataObject.stats[0].games;
+    return playerDataObject;
+};
+
 const PlayerData = mongoose.model('PlayerData', playerDataSchema);
 
 module.exports = PlayerData;

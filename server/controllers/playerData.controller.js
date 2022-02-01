@@ -24,13 +24,11 @@ exports.getAutocomplete = async (req, res) => {
 
 exports.getQueriedPlayers = async (req, res) => {
     try {
-        const playerData = await PlayerDataService.getQueriedPlayers(
-            req.query.query
-        );
+        const playerData = await PlayerDataService.getQueriedPlayers(req.query);
         res.send(playerData);
     } catch (e) {
-        console.error(e);
-        res.status(500).send();
+        console.error(e.message);
+        res.status(500).send(e.message);
     }
 };
 

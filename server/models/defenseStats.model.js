@@ -87,6 +87,7 @@ defenseStatsSchema.pre('save', async function (next) {
             yearData.averageFantasyScore = averageFantasyScore.toFixed(2);
         }
     }
+    next();
 });
 
 const DefenseStats = mongoose.model('DefenseStats', defenseStatsSchema);
