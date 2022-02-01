@@ -3,7 +3,7 @@ const {
     scrapePlayerData,
     scrapeDefenseStats,
     scrapePlayerStats,
-} = require('./services/scraper');
+} = require('./utils/scraper');
 const port = process.env.PORT;
 const schedule = require('node-schedule');
 
@@ -11,9 +11,12 @@ app.listen(port, () => {
     console.log('Server is up on port ' + port);
 });
 
-// scrapePlayerStats();
-
-// scrapeDefenseStats();
+async function scrapeAll() {
+    await scrapePlayerData();
+    await scrapePlayerStats();
+    await scrapeDefenseStats();
+}
+scrapeAll();
 
 // const rule = new schedule.RecurrenceRule();
 // rule.hour = 10;

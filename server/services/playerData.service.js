@@ -2,7 +2,7 @@ const PlayerData = require('../models/playerData.model');
 
 exports.createPlayerData = async (player) => {
     try {
-        const playerInDB = await PlayerData.findByName(player.name);
+        const playerInDB = await PlayerData.findOne({ name: player.name });
         if (!playerInDB) {
             const playerData = new PlayerData(player);
             await playerData.save();
@@ -14,7 +14,7 @@ exports.createPlayerData = async (player) => {
             await playerInDB.save();
         }
     } catch (e) {
-        console.error('Failed to save data for: ', player, e);
+        console.error('Failed to save data for: ', player, e.message);
     }
 };
 
@@ -24,7 +24,7 @@ exports.getAllPlayers = async (limit) => {
         console.log('getAllPlayerData length: ', playerData.length);
         return playerData;
     } catch (e) {
-        console.error('Failed to get all player data: ', e);
+        console.error('Failed to get all player data: ', e.message);
     }
     return [];
 };
@@ -64,13 +64,6 @@ exports.getAutocomplete = async (query) => {
     const { limit } = query;
 
     try {
-        // const playerData = await PlayerData.find({
-        //     $or: [
-        //         { name: { $regex: query, $options: 'i' } },
-        //         { position: { $regex: query, $options: 'i' } },
-        //     ],
-        // });
-
         const dbQuery = queryList.length
             ? PlayerData.find({ $and: queryList })
             : PlayerData.find();
@@ -83,7 +76,7 @@ exports.getAutocomplete = async (query) => {
         console.log('getAutocomplete length: ', playerData.length);
         return playerData.map((player) => player.name); //returns a list of player names
     } catch (e) {
-        console.error('Failed to get autocomplete player data: ', e);
+        console.error('Failed to get autocomplete player data: ', e.message);
     }
     return [];
 };
@@ -120,7 +113,7 @@ exports.getPlayerById = async (id) => {
         console.log('getPlayerById : ', playerData);
         return playerData;
     } catch (e) {
-        console.error('Failed to get player data by id: ', e);
+        console.error('Failed to get player data by id: ', e.message);
     }
     return null;
 };
@@ -131,7 +124,7 @@ exports.getAllPlayersByPosition = async (position) => {
         console.log('getAllPlayersByPosition length: ', playerData.length);
         return playerData;
     } catch (e) {
-        console.error('Failed to get all player data: ', e);
+        console.error('Failed to get all player data: ', e.message);
     }
     return [];
 };
@@ -140,6 +133,6 @@ exports.deletePlayerDataCollection = async () => {
     try {
         await PlayerData.deleteMany({});
     } catch (e) {
-        console.log('Failed to delete collection', e);
+        console.error('Failed to delete collection', e.message);
     }
 };

@@ -90,6 +90,6 @@ defenseStatsSchema.pre('save', async function (next) {
     next();
 });
 
-const DefenseStats = mongoose.model('DefenseStats', defenseStatsSchema);
+const DefenseStats = mongoose.model('Defense-Stats', defenseStatsSchema);
 
 module.exports = DefenseStats;

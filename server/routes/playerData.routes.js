@@ -1,6 +1,5 @@
 const express = require('express');
 const PlayerDataController = require('../controllers/playerData.controller');
-const auth = require('../services/auth');
 const router = new express.Router();
 
 //get all players

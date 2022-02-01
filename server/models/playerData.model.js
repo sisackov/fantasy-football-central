@@ -222,6 +222,6 @@ playerDataSchema.methods.toJSON = function () {
     return playerDataObject;
 };
 
-const PlayerData = mongoose.model('PlayerData', playerDataSchema);
+const PlayerData = mongoose.model('Player-Data', playerDataSchema);
 
 module.exports = PlayerData;

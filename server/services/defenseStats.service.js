@@ -1,32 +1,89 @@
-const TeamDefenseStats = require('../models/defenseStats.model');
+const DefenseStats = require('../models/defenseStats.model');
 
-exports.createDefenseStats = async (teamStats) => {
+exports.createDefenseStats = async (defense) => {
     try {
-        // const teamDefenseStats = await TeamDefenseStats.findByTeam(
-        //     teamStats.team
-        // );
-        // console.log('teamDefenseStats', teamDefenseStats);
-        // if (!teamDefenseStats) {
-        const teamData = new TeamDefenseStats(teamStats);
-        await teamData.save();
-        // }
-        // else {
-        //     //todo: rework this
-        //     console.log('Defense stats already exist:', teamStats.team);
-        //     for (const [key, value] of Object.entries(teamStats)) {
-        //         teamDefenseStats[key] = value;
-        //     }
-        //     await teamDefenseStats.save();
-        // }
+        const defenseInDB = await DefenseStats.findOne({ team: defense.team });
+        if (!defenseInDB) {
+            const defenseStats = new DefenseStats(defense);
+            await defenseStats.save();
+        } else {
+            defenseInDB.stats = defense.stats;
+            await defenseInDB.save();
+        }
     } catch (e) {
-        console.error('Failed to save data for: ', teamStats, e);
+        console.error('Failed to save data for: ', defense, e.message);
     }
+};
+
+exports.getAllDefenses = async (limit) => {
+    try {
+        const defenseStats = await DefenseStats.find().limit(limit || 0);
+        console.log('getAllDefenseStats length: ', defenseStats.length);
+        return defenseStats;
+    } catch (e) {
+        console.error('Failed to get all defense data: ', e.message);
+    }
+    return [];
+};
+
+const createQueryList = (query) => {
+    if (!query) {
+        throw new Error('No query parameters provided');
+    }
+    const { team } = query;
+    const queryList = [];
+    if (team) {
+        if (teamRegex) {
+            const regex = new RegExp('^' + team, 'i');
+            queryList.push({ team: regex });
+        } else {
+            queryList.push({ team: { $regex: team, $options: 'i' } });
+        }
+    }
+    return queryList;
+};
+
+exports.getQueriedDefenses = async (query) => {
+    const queryList = createQueryList(query);
+    const { limit, sort } = query;
+    try {
+        const dbQuery = queryList.length
+            ? DefenseStats.find({
+                  $and: queryList,
+              })
+            : DefenseStats.find();
+
+        if (sort) {
+            dbQuery.sort({ 'stats.averageFantasyScore': -1 });
+        }
+        if (limit) {
+            dbQuery.limit(limit);
+        }
+
+        const defenseStats = await dbQuery;
+        console.log('getQueriedDefenses length: ', defenseStats.length);
+        return defenseStats;
+    } catch (e) {
+        console.error('Failed to get queried defense data: ', e.message);
+    }
+    return [];
+};
+
+exports.getDefenseById = async (id) => {
+    try {
+        const defenseStats = await DefenseStats.findById(id);
+        console.log('getDefenseById : ', defenseStats);
+        return defenseStats;
+    } catch (e) {
+        console.error('Failed to get defense data by id: ', e.message);
+    }
+    return null;
 };
 
 exports.deleteDefenseStatsCollection = async () => {
     try {
-        await TeamDefenseStats.deleteMany({});
+        await DefenseStats.deleteMany({});
     } catch (e) {
-        console.log('Failed to delete collection', e);
+        console.error('Failed to delete collection', e.message);
     }
 };

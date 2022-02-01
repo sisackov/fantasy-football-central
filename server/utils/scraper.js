@@ -1,13 +1,13 @@
 const PlayerData = require('../models/playerData.model');
 const PlayerDataService = require('../services/playerData.service');
-const DefenseStatsService = require('./defenseStats.service');
-const { ESPN_TEAM_ROSTER_LINKS, FNFL_TEAM_IDS } = require('../utils/constants');
+const DefenseStatsService = require('../services/defenseStats.service');
+const { ESPN_TEAM_ROSTER_LINKS, FNFL_TEAM_IDS } = require('./constants');
 const {
     getPlayersData,
     getTeamDefenseStats,
     getKickerStats,
     getPlayerStatsNFL,
-} = require('../utils/puppeteer');
+} = require('./puppeteer');
 
 async function savePlayerData(playersDataList) {
     PlayerDataService.deletePlayerDataCollection();
@@ -76,7 +76,7 @@ async function scrapePlayerStats() {
 
 //dataList: { team: String, stats: {year:Number, games:[]} }
 async function saveDefenseStats(dataList) {
-    DefenseStatsService.deleteDefenseStatsCollection();
+    // DefenseStatsService.deleteDefenseStatsCollection();
     for (const teamData of dataList) {
         const team = teamData.team;
         try {
