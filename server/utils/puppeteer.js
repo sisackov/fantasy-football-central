@@ -54,7 +54,9 @@ const getDataFromTableContent = (tableContent, tableColumns) => {
 };
 
 const getPlayerStatsNFL = async (playerName, playerPosition) => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
     try {
         const page = await browser.newPage();
 
@@ -151,7 +153,9 @@ const getPlayerDataFiltered = async (
 };
 
 const getPlayersData = async (teamName) => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
     const page = await browser.newPage();
 
     // Instructs the blank page to navigate a URL
@@ -186,7 +190,9 @@ const getPlayersData = async (teamName) => {
 };
 
 const getTeamDefenseStats = async (team) => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
     let games = [];
     try {
         const page = await browser.newPage();
@@ -231,7 +237,9 @@ const getTeamDefenseStats = async (team) => {
 
 const getKickerStats = async (playerName) => {
     // const browser = await puppeteer.launch({ headless: false });
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
     try {
         const page = await browser.newPage();
 
