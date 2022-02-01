@@ -7,7 +7,7 @@ const router = new express.Router();
 router.get('/players', PlayerDataController.getAllPlayers);
 
 //gets list of player names by autocomplete query string
-router.get('/players/autocomplete', PlayerDataController.getAutocomplete);
+router.get('/players/autocomplete/', PlayerDataController.getAutocomplete);
 
 //get players by query string
 router.get('/players/query', PlayerDataController.getQueriedPlayers);

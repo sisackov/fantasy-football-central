@@ -29,30 +29,19 @@ exports.getAllPlayers = async () => {
     return [];
 };
 
-exports.getAutocomplete = async (query) => {
-    try {
-        const playerData = await PlayerData.find({
-            $or: [
-                { name: { $regex: query, $options: 'i' } },
-                { position: { $regex: query, $options: 'i' } },
-            ],
-        });
-        console.log('getAutocomplete length: ', playerData.length);
-        return playerData.map((player) => player.name); //returns a list of player names
-    } catch (e) {
-        console.error('Failed to get autocomplete player data: ', e);
-    }
-    return [];
-};
-
-const createQueryList = (query) => {
+const createQueryList = (query, nameRegex = false) => {
     if (!query) {
         throw new Error('No query parameters provided');
     }
-    const { name, position, team, college, sort } = query;
+    const { name, position, team, college } = query;
     const queryList = [];
     if (name) {
-        queryList.push({ name: { $regex: name, $options: 'i' } });
+        if (nameRegex) {
+            const regex = new RegExp('^' + name, 'i');
+            queryList.push({ name: regex });
+        } else {
+            queryList.push({ name: { $regex: name, $options: 'i' } });
+        }
     }
     if (position) {
         if (['QB', 'RB', 'WR', 'TE', 'PK'].includes(position)) {
@@ -68,6 +57,35 @@ const createQueryList = (query) => {
         queryList.push({ college: { $regex: college, $options: 'i' } });
     }
     return queryList;
+};
+
+exports.getAutocomplete = async (query) => {
+    const queryList = createQueryList(query, true);
+    const { limit } = query;
+
+    try {
+        // const playerData = await PlayerData.find({
+        //     $or: [
+        //         { name: { $regex: query, $options: 'i' } },
+        //         { position: { $regex: query, $options: 'i' } },
+        //     ],
+        // });
+
+        const dbQuery = queryList.length
+            ? PlayerData.find({ $and: queryList })
+            : PlayerData.find();
+        if (limit) {
+            dbQuery.limit(limit);
+        }
+
+        const playerData = await dbQuery;
+
+        console.log('getAutocomplete length: ', playerData.length);
+        return playerData.map((player) => player.name); //returns a list of player names
+    } catch (e) {
+        console.error('Failed to get autocomplete player data: ', e);
+    }
+    return [];
 };
 
 exports.getQueriedPlayers = async (query) => {

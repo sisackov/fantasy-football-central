@@ -12,9 +12,7 @@ exports.getAllPlayers = async (req, res) => {
 
 exports.getAutocomplete = async (req, res) => {
     try {
-        const playerData = await PlayerDataService.getAutocomplete(
-            req.query.query
-        );
+        const playerData = await PlayerDataService.getAutocomplete(req.query);
         res.send(playerData);
     } catch (e) {
         console.error(e);
