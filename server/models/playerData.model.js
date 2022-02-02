@@ -516,29 +516,37 @@ const calculateFantasyScore = (game) => {
     return fantasyScore.toFixed(3);
 };
 
+const sortGamesByWeek = (position, games) => {
+    if (['QB', 'RB', 'WR', 'TE'].includes(position)) {
+        games.reverse();
+    }
+};
+
 playerDataSchema.pre('save', async function (next) {
     const playerData = this;
-    // if (playerData.isModified('stats')) {
-    for (const yearData of playerData.stats) {
-        for (const game of yearData.games) {
-            if (!game.fantasyScore) {
-                game.fantasyScore = calculateFantasyScore(game);
+    if (playerData.isModified('stats')) {
+        for (const yearData of playerData.stats) {
+            sortGamesByWeek(playerData.position, yearData.games);
+            // console.log(yearData.games);
+            for (const game of yearData.games) {
+                if (!game.fantasyScore) {
+                    game.fantasyScore = calculateFantasyScore(game);
+                }
             }
+            const { sums, gameCount } = getSums(yearData.games);
+            yearData.sums = sums;
+            yearData.averages = getAverages(sums, gameCount);
         }
-        const { sums, gameCount } = getSums(yearData.games);
-        yearData.sums = sums;
-        yearData.averages = getAverages(sums, gameCount);
     }
-    // }
     next();
 });
 
 playerDataSchema.methods.toJSON = function () {
     const playerDataObject = this.toObject();
     delete playerDataObject.__v;
-    if (playerDataObject.stats.length) {
+    for (const yearData of playerDataObject.stats) {
         //todo: remove this after testing
-        delete playerDataObject.stats[0].games;
+        delete yearData.games;
     }
     return playerDataObject;
 };

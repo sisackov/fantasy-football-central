@@ -48,15 +48,24 @@ async function scrapePlayerStats() {
     performance.mark('sps_START');
     const playerDataList = await PlayerData.find();
 
-    for (const playerData of playerDataList) {
+    for (const playerData of playerDataList.slice(0, 3)) {
         const pName = playerData.name.toLowerCase().split(' ').join('-');
         const { position } = playerData;
         console.log(`Getting data for ${pName}`);
         if (position === 'PK') {
             playerData.stats = await getKickerStats(pName);
         } else {
-            playerData.stats = await getPlayerStatsNFL(pName, position);
-            playerData.stats.games.reverse();
+            if (pName === 'josh-allen') {
+                //todo: search links with https://www.nfl.com/players/active/all?query=josh%20allen
+                //! link selector: span.d3-o-player-headshot~a
+                //!headshot selector: span.d3-o-player-headshot img.img-responsive
+                playerData.stats = await getPlayerStatsNFL(
+                    pName + '-4',
+                    position
+                );
+            } else {
+                playerData.stats = await getPlayerStatsNFL(pName, position);
+            }
         }
 
         try {

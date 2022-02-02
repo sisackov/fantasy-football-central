@@ -14,12 +14,12 @@ app.listen(port, () => {
 });
 
 async function testDb() {
-    const teamInDB = await DefenseStats.findOne({ team: 'Buffalo Bills' });
-    await teamInDB.save();
-    const playerData = await PlayerData.findOne({ name: 'Stefon Diggs' });
-    await playerData.save();
+    // const teamInDB = await DefenseStats.findOne({ team: 'Buffalo Bills' });
+    // await teamInDB.save();
+    // const playerData = await PlayerData.findOne({ name: 'Stefon Diggs' });
+    // await playerData.save();
 }
-// testDb();
+testDb();
 
 async function scrapeAll() {
     await scrapePlayerData();
