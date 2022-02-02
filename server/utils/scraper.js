@@ -48,6 +48,7 @@ async function scrapePlayerStats() {
     performance.mark('sps_START');
     const playerDataList = await PlayerData.find();
 
+    let counter = 0;
     for (const playerData of playerDataList) {
         const pName = playerData.name.toLowerCase().split(' ').join('-');
         const { position } = playerData;
@@ -73,6 +74,7 @@ async function scrapePlayerStats() {
         } catch (e) {
             console.error('Failed to save data for: ', playerData, e);
         }
+        console.log(`Scraped player #${counter++}`);
     }
 
     performance.mark('sps_END');
