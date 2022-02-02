@@ -19,12 +19,12 @@ async function testDb() {
     // const playerData = await PlayerData.findOne({ name: 'Stefon Diggs' });
     // await playerData.save();
 }
-testDb();
+// testDb();
 
 async function scrapeAll() {
-    await scrapePlayerData();
+    // await scrapePlayerData();
     await scrapePlayerStats();
-    await scrapeDefenseStats();
+    // await scrapeDefenseStats();
 }
 scrapeAll();
 

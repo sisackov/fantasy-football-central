@@ -48,7 +48,7 @@ async function scrapePlayerStats() {
     performance.mark('sps_START');
     const playerDataList = await PlayerData.find();
 
-    for (const playerData of playerDataList.slice(0, 3)) {
+    for (const playerData of playerDataList) {
         const pName = playerData.name.toLowerCase().split(' ').join('-');
         const { position } = playerData;
         console.log(`Getting data for ${pName}`);
