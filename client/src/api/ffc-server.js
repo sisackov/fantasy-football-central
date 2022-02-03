@@ -1,12 +1,10 @@
 import axios from 'axios';
 
 const nodeEnv = process.env.NODE_ENV;
-const port = process.env.PORT;
-
 const FFC_SERVER = axios.create({
     baseURL:
         nodeEnv === 'development'
-            ? `http://localhost:${port}/ffc/server`
+            ? `http://localhost:5000/ffc/server`
             : 'http://fantasy-football-central.herokuapp.com/ffc/server',
 });
 
