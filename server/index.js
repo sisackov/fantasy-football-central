@@ -3,6 +3,7 @@ const axios = require('axios');
 const { scrapeData } = require('./utils/scraper');
 const port = process.env.PORT;
 const schedule = require('node-schedule');
+const { herokuKeepAlive } = require('./utils/utils');
 // const DefenseStats = require('./models/defenseStats.model');
 // const PlayerData = require('./models/playerData.model');
 
@@ -25,16 +26,6 @@ rule.hour = 10;
 rule.dayOfWeek = 2;
 rule.tz = 'Etc/UTC'; //this will execute the job at 10:00 UTC every Tuesday
 schedule.scheduleJob(rule, scrapeData);
-
-const herokuKeepAlive = async () => {
-    if (nodeEnv === 'development') {
-        const { data } = await axios.get(
-            'http://localhost:5000/ffc/server/ping'
-        );
-        console.log('herokuKeepAlive: ', data);
-    }
-};
-// herokuKeepAlive();
 
 //runs every tenth minute
 schedule.scheduleJob('*/5 * * * *', herokuKeepAlive);

@@ -24,3 +24,12 @@ exports.getFixedValue = (num) => {
         return num.toFixed(2);
     }
 };
+
+exports.herokuKeepAlive = async () => {
+    if (process.env.NODE_ENV !== 'development') {
+        const { data } = await axios.get(
+            'http://fantasy-football-central.herokuapp.com/ffc/server/ping'
+        );
+        console.log('herokuKeepAlive: ', data);
+    }
+};
