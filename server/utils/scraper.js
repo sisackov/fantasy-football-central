@@ -127,6 +127,7 @@ async function scrapeDefenseStats() {
 }
 
 async function scrapeData() {
+    //todo: add this work around to presentation
     const scrapeState = loadState();
     if (!scrapeState.scrapedPlayerData) {
         await scrapePlayerData();

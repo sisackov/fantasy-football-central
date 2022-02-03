@@ -81,9 +81,61 @@ exports.getAutocomplete = async (query) => {
     return [];
 };
 
+const getSortBy = (sort) => {
+    switch (sort) {
+        case 'avgFantasy':
+            return 'stats.averages.fantasyScoreAvg';
+
+        case 'avgPassYds':
+            return 'stats.averages.passingYardsAvg';
+
+        case 'avgPassTD':
+            return 'stats.averages.passingTouchdownsAvg';
+
+        case 'avgRushYds':
+            return 'stats.averages.rushingYardsAvg';
+
+        case 'avgRushTD':
+            return 'stats.averages.rushingTouchdownsAvg';
+
+        case 'avgRecYds':
+            return 'stats.averages.receivingYardsAvg';
+
+        case 'avgRecTds':
+            return 'stats.averages.receivingTouchdownsAvg';
+
+        case 'avgRushTds':
+            return 'stats.averages.rushingTouchdownsAvg';
+
+        case 'totalFantasy':
+            return 'stats.totals.fantasyScoreTotal';
+
+        case 'totalPassYds':
+            return 'stats.totals.passingYardsTotal';
+
+        case 'totalPassTD':
+            return 'stats.totals.passingTouchdownsTotal';
+
+        case 'totalRushYds':
+            return 'stats.totals.rushingYardsTotal';
+
+        case 'totalRecYds':
+            return 'stats.totals.receivingYardsTotal';
+
+        case 'totalRecTds':
+            return 'stats.totals.receivingTouchdownsTotal';
+
+        case 'totalFumbles':
+            return 'stats.totals.fumblesTotal';
+
+        default:
+            return 'name';
+    }
+};
+
 exports.getQueriedPlayers = async (query) => {
     const queryList = createQueryList(query);
-    const { limit, sort } = query;
+    const { limit, sort, order } = query;
     try {
         const dbQuery = queryList.length
             ? PlayerData.find({
@@ -92,7 +144,9 @@ exports.getQueriedPlayers = async (query) => {
             : PlayerData.find();
 
         if (sort) {
-            dbQuery.sort({ 'stats.averageFantasyScore': -1 });
+            const sortQuery = { [getSortBy(sort)]: order === 'asc' ? 1 : -1 };
+            dbQuery.sort(sortQuery);
+            // dbQuery.sort({ 'stats.averages.fantasyScoreAvg': -1 });
         }
         if (limit) {
             dbQuery.limit(limit);
