@@ -8,6 +8,7 @@ const {
     getKickerStats,
     getPlayerStatsNFL,
 } = require('./puppeteer');
+const { loadState, saveState } = require('./utils');
 
 async function savePlayerData(playersDataList) {
     PlayerDataService.deletePlayerDataCollection();
@@ -44,12 +45,12 @@ async function scrapePlayerData() {
     );
 }
 
-async function scrapePlayerStats() {
+async function scrapePlayerStats(scrapeState) {
     performance.mark('sps_START');
     const playerDataList = await PlayerData.find();
 
-    let counter = 0;
-    for (const playerData of playerDataList) {
+    for (let i = scrapeState.playerIndex; i < playerDataList.length; i++) {
+        const playerData = playerDataList[i];
         const pName = playerData.name.toLowerCase().split(' ').join('-');
         const { position } = playerData;
         console.log(`Getting data for ${pName}`);
@@ -74,7 +75,9 @@ async function scrapePlayerStats() {
         } catch (e) {
             console.error('Failed to save data for: ', playerData, e);
         }
-        console.log(`Scraped player #${counter++}`);
+        console.log(`Scraped player #${i}`);
+        scrapeState.playerIndex = i + 1;
+        saveState(scrapeState);
     }
 
     performance.mark('sps_END');
@@ -123,8 +126,33 @@ async function scrapeDefenseStats() {
     );
 }
 
+async function scrapeData() {
+    const scrapeState = loadState();
+    if (!scrapeState.scrapedPlayerData) {
+        await scrapePlayerData();
+        scrapeState.scrapedPlayerData = true;
+        saveState(scrapeState);
+    }
+    if (!scrapeState.scrapedPlayerStats) {
+        await scrapePlayerStats(scrapeState);
+        scrapeState.scrapedPlayerStats = true;
+        scrapeState.playerIndex = 0;
+        saveState(scrapeState);
+    }
+    if (!scrapeState.scrapedDefenseStats) {
+        await scrapeDefenseStats();
+    }
+    console.log('Scraping complete');
+    //reset scrape state so that next time it will start from scratch
+    scrapeState.scrapedPlayerData = false;
+    scrapeState.scrapedPlayerStats = false;
+    scrapeState.scrapedDefenseStats = false;
+    saveState(scrapeState);
+}
+
 module.exports = {
     scrapePlayerData,
     scrapePlayerStats,
     scrapeDefenseStats,
+    scrapeData,
 };
