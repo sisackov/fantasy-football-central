@@ -2,6 +2,7 @@ const app = require('./app');
 const { scrapeData } = require('./utils/scraper');
 const port = process.env.PORT;
 const schedule = require('node-schedule');
+const { request } = require('express');
 // const DefenseStats = require('./models/defenseStats.model');
 // const PlayerData = require('./models/playerData.model');
 
@@ -24,6 +25,15 @@ rule.hour = 10;
 rule.dayOfWeek = 2;
 rule.tz = 'Etc/UTC'; //this will execute the job at 10:00 UTC every Tuesday
 schedule.scheduleJob(rule, scrapeData);
+
+const herokuKeepAlive = () => {
+    request('https://fantasy-football-central.herokuapp.com', function () {
+        console.log('WAKE UP DYNO');
+    });
+};
+
+//runs every ten minutes
+schedule.scheduleJob('*/10 * * * *', herokuKeepAlive);
 
 //runs at minute 10 every 3rd hour
 // schedule.scheduleJob('10 */3 * * *', scrapeDefenseStats);
