@@ -59,15 +59,15 @@
 | **Must Have**    |                 |                 |                       |             |     |
 |                  | **plan :)**     |                 | :white_check_mark:    | **3 hours** |     |
 |                  | **Server**      |                 | :black_square_button: | **4 days**  |     |
-|                  |                 | routing         | :black_square_button: | 1 Day       |     |
+|                  |                 | routing         | :white_check_mark: | 1 Day       |     |
 |                  | **APIs**        |                 | :black_square_button: | **3 days**  |     |
-|                  |                 | playerData      | :black_square_button: | 1 Day       |     |
-|                  |                 | player          | :black_square_button: | 5 hours     |     |
-|                  |                 | topPlayers      | :black_square_button: | 4 hours     |     |
-|                  |                 | users           | :black_square_button: | 8 hours     |     |
+|                  |                 | playerData      | :white_check_mark: | 1 Day       |     |
+|                  |                 | player          | :white_check_mark: | 5 hours     |     |
+|                  |                 | topPlayers      | :white_check_mark: | 4 hours     |     |
+|                  |                 | users           | :white_check_mark: | 8 hours     |     |
 |                  |                 | leagues         | :black_square_button: | 4 hours     |     |
 |                  |                 | teams           | :black_square_button: | 3 hours     |     |
-|                  | **Deployment**  |                 | :black_square_button: | **6 hours** |     |
+|                  | **Deployment**  |                 | :white_check_mark: | **6 hours** |     |
 |                  | **Pages**       |                 | :black_square_button: | **5 days**  |     |
 |                  |                 | LandingPage     | :black_square_button: | 6 hours     |     |
 |                  |                 | LoginPage       | :black_square_button: | 3 hours     |     |
@@ -81,7 +81,7 @@
 |                  | **Pages**       |                 | :black_square_button: | **1 day**   |     |
 |                  |                 | SimulationView  | :black_square_button: | ?           |     |
 |                  |                 | Settings        | :black_square_button: | ?           |     |
-|                  | **Hamburger**   |                 | :black_square_button: | **3 hours** |     |
+|                  | **Hamburger**   |                 | :white_check_mark: | **3 hours** |     |
 |                  | **Footer**      |                 | :black_square_button: | **2 hours** |     |
 |                  | **Testing**     |                 | :black_square_button: | **3 hours** |     |
 |                  | **SocialLinks** |                 | :black_square_button: | **2 hours** |     |

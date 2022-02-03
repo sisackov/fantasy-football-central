@@ -23,4 +23,8 @@ router.patch('/users/auth', auth, UserController.updateAuthUser);
 
 router.delete('/users/auth', auth, UserController.deleteAuthUser);
 
+router.get('/ping', (__, res) => {
+    res.send('pong');
+});
+
 module.exports = router;

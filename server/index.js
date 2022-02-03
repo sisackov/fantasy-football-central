@@ -1,8 +1,8 @@
 const app = require('./app');
+const axios = require('axios');
 const { scrapeData } = require('./utils/scraper');
 const port = process.env.PORT;
 const schedule = require('node-schedule');
-const { request } = require('express');
 // const DefenseStats = require('./models/defenseStats.model');
 // const PlayerData = require('./models/playerData.model');
 
@@ -26,14 +26,18 @@ rule.dayOfWeek = 2;
 rule.tz = 'Etc/UTC'; //this will execute the job at 10:00 UTC every Tuesday
 schedule.scheduleJob(rule, scrapeData);
 
-const herokuKeepAlive = () => {
-    request('https://fantasy-football-central.herokuapp.com', function () {
-        console.log('WAKE UP DYNO');
-    });
+const herokuKeepAlive = async () => {
+    if (nodeEnv === 'development') {
+        const { data } = await axios.get(
+            'http://localhost:5000/ffc/server/ping'
+        );
+        console.log('herokuKeepAlive: ', data);
+    }
 };
+// herokuKeepAlive();
 
-//runs every ten minutes
-schedule.scheduleJob('*/10 * * * *', herokuKeepAlive);
+//runs every tenth minute
+schedule.scheduleJob('*/5 * * * *', herokuKeepAlive);
 
 //runs at minute 10 every 3rd hour
 // schedule.scheduleJob('10 */3 * * *', scrapeDefenseStats);
