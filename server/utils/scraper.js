@@ -128,27 +128,31 @@ async function scrapeDefenseStats() {
 
 async function scrapeData() {
     //todo: add this work around to presentation
-    const scrapeState = loadState();
-    if (!scrapeState.scrapedPlayerData) {
-        await scrapePlayerData();
-        scrapeState.scrapedPlayerData = true;
-        saveState(scrapeState);
-    }
-    if (!scrapeState.scrapedPlayerStats) {
-        await scrapePlayerStats(scrapeState);
-        scrapeState.scrapedPlayerStats = true;
-        scrapeState.playerIndex = 0;
-        saveState(scrapeState);
-    }
-    if (!scrapeState.scrapedDefenseStats) {
-        await scrapeDefenseStats();
-    }
+    // const scrapeState = loadState();
+    // if (!scrapeState.scrapedPlayerData) {
+    //     await scrapePlayerData();
+    //     scrapeState.scrapedPlayerData = true;
+    //     saveState(scrapeState);
+    // }
+    // if (!scrapeState.scrapedPlayerStats) {
+    //     await scrapePlayerStats(scrapeState);
+    //     scrapeState.scrapedPlayerStats = true;
+    //     scrapeState.playerIndex = 0;
+    //     saveState(scrapeState);
+    // }
+    // if (!scrapeState.scrapedDefenseStats) {
+    //     await scrapeDefenseStats();
+    // }
+    // //reset scrape state so that next time it will start from scratch
+    // scrapeState.scrapedPlayerData = false;
+    // scrapeState.scrapedPlayerStats = false;
+    // scrapeState.scrapedDefenseStats = false;
+    // saveState(scrapeState);
+
+    await scrapePlayerData();
+    await scrapePlayerStats();
+    await scrapeDefenseStats();
     console.log('Scraping complete');
-    //reset scrape state so that next time it will start from scratch
-    scrapeState.scrapedPlayerData = false;
-    scrapeState.scrapedPlayerStats = false;
-    scrapeState.scrapedDefenseStats = false;
-    saveState(scrapeState);
 }
 
 module.exports = {

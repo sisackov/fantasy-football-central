@@ -10,7 +10,6 @@ function HomePage() {
         const fetchData = async () => {
             setIsLoading(true);
             try {
-                // const res = await fetchPlayerById('61fa32ce566c968ff3449d74');
                 const res = await fetchQueriedPlayers(
                     'position=QB&limit=10&sort=avgFantasy&order=desc'
                 );
@@ -32,6 +31,7 @@ function HomePage() {
                 return (
                     <div key={index}>
                         <h3>{player.name}</h3>
+                        <h4>{player.stats[0].averages.fantasyScoreAvg}</h4>
                         <p>{player.position}</p>
                         <p>{player.team}</p>
                         <p>{player.number}</p>
