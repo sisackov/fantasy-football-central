@@ -1,47 +1,34 @@
 import { useState, useEffect } from 'react';
 import { fetchPlayerById, fetchQueriedPlayers } from '../api/ffc-api';
+import TableCard from '../components/TableCard';
+import { POSITION_QB, POSITION_WR } from '../utils/constants';
 
 function HomePage() {
     const [data, setData] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true);
-            try {
-                const res = await fetchQueriedPlayers(
-                    'position=QB&limit=10&sort=avgFantasy&order=desc'
-                );
-                setData(res);
-            } catch (e) {
-                setErrorMsg(e.message);
-            }
-            setIsLoading(false);
-        };
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         setIsLoading(true);
+    //         try {
+    //             const res = await fetchQueriedPlayers(
+    //                 'position=QB&limit=10&sort=avgFantasy&order=desc'
+    //             );
+    //             setData(res);
+    //         } catch (e) {
+    //             setErrorMsg(e.message);
+    //         }
+    //         setIsLoading(false);
+    //     };
 
-        fetchData();
-    }, []);
+    //     fetchData();
+    // }, []);
 
     const renderPage = () => {
         if (isLoading) return <div>Loading...</div>;
         if (errorMsg) return <div className='error-message'>{errorMsg}</div>;
-        if (data.length)
-            return data.map((player, index) => {
-                return (
-                    <div key={index}>
-                        <h3>{player.name}</h3>
-                        <h4>{player.stats[0].averages.fantasyScoreAvg}</h4>
-                        <p>{player.position}</p>
-                        <p>{player.team}</p>
-                        <p>{player.number}</p>
-                        <p>{player.height}</p>
-                        <p>{player.weight}</p>
-                        <p>{player.age}</p>
-                        <p>{player.college}</p>
-                    </div>
-                );
-            });
+        return <TableCard position={POSITION_QB} />;
     };
 
     return <>{renderPage()}</>;
