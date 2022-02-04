@@ -22,9 +22,9 @@ async function testDb() {
 // scrapeData();
 
 const rule = new schedule.RecurrenceRule();
-rule.hour = 10;
-rule.dayOfWeek = 2;
-rule.tz = 'Etc/UTC'; //this will execute the job at 10:00 UTC every Tuesday
+rule.hour = 23;
+rule.dayOfWeek = 5;
+rule.tz = 'Etc/UTC'; //this will execute the job at 23:00 UTC on Fridays
 schedule.scheduleJob(rule, scrapeData);
 
 //runs every tenth minute

@@ -45,11 +45,11 @@ async function scrapePlayerData() {
     );
 }
 
-async function scrapePlayerStats(scrapeState) {
+async function scrapePlayerStats() {
     performance.mark('sps_START');
     const playerDataList = await PlayerData.find();
 
-    for (let i = scrapeState.playerIndex; i < playerDataList.length; i++) {
+    for (let i = 0; i < playerDataList.length; i++) {
         const playerData = playerDataList[i];
         const pName = playerData.name.toLowerCase().split(' ').join('-');
         const { position } = playerData;
@@ -76,8 +76,6 @@ async function scrapePlayerStats(scrapeState) {
             console.error('Failed to save data for: ', playerData, e);
         }
         console.log(`Scraped player #${i}`);
-        scrapeState.playerIndex = i + 1;
-        saveState(scrapeState);
     }
 
     performance.mark('sps_END');
@@ -127,28 +125,6 @@ async function scrapeDefenseStats() {
 }
 
 async function scrapeData() {
-    //todo: add this work around to presentation
-    // const scrapeState = loadState();
-    // if (!scrapeState.scrapedPlayerData) {
-    //     await scrapePlayerData();
-    //     scrapeState.scrapedPlayerData = true;
-    //     saveState(scrapeState);
-    // }
-    // if (!scrapeState.scrapedPlayerStats) {
-    //     await scrapePlayerStats(scrapeState);
-    //     scrapeState.scrapedPlayerStats = true;
-    //     scrapeState.playerIndex = 0;
-    //     saveState(scrapeState);
-    // }
-    // if (!scrapeState.scrapedDefenseStats) {
-    //     await scrapeDefenseStats();
-    // }
-    // //reset scrape state so that next time it will start from scratch
-    // scrapeState.scrapedPlayerData = false;
-    // scrapeState.scrapedPlayerStats = false;
-    // scrapeState.scrapedDefenseStats = false;
-    // saveState(scrapeState);
-
     await scrapePlayerData();
     await scrapePlayerStats();
     await scrapeDefenseStats();

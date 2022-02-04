@@ -408,83 +408,24 @@ const getTotals = (games) => {
     let gameCount = 0;
     games.forEach((game) => {
         if (game.opponent !== 'Bye') {
-            totals.completions += game.completions;
-            totals.passingAttempts += game.passingAttempts;
-            totals.passingYards += game.passingYards;
-            totals.passingAverage += game.passingAverage;
-            totals.passingTouchdowns += game.passingTouchdowns;
-            totals.interceptions += game.interceptions;
-            totals.sacks += game.sacks;
-            totals.sackYards += game.sackYards;
-            totals.qbRating += game.qbRating;
-            totals.rushingAttempts += game.rushingAttempts;
-            totals.rushingYards += game.rushingYards;
-            totals.rushingAverage += game.rushingAverage;
-            totals.rushingTouchdowns += game.rushingTouchdowns;
-            totals.fumbles += game.fumbles;
-            totals.fumblesLost += game.fumblesLost;
-            totals.receptions += game.receptions;
-            totals.receivingYards += game.receivingYards;
-            totals.receivingAverage += game.receivingAverage;
-            totals.longestReception += game.longestReception;
-            totals.receivingTouchdowns += game.receivingTouchdowns;
-            totals.longestRush += game.longestRush;
-            totals.fieldGoals += game.fieldGoals;
-            totals.fieldGoalAttempts += game.fieldGoalAttempts;
-            totals.bellow19yards += game.bellow19yards;
-            totals.bellow29yards += game.bellow29yards;
-            totals.bellow39yards += game.bellow39yards;
-            totals.bellow49yards += game.bellow49yards;
-            totals.fiftyYardsPlus += game.fiftyYardsPlus;
-            totals.longestFieldGoal += game.longestFieldGoal;
-            totals.extraPoints += game.extraPoints;
-            totals.extraPointAttempts += game.extraPointAttempts;
-            totals.fantasyScore += game.fantasyScore;
+            for (const key in totals) {
+                totals[key] += game[key];
+            }
             gameCount++;
         }
+    });
+    Object.keys(totals).forEach((key) => {
+        totals[key] = getFixedValue(totals[key]);
     });
     return { totals, gameCount };
 };
 
 const getAverages = (totals, gameCount) => {
-    return {
-        completions: getFixedValue(totals.completions / gameCount),
-        passingAttempts: getFixedValue(totals.passingAttempts / gameCount),
-        passingYards: getFixedValue(totals.passingYards / gameCount),
-        passingAverage: getFixedValue(totals.passingAverage / gameCount),
-        passingTouchdowns: getFixedValue(totals.passingTouchdowns / gameCount),
-        interceptions: getFixedValue(totals.interceptions / gameCount),
-        sacks: getFixedValue(totals.sacks / gameCount),
-        sackYards: getFixedValue(totals.sackYards / gameCount),
-        qbRating: getFixedValue(totals.qbRating / gameCount),
-        rushingAttempts: getFixedValue(totals.rushingAttempts / gameCount),
-        rushingYards: getFixedValue(totals.rushingYards / gameCount),
-        rushingAverage: getFixedValue(totals.rushingAverage / gameCount),
-        rushingTouchdowns: getFixedValue(totals.rushingTouchdowns / gameCount),
-        fumbles: getFixedValue(totals.fumbles / gameCount),
-        fumblesLost: getFixedValue(totals.fumblesLost / gameCount),
-        receptions: getFixedValue(totals.receptions / gameCount),
-        receivingYards: getFixedValue(totals.receivingYards / gameCount),
-        receivingAverage: getFixedValue(totals.receivingAverage / gameCount),
-        longestReception: getFixedValue(totals.longestReception / gameCount),
-        receivingTouchdowns: getFixedValue(
-            totals.receivingTouchdowns / gameCount
-        ),
-        longestRush: getFixedValue(totals.longestRush / gameCount),
-        fieldGoals: getFixedValue(totals.fieldGoals / gameCount),
-        fieldGoalAttempts: getFixedValue(totals.fieldGoalAttempts / gameCount),
-        bellow19yards: getFixedValue(totals.bellow19yards / gameCount),
-        bellow29yards: getFixedValue(totals.bellow29yards / gameCount),
-        bellow39yards: getFixedValue(totals.bellow39yards / gameCount),
-        bellow49yards: getFixedValue(totals.bellow49yards / gameCount),
-        fiftyYardsPlus: getFixedValue(totals.fiftyYardsPlus / gameCount),
-        longestFieldGoal: getFixedValue(totals.longestFieldGoal / gameCount),
-        extraPoints: getFixedValue(totals.extraPoints / gameCount),
-        extraPointAttempts: getFixedValue(
-            totals.extraPointAttempts / gameCount
-        ),
-        fantasyScore: getFixedValue(totals.fantasyScore / gameCount),
-    };
+    const averages = {};
+    Object.keys(totals).forEach((key) => {
+        averages[key] = getFixedValue(totals[key] / gameCount);
+    });
+    return averages;
 };
 
 const calculateFantasyScore = (game) => {
@@ -502,7 +443,7 @@ const calculateFantasyScore = (game) => {
     fantasyScore += (game.fieldGoals || 0) * 3; //0-39 yards:3 pts, 40-49 yards:4 pts, 50+ yards:5 pts
     fantasyScore += (game.bellow49yards || 0) * 1;
     fantasyScore += (game.fiftyYardsPlus || 0) * 2;
-    return fantasyScore.toFixed(3);
+    return getFixedValue(fantasyScore);
 };
 
 const sortGamesByWeek = (position, games) => {
