@@ -53,199 +53,200 @@ const playerDataSchema = new mongoose.Schema(
                 year: {
                     type: Number,
                 },
-                sums: {
-                    completionsSum: {
+                //todo: handle duplication on totals, averages, games
+                totals: {
+                    completions: {
                         type: Number,
                     },
-                    passingAttemptsSum: {
+                    passingAttempts: {
                         type: Number,
                     },
-                    passingYardsSum: {
+                    passingYards: {
                         type: Number,
                     },
-                    passingAverageSum: {
+                    passingAverage: {
                         type: Number,
                     },
-                    passingTouchdownsSum: {
+                    passingTouchdowns: {
                         type: Number,
                     },
-                    interceptionsSum: {
+                    interceptions: {
                         type: Number,
                     },
-                    sacksSum: {
+                    sacks: {
                         type: Number,
                     },
-                    sackYardsSum: {
+                    sackYards: {
                         type: Number,
                     },
-                    qbRatingSum: {
+                    qbRating: {
                         type: Number,
                     },
-                    rushingAttemptsSum: {
+                    rushingAttempts: {
                         type: Number,
                     },
-                    rushingYardsSum: {
+                    rushingYards: {
                         type: Number,
                     },
-                    rushingAverageSum: {
+                    rushingAverage: {
                         type: Number,
                     },
-                    rushingTouchdownsSum: {
+                    rushingTouchdowns: {
                         type: Number,
                     },
-                    fumblesSum: {
+                    fumbles: {
                         type: Number,
                     },
-                    fumblesLostSum: {
+                    fumblesLost: {
                         type: Number,
                     },
-                    receptionsSum: {
+                    receptions: {
                         type: Number,
                     },
-                    receivingYardsSum: {
+                    receivingYards: {
                         type: Number,
                     },
-                    receivingAverageSum: {
+                    receivingAverage: {
                         type: Number,
                     },
-                    longestReceptionSum: {
+                    longestReception: {
                         type: Number,
                     },
-                    receivingTouchdownsSum: {
+                    receivingTouchdowns: {
                         type: Number,
                     },
-                    longestRushSum: {
+                    longestRush: {
                         type: Number,
                     },
-                    fieldGoalsSum: {
+                    fieldGoals: {
                         type: Number,
                     },
-                    fieldGoalAttemptsSum: {
+                    fieldGoalAttempts: {
                         type: Number,
                     },
-                    bellow19yardsSum: {
+                    bellow19yards: {
                         type: Number,
                     },
-                    bellow29yardsSum: {
+                    bellow29yards: {
                         type: Number,
                     },
-                    bellow39yardsSum: {
+                    bellow39yards: {
                         type: Number,
                     },
-                    bellow49yardsSum: {
+                    bellow49yards: {
                         type: Number,
                     },
-                    fiftyYardsPlusSum: {
+                    fiftyYardsPlus: {
                         type: Number,
                     },
-                    longestFieldGoalSum: {
+                    longestFieldGoal: {
                         type: Number,
                     },
-                    extraPointsSum: {
+                    extraPoints: {
                         type: Number,
                     },
-                    extraPointAttemptsSum: {
+                    extraPointAttempts: {
                         type: Number,
                     },
-                    fantasyScoreSum: {
+                    fantasyScore: {
                         type: Number,
                     },
                 },
                 averages: {
-                    completionsAvg: {
+                    completions: {
                         type: Number,
                     },
-                    passingAttemptsAvg: {
+                    passingAttempts: {
                         type: Number,
                     },
-                    passingYardsAvg: {
+                    passingYards: {
                         type: Number,
                     },
-                    passingAverageAvg: {
+                    passingAverage: {
                         type: Number,
                     },
-                    passingTouchdownsAvg: {
+                    passingTouchdowns: {
                         type: Number,
                     },
-                    interceptionsAvg: {
+                    interceptions: {
                         type: Number,
                     },
-                    sacksAvg: {
+                    sacks: {
                         type: Number,
                     },
-                    sackYardsAvg: {
+                    sackYards: {
                         type: Number,
                     },
-                    qbRatingAvg: {
+                    qbRating: {
                         type: Number,
                     },
-                    rushingAttemptsAvg: {
+                    rushingAttempts: {
                         type: Number,
                     },
-                    rushingYardsAvg: {
+                    rushingYards: {
                         type: Number,
                     },
-                    rushingAverageAvg: {
+                    rushingAverage: {
                         type: Number,
                     },
-                    rushingTouchdownsAvg: {
+                    rushingTouchdowns: {
                         type: Number,
                     },
-                    fumblesAvg: {
+                    fumbles: {
                         type: Number,
                     },
-                    fumblesLostAvg: {
+                    fumblesLost: {
                         type: Number,
                     },
-                    receptionsAvg: {
+                    receptions: {
                         type: Number,
                     },
-                    receivingYardsAvg: {
+                    receivingYards: {
                         type: Number,
                     },
-                    receivingAverageAvg: {
+                    receivingAverage: {
                         type: Number,
                     },
-                    longestReceptionAvg: {
+                    longestReception: {
                         type: Number,
                     },
-                    receivingTouchdownsAvg: {
+                    receivingTouchdowns: {
                         type: Number,
                     },
-                    longestRushAvg: {
+                    longestRush: {
                         type: Number,
                     },
-                    fieldGoalsAvg: {
+                    fieldGoals: {
                         type: Number,
                     },
-                    fieldGoalAttemptsAvg: {
+                    fieldGoalAttempts: {
                         type: Number,
                     },
-                    bellow19yardsAvg: {
+                    bellow19yards: {
                         type: Number,
                     },
-                    bellow29yardsAvg: {
+                    bellow29yards: {
                         type: Number,
                     },
-                    bellow39yardsAvg: {
+                    bellow39yards: {
                         type: Number,
                     },
-                    bellow49yardsAvg: {
+                    bellow49yards: {
                         type: Number,
                     },
-                    fiftyYardsPlusAvg: {
+                    fiftyYardsPlus: {
                         type: Number,
                     },
-                    longestFieldGoalAvg: {
+                    longestFieldGoal: {
                         type: Number,
                     },
-                    extraPointsAvg: {
+                    extraPoints: {
                         type: Number,
                     },
-                    extraPointAttemptsAvg: {
+                    extraPointAttempts: {
                         type: Number,
                     },
-                    fantasyScoreAvg: {
+                    fantasyScore: {
                         type: Number,
                     },
                 },
@@ -369,132 +370,120 @@ const playerDataSchema = new mongoose.Schema(
     }
 );
 
-const getSums = (games) => {
-    const sums = {
-        completionsSum: 0,
-        passingAttemptsSum: 0,
-        passingYardsSum: 0,
-        passingAverageSum: 0,
-        passingTouchdownsSum: 0,
-        interceptionsSum: 0,
-        sacksSum: 0,
-        sackYardsSum: 0,
-        qbRatingSum: 0,
-        rushingAttemptsSum: 0,
-        rushingYardsSum: 0,
-        rushingAverageSum: 0,
-        rushingTouchdownsSum: 0,
-        fumblesSum: 0,
-        fumblesLostSum: 0,
-        receptionsSum: 0,
-        receivingYardsSum: 0,
-        receivingAverageSum: 0,
-        longestReceptionSum: 0,
-        receivingTouchdownsSum: 0,
-        longestRushSum: 0,
-        fieldGoalsSum: 0,
-        fieldGoalAttemptsSum: 0,
-        bellow19yardsSum: 0,
-        bellow29yardsSum: 0,
-        bellow39yardsSum: 0,
-        bellow49yardsSum: 0,
-        fiftyYardsPlusSum: 0,
-        longestFieldGoalSum: 0,
-        extraPointsSum: 0,
-        extraPointAttemptsSum: 0,
-        fantasyScoreSum: 0,
+const getTotals = (games) => {
+    const totals = {
+        completions: 0,
+        passingAttempts: 0,
+        passingYards: 0,
+        passingAverage: 0,
+        passingTouchdowns: 0,
+        interceptions: 0,
+        sacks: 0,
+        sackYards: 0,
+        qbRating: 0,
+        rushingAttempts: 0,
+        rushingYards: 0,
+        rushingAverage: 0,
+        rushingTouchdowns: 0,
+        fumbles: 0,
+        fumblesLost: 0,
+        receptions: 0,
+        receivingYards: 0,
+        receivingAverage: 0,
+        longestReception: 0,
+        receivingTouchdowns: 0,
+        longestRush: 0,
+        fieldGoals: 0,
+        fieldGoalAttempts: 0,
+        bellow19yards: 0,
+        bellow29yards: 0,
+        bellow39yards: 0,
+        bellow49yards: 0,
+        fiftyYardsPlus: 0,
+        longestFieldGoal: 0,
+        extraPoints: 0,
+        extraPointAttempts: 0,
+        fantasyScore: 0,
     };
     let gameCount = 0;
     games.forEach((game) => {
         if (game.opponent !== 'Bye') {
-            sums.completionsSum += game.completions;
-            sums.passingAttemptsSum += game.passingAttempts;
-            sums.passingYardsSum += game.passingYards;
-            sums.passingAverageSum += game.passingAverage;
-            sums.passingTouchdownsSum += game.passingTouchdowns;
-            sums.interceptionsSum += game.interceptions;
-            sums.sacksSum += game.sacks;
-            sums.sackYardsSum += game.sackYards;
-            sums.qbRatingSum += game.qbRating;
-            sums.rushingAttemptsSum += game.rushingAttempts;
-            sums.rushingYardsSum += game.rushingYards;
-            sums.rushingAverageSum += game.rushingAverage;
-            sums.rushingTouchdownsSum += game.rushingTouchdowns;
-            sums.fumblesSum += game.fumbles;
-            sums.fumblesLostSum += game.fumblesLost;
-            sums.receptionsSum += game.receptions;
-            sums.receivingYardsSum += game.receivingYards;
-            sums.receivingAverageSum += game.receivingAverage;
-            sums.longestReceptionSum += game.longestReception;
-            sums.receivingTouchdownsSum += game.receivingTouchdowns;
-            sums.longestRushSum += game.longestRush;
-            sums.fieldGoalsSum += game.fieldGoals;
-            sums.fieldGoalAttemptsSum += game.fieldGoalAttempts;
-            sums.bellow19yardsSum += game.bellow19yards;
-            sums.bellow29yardsSum += game.bellow29yards;
-            sums.bellow39yardsSum += game.bellow39yards;
-            sums.bellow49yardsSum += game.bellow49yards;
-            sums.fiftyYardsPlusSum += game.fiftyYardsPlus;
-            sums.longestFieldGoalSum += game.longestFieldGoal;
-            sums.extraPointsSum += game.extraPoints;
-            sums.extraPointAttemptsSum += game.extraPointAttempts;
-            sums.fantasyScoreSum += game.fantasyScore;
+            totals.completions += game.completions;
+            totals.passingAttempts += game.passingAttempts;
+            totals.passingYards += game.passingYards;
+            totals.passingAverage += game.passingAverage;
+            totals.passingTouchdowns += game.passingTouchdowns;
+            totals.interceptions += game.interceptions;
+            totals.sacks += game.sacks;
+            totals.sackYards += game.sackYards;
+            totals.qbRating += game.qbRating;
+            totals.rushingAttempts += game.rushingAttempts;
+            totals.rushingYards += game.rushingYards;
+            totals.rushingAverage += game.rushingAverage;
+            totals.rushingTouchdowns += game.rushingTouchdowns;
+            totals.fumbles += game.fumbles;
+            totals.fumblesLost += game.fumblesLost;
+            totals.receptions += game.receptions;
+            totals.receivingYards += game.receivingYards;
+            totals.receivingAverage += game.receivingAverage;
+            totals.longestReception += game.longestReception;
+            totals.receivingTouchdowns += game.receivingTouchdowns;
+            totals.longestRush += game.longestRush;
+            totals.fieldGoals += game.fieldGoals;
+            totals.fieldGoalAttempts += game.fieldGoalAttempts;
+            totals.bellow19yards += game.bellow19yards;
+            totals.bellow29yards += game.bellow29yards;
+            totals.bellow39yards += game.bellow39yards;
+            totals.bellow49yards += game.bellow49yards;
+            totals.fiftyYardsPlus += game.fiftyYardsPlus;
+            totals.longestFieldGoal += game.longestFieldGoal;
+            totals.extraPoints += game.extraPoints;
+            totals.extraPointAttempts += game.extraPointAttempts;
+            totals.fantasyScore += game.fantasyScore;
             gameCount++;
         }
     });
-    return { sums, gameCount };
+    return { totals, gameCount };
 };
 
-const getAverages = (sums, gameCount) => {
+const getAverages = (totals, gameCount) => {
     return {
-        completionsAvg: getFixedValue(sums.completionsSum / gameCount),
-        passingAttemptsAvg: getFixedValue(sums.passingAttemptsSum / gameCount),
-        passingYardsAvg: getFixedValue(sums.passingYardsSum / gameCount),
-        passingAverageAvg: getFixedValue(sums.passingAverageSum / gameCount),
-        passingTouchdownsAvg: getFixedValue(
-            sums.passingTouchdownsSum / gameCount
+        completions: getFixedValue(totals.completions / gameCount),
+        passingAttempts: getFixedValue(totals.passingAttempts / gameCount),
+        passingYards: getFixedValue(totals.passingYards / gameCount),
+        passingAverage: getFixedValue(totals.passingAverage / gameCount),
+        passingTouchdowns: getFixedValue(totals.passingTouchdowns / gameCount),
+        interceptions: getFixedValue(totals.interceptions / gameCount),
+        sacks: getFixedValue(totals.sacks / gameCount),
+        sackYards: getFixedValue(totals.sackYards / gameCount),
+        qbRating: getFixedValue(totals.qbRating / gameCount),
+        rushingAttempts: getFixedValue(totals.rushingAttempts / gameCount),
+        rushingYards: getFixedValue(totals.rushingYards / gameCount),
+        rushingAverage: getFixedValue(totals.rushingAverage / gameCount),
+        rushingTouchdowns: getFixedValue(totals.rushingTouchdowns / gameCount),
+        fumbles: getFixedValue(totals.fumbles / gameCount),
+        fumblesLost: getFixedValue(totals.fumblesLost / gameCount),
+        receptions: getFixedValue(totals.receptions / gameCount),
+        receivingYards: getFixedValue(totals.receivingYards / gameCount),
+        receivingAverage: getFixedValue(totals.receivingAverage / gameCount),
+        longestReception: getFixedValue(totals.longestReception / gameCount),
+        receivingTouchdowns: getFixedValue(
+            totals.receivingTouchdowns / gameCount
         ),
-        interceptionsAvg: getFixedValue(sums.interceptionsSum / gameCount),
-        sacksAvg: getFixedValue(sums.sacksSum / gameCount),
-        sackYardsAvg: getFixedValue(sums.sackYardsSum / gameCount),
-        qbRatingAvg: getFixedValue(sums.qbRatingSum / gameCount),
-        rushingAttemptsAvg: getFixedValue(sums.rushingAttemptsSum / gameCount),
-        rushingYardsAvg: getFixedValue(sums.rushingYardsSum / gameCount),
-        rushingAverageAvg: getFixedValue(sums.rushingAverageSum / gameCount),
-        rushingTouchdownsAvg: getFixedValue(
-            sums.rushingTouchdownsSum / gameCount
+        longestRush: getFixedValue(totals.longestRush / gameCount),
+        fieldGoals: getFixedValue(totals.fieldGoals / gameCount),
+        fieldGoalAttempts: getFixedValue(totals.fieldGoalAttempts / gameCount),
+        bellow19yards: getFixedValue(totals.bellow19yards / gameCount),
+        bellow29yards: getFixedValue(totals.bellow29yards / gameCount),
+        bellow39yards: getFixedValue(totals.bellow39yards / gameCount),
+        bellow49yards: getFixedValue(totals.bellow49yards / gameCount),
+        fiftyYardsPlus: getFixedValue(totals.fiftyYardsPlus / gameCount),
+        longestFieldGoal: getFixedValue(totals.longestFieldGoal / gameCount),
+        extraPoints: getFixedValue(totals.extraPoints / gameCount),
+        extraPointAttempts: getFixedValue(
+            totals.extraPointAttempts / gameCount
         ),
-        fumblesAvg: getFixedValue(sums.fumblesSum / gameCount),
-        fumblesLostAvg: getFixedValue(sums.fumblesLostSum / gameCount),
-        receptionsAvg: getFixedValue(sums.receptionsSum / gameCount),
-        receivingYardsAvg: getFixedValue(sums.receivingYardsSum / gameCount),
-        receivingAverageAvg: getFixedValue(
-            sums.receivingAverageSum / gameCount
-        ),
-        longestReceptionAvg: getFixedValue(
-            sums.longestReceptionSum / gameCount
-        ),
-        receivingTouchdownsAvg: getFixedValue(
-            sums.receivingTouchdownsSum / gameCount
-        ),
-        longestRushAvg: getFixedValue(sums.longestRushSum / gameCount),
-        fieldGoalsAvg: getFixedValue(sums.fieldGoalsSum / gameCount),
-        fieldGoalAttemptsAvg: getFixedValue(
-            sums.fieldGoalAttemptsSum / gameCount
-        ),
-        bellow19yardsAvg: getFixedValue(sums.bellow19yardsSum / gameCount),
-        bellow29yardsAvg: getFixedValue(sums.bellow29yardsSum / gameCount),
-        bellow39yardsAvg: getFixedValue(sums.bellow39yardsSum / gameCount),
-        bellow49yardsAvg: getFixedValue(sums.bellow49yardsSum / gameCount),
-        fiftyYardsPlusAvg: getFixedValue(sums.fiftyYardsPlusSum / gameCount),
-        longestFieldGoalAvg: getFixedValue(
-            sums.longestFieldGoalSum / gameCount
-        ),
-        extraPointsAvg: getFixedValue(sums.extraPointsSum / gameCount),
-        extraPointAttemptsAvg: getFixedValue(
-            sums.extraPointAttemptsSum / gameCount
-        ),
-        fantasyScoreAvg: getFixedValue(sums.fantasyScoreSum / gameCount),
+        fantasyScore: getFixedValue(totals.fantasyScore / gameCount),
     };
 };
 
@@ -533,9 +522,9 @@ playerDataSchema.pre('save', async function (next) {
                     game.fantasyScore = calculateFantasyScore(game);
                 }
             }
-            const { sums, gameCount } = getSums(yearData.games);
-            yearData.sums = sums;
-            yearData.averages = getAverages(sums, gameCount);
+            const { totals, gameCount } = getTotals(yearData.games);
+            yearData.totals = totals;
+            yearData.averages = getAverages(totals, gameCount);
         }
     }
     next();

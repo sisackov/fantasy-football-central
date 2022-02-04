@@ -14,60 +14,60 @@ const defenseStatsSchema = new mongoose.Schema(
                     type: Number,
                 },
                 averages: {
-                    avgSacks: {
+                    sacks: {
                         type: Number,
                     },
-                    avgInterceptions: {
+                    interceptions: {
                         type: Number,
                     },
-                    avgFumbleRecoveries: {
+                    fumbleRecoveries: {
                         type: Number,
                     },
-                    avgSafeties: {
+                    safeties: {
                         type: Number,
                     },
-                    avgDefensiveTouchdowns: {
+                    defensiveTouchdowns: {
                         type: Number,
                     },
-                    avgDefensive2PtReturns: {
+                    defensive2PtReturns: {
                         type: Number,
                     },
-                    avgReturnedTouchdowns: {
+                    returnedTouchdowns: {
                         type: Number,
                     },
-                    avgPointsAllowed: {
+                    pointsAllowed: {
                         type: Number,
                     },
-                    avgFantasyScore: {
+                    fantasyScore: {
                         type: Number,
                     },
                 },
-                sums: {
-                    sacksSum: {
+                totals: {
+                    sacks: {
                         type: Number,
                     },
-                    interceptionsSum: {
+                    interceptions: {
                         type: Number,
                     },
-                    fumbleRecoveriesSum: {
+                    fumbleRecoveries: {
                         type: Number,
                     },
-                    safetiesSum: {
+                    safeties: {
                         type: Number,
                     },
-                    defensiveTouchdownsSum: {
+                    defensiveTouchdowns: {
                         type: Number,
                     },
-                    defensive2PtReturnsSum: {
+                    defensive2PtReturns: {
                         type: Number,
                     },
-                    returnedTouchdownsSum: {
+                    returnedTouchdowns: {
                         type: Number,
                     },
-                    pointsAllowedSum: {
+                    pointsAllowed: {
                         type: Number,
                     },
-                    fantasyScoreSum: {
+                    fantasyScore: {
                         type: Number,
                     },
                 },
@@ -121,65 +121,73 @@ const defenseStatsSchema = new mongoose.Schema(
     }
 );
 
-const getSums = (games) => {
-    const sums = {
-        sacksSum: 0,
-        interceptionsSum: 0,
-        fumbleRecoveriesSum: 0,
-        safetiesSum: 0,
-        defensiveTouchdownsSum: 0,
-        defensive2PtReturnsSum: 0,
-        returnedTouchdownsSum: 0,
-        pointsAllowedSum: 0,
-        fantasyScoreSum: 0,
+const getTotals = (games) => {
+    const totals = {
+        sacks: 0,
+        interceptions: 0,
+        fumbleRecoveries: 0,
+        safeties: 0,
+        defensiveTouchdowns: 0,
+        defensive2PtReturns: 0,
+        returnedTouchdowns: 0,
+        pointsAllowed: 0,
+        fantasyScore: 0,
     };
     let gameCount = 0;
     games.forEach((week) => {
         if (week.opponent !== 'Bye') {
             gameCount++;
-            sums.sacksSum += week.sacks;
-            sums.interceptionsSum += week.interceptions;
-            sums.fumbleRecoveriesSum += week.fumbleRecoveries;
-            sums.safetiesSum += week.safeties;
-            sums.defensiveTouchdownsSum += week.defensiveTouchdowns;
-            sums.defensive2PtReturnsSum += week.defensive2PtReturns;
-            sums.returnedTouchdownsSum += week.returnedTouchdowns;
-            sums.pointsAllowedSum += week.pointsAllowed;
-            sums.fantasyScoreSum += week.fantasyScore;
+            for (const stat in totals) {
+                totals[stat] += week[stat];
+            }
+
+            // totals.sacks += week.sacks;
+            // totals.interceptions += week.interceptions;
+            // totals.fumbleRecoveries += week.fumbleRecoveries;
+            // totals.safeties += week.safeties;
+            // totals.defensiveTouchdowns += week.defensiveTouchdowns;
+            // totals.defensive2PtReturns += week.defensive2PtReturns;
+            // totals.returnedTouchdowns += week.returnedTouchdowns;
+            // totals.pointsAllowed += week.pointsAllowed;
+            // totals.fantasyScore += week.fantasyScore;
         }
     });
-    return { sums, gameCount };
+    return { totals, gameCount };
 };
 
-const getAverages = (sums, gameCount) => {
-    return {
-        avgSacks: getFixedValue(sums.sacksSum / gameCount),
-        avgInterceptions: getFixedValue(sums.interceptionsSum / gameCount),
-        avgFumbleRecoveries: getFixedValue(
-            sums.fumbleRecoveriesSum / gameCount
-        ),
-        avgSafeties: getFixedValue(sums.safetiesSum / gameCount),
-        avgDefensiveTouchdowns: getFixedValue(
-            sums.defensiveTouchdownsSum / gameCount
-        ),
-        avgDefensive2PtReturns: getFixedValue(
-            sums.defensive2PtReturnsSum / gameCount
-        ),
-        avgReturnedTouchdowns: getFixedValue(
-            sums.returnedTouchdownsSum / gameCount
-        ),
-        avgPointsAllowed: getFixedValue(sums.pointsAllowedSum / gameCount),
-        avgFantasyScore: getFixedValue(sums.fantasyScoreSum / gameCount),
-    };
+const getAverages = (totals, gameCount) => {
+    const averages = {};
+    for (const field in totals) {
+        averages[field] = getFixedValue(totals[field] / gameCount);
+    }
+    return averages;
+
+    // return {
+    //     sacks: getFixedValue(totals.sacks / gameCount),
+    //     interceptions: getFixedValue(totals.interceptions / gameCount),
+    //     fumbleRecoveries: getFixedValue(totals.fumbleRecoveries / gameCount),
+    //     safeties: getFixedValue(totals.safeties / gameCount),
+    //     defensiveTouchdowns: getFixedValue(
+    //         totals.defensiveTouchdowns / gameCount
+    //     ),
+    //     defensive2PtReturns: getFixedValue(
+    //         totals.defensive2PtReturns / gameCount
+    //     ),
+    //     returnedTouchdowns: getFixedValue(
+    //         totals.returnedTouchdowns / gameCount
+    //     ),
+    //     pointsAllowed: getFixedValue(totals.pointsAllowed / gameCount),
+    //     fantasyScore: getFixedValue(totals.fantasyScore / gameCount),
+    // };
 };
 
 defenseStatsSchema.pre('save', async function (next) {
     const defenseStats = this;
     if (defenseStats.isModified('stats')) {
         for (const yearData of defenseStats.stats) {
-            const { sums, gameCount } = getSums(yearData.games);
-            yearData.sums = sums;
-            yearData.averages = getAverages(sums, gameCount);
+            const { totals, gameCount } = getTotals(yearData.games);
+            yearData.totals = totals;
+            yearData.averages = getAverages(totals, gameCount);
         }
     }
     next();
