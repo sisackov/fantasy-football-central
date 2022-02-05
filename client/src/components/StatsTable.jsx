@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import styled from 'styled-components';
 import { useTable, useSortBy, useFilters, useColumnOrder } from 'react-table';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -457,27 +457,203 @@ function filterGreaterThan(rows, id, filterValue) {
 // check, but here, we want to remove the filter if it's not a number
 filterGreaterThan.autoRemove = (val) => typeof val !== 'number';
 
-function TableCard2({ position }) {
+function StatsTable({ position, statsType }) {
     const [data, setData] = React.useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
-            // setIsLoading(true);
-            console.log('fetching data', position);
             try {
-                const res = await fetchQueriedPlayers('position=QB');
+                const res = await fetchQueriedPlayers(`position=${position}`);
                 setData(res);
             } catch (e) {
-                // setErrorMsg(e.message);
                 console.error(e.message);
             }
-            // setIsLoading(false);
         };
 
         fetchData();
     }, [position]);
 
-    const columns = React.useMemo(
+    const getAccessor = useCallback(
+        (row, stat) => {
+            const stats = row.stats[0];
+            if (!stats || !stats[statsType]) return 0;
+
+            switch (stat) {
+                case 'passingYards':
+                    return stats[statsType].passingYards || 0;
+                case 'passingTDs':
+                    return stats[statsType].passingTouchdowns || 0;
+                case 'interceptions':
+                    return stats[statsType].interceptions || 0;
+                case 'rushingYards':
+                    return stats[statsType].rushingYards || 0;
+                case 'rushingTDs':
+                    return stats[statsType].rushingTouchdowns || 0;
+                case 'receivingYards':
+                    return stats[statsType].receivingYards || 0;
+                case 'receivingTDs':
+                    return stats[statsType].receivingTouchdowns || 0;
+                case 'fumbles':
+                    return stats[statsType].fumbles || 0;
+                case 'fieldGoals':
+                    return stats[statsType].fieldGoals || 0;
+                case 'extraPoints':
+                    return stats[statsType].extraPoints || 0;
+                case 'fieldGoals50Plus':
+                    return stats[statsType].fiftyYardsPlus || 0;
+                case 'fantasyPoints':
+                    return stats[statsType].fantasyScore || 0;
+                default:
+                    return 0;
+            }
+        },
+        [statsType]
+    );
+
+    const statColumns = useCallback(() => {
+        switch (position) {
+            case 'QB':
+                return [
+                    {
+                        Header: 'Pass Yards',
+                        accessor: (row) => getAccessor(row, 'passingYards'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Pass TDs',
+                        accessor: (row) => getAccessor(row, 'passingTDs'),
+                        minWidth: 100,
+                        // Use our custom `fuzzyText` filter on this column
+                        // filter: 'fuzzyText',
+                    },
+                    {
+                        Header: 'Interceptions',
+                        accessor: (row) => getAccessor(row, 'interceptions'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Fantasy Points',
+                        accessor: (row) => getAccessor(row, 'fantasyPoints'),
+                        minWidth: 100,
+                    },
+                ];
+            case 'RB':
+                return [
+                    {
+                        Header: 'Rush Yards',
+                        accessor: (row) => getAccessor(row, 'rushingYards'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Rush TDs',
+                        accessor: (row) => getAccessor(row, 'rushingTDs'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Fumbles',
+                        accessor: (row) => getAccessor(row, 'fumbles'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Fantasy Points',
+                        accessor: (row) => getAccessor(row, 'fantasyPoints'),
+                        minWidth: 100,
+                    },
+                ];
+            case 'WR':
+                return [
+                    {
+                        Header: 'Receiving Yards',
+                        accessor: (row) => getAccessor(row, 'receivingYards'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Receiving TDs',
+                        accessor: (row) => getAccessor(row, 'receivingTDs'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Fantasy Points',
+                        accessor: (row) => getAccessor(row, 'fantasyPoints'),
+                        minWidth: 100,
+                    },
+                ];
+            case 'TE':
+                return [
+                    {
+                        Header: 'Receiving Yards',
+                        accessor: (row) => getAccessor(row, 'receivingYards'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Receiving TDs',
+                        accessor: (row) => getAccessor(row, 'receivingTDs'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Rush Yards',
+                        accessor: (row) => getAccessor(row, 'rushingYards'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Fantasy Points',
+                        accessor: (row) => getAccessor(row, 'fantasyPoints'),
+                        minWidth: 100,
+                    },
+                ];
+            case 'PK':
+                return [
+                    {
+                        Header: 'Field Goals',
+                        accessor: (row) => getAccessor(row, 'fieldGoals'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Extra Points',
+                        accessor: (row) => getAccessor(row, 'extraPoints'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: '50+ Yard FGs',
+                        accessor: (row) => getAccessor(row, 'fieldGoals50Plus'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Fantasy Points',
+                        accessor: (row) => getAccessor(row, 'fantasyPoints'),
+                        minWidth: 100,
+                    },
+                ];
+            case 'DEF':
+                return [
+                    {
+                        Header: 'Sacks',
+                        accessor: (row) => getAccessor(row, 'sacks'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Interceptions',
+                        accessor: (row) => getAccessor(row, 'interceptions'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Fantasy Points',
+                        accessor: (row) => getAccessor(row, 'fantasyPoints'),
+                        minWidth: 100,
+                    },
+                    {
+                        Header: 'Points Allowed',
+                        accessor: (row) => getAccessor(row, 'pointsAllowed'),
+                        minWidth: 100,
+                    },
+                ];
+
+            default:
+                return [];
+        }
+    }, [position, getAccessor]);
+
+    const columns = useMemo(
         () => [
             {
                 Header: 'Name',
@@ -487,57 +663,22 @@ function TableCard2({ position }) {
                         accessor: 'name',
                         minWidth: 150,
                     },
-                    {
-                        Header: 'Team',
-                        accessor: 'team',
-                        minWidth: 150,
-                        // Use our custom `fuzzyText` filter on this column
-                        // filter: 'fuzzyText',
-                    },
+                    // {
+                    //     Header: 'Team',
+                    //     accessor: 'team',
+                    //     minWidth: 150,
+                    //     // Use our custom `fuzzyText` filter on this column
+                    //     // filter: 'fuzzyText',
+                    // },
                 ],
             },
             {
                 Header: 'Average',
-                columns: [
-                    {
-                        Header: 'Pass Yards',
-                        // accessor: 'stats[0].averages.passingYards',
-                        accessor: (row) => {
-                            console.log(
-                                row.stats[0].averages.passingYards ||
-                                    row.stats[0].averages.passingYardsAvg ||
-                                    0
-                            );
-                            return 0;
-                            // row.stats[0].averages.passingYards || 0,
-                        },
-                        minWidth: 100,
-                    },
-                    {
-                        Header: 'Pass TDs',
-                        accessor: 'stats[0].averages.passingTouchdowns',
-                        minWidth: 100,
-                        // Use our custom `fuzzyText` filter on this column
-                        // filter: 'fuzzyText',
-                    },
-                    {
-                        Header: 'Interceptions',
-                        accessor: 'stats[0].averages.interceptions',
-                        minWidth: 100,
-                    },
-                    {
-                        Header: 'Fantasy Points',
-                        accessor: 'stats[0].averages.fantasyScore',
-                        minWidth: 100,
-                    },
-                ],
+                columns: statColumns(),
             },
         ],
-        []
+        [statColumns]
     );
-
-    // const data = React.useMemo(() => makeData, []);
-    // const data = React.useMemo(() => fetchQueriedPlayers(), []);
 
     return (
         <Styles>
@@ -546,4 +687,4 @@ function TableCard2({ position }) {
     );
 }
 
-export default TableCard2;
+export default StatsTable;
