@@ -5,7 +5,7 @@ const FFC_SERVER = axios.create({
     baseURL:
         nodeEnv === 'development'
             ? `http://localhost:5000/ffc/server`
-            : 'http://fantasy-football-central.herokuapp.com/ffc/server',
+            : 'https://fantasy-football-central.herokuapp.com/ffc/server',
 });
 
 const getAuthHeader = () => {

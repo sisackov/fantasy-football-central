@@ -19,7 +19,7 @@ async function testDb() {
 }
 // testDb();
 
-// scrapeData();
+scrapeData();
 
 const rule = new schedule.RecurrenceRule();
 rule.hour = 23;
@@ -28,7 +28,7 @@ rule.tz = 'Etc/UTC'; //this will execute the job at 23:00 UTC on Fridays
 schedule.scheduleJob(rule, scrapeData);
 
 //runs every tenth minute
-schedule.scheduleJob('*/5 * * * *', herokuKeepAlive);
+schedule.scheduleJob('*/10 * * * *', herokuKeepAlive);
 
 //runs at minute 10 every 3rd hour
 // schedule.scheduleJob('10 */3 * * *', scrapeDefenseStats);

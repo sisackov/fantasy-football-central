@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { fetchPlayerById, fetchQueriedPlayers } from '../api/ffc-api';
-import TableCard from '../components/TableCard';
+// import { fetchPlayerById, fetchQueriedPlayers } from '../api/ffc-api';
+// import TableCard from '../components/TableCard';
+import TableCard2 from '../components/TableCard2';
 import { POSITION_QB, POSITION_WR } from '../utils/constants';
 
 function HomePage() {
@@ -28,7 +29,8 @@ function HomePage() {
     const renderPage = () => {
         if (isLoading) return <div>Loading...</div>;
         if (errorMsg) return <div className='error-message'>{errorMsg}</div>;
-        return <TableCard position={POSITION_QB} />;
+        // return <TableCard position={POSITION_QB} />;
+        return <TableCard2 position={POSITION_QB} />;
     };
 
     return <>{renderPage()}</>;
