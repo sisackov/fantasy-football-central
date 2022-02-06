@@ -21,7 +21,7 @@ exports.logoutUser = async (user) => {
     await user.save();
 };
 
-exports.logoutAllUsers = async (user) => {
+exports.logoutAllDevices = async (user) => {
     user.tokens = [];
     await user.save();
 };

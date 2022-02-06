@@ -12,7 +12,7 @@ router.post('/users/login', UserController.loginUser);
 router.post('/users/logout', auth, UserController.logoutUser);
 
 //user logs out of all devices
-router.post('/users/logoutAll', auth, UserController.logoutAllUsers);
+router.post('/users/logoutAll', auth, UserController.logoutAllDevices);
 
 //gets the data of the logged user
 router.get('/users/auth', auth, UserController.getAuthUser);

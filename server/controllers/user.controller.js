@@ -36,9 +36,9 @@ exports.logoutUser = async (req, res) => {
     }
 };
 
-exports.logoutAllUsers = async (req, res) => {
+exports.logoutAllDevices = async (req, res) => {
     try {
-        await UserService.logoutAllUsers(req.user);
+        await UserService.logoutAllDevices(req.user);
         res.send();
     } catch (e) {
         res.status(500).send();
