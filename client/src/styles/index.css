@@ -11,11 +11,15 @@ body {
     background-color: rgba(79, 38, 131, 0.8);
 }
 
+.text-color-vikings {
+    color: rgba(79, 38, 131, 0.8);
+}
+
 .color-seashell1 {
     color: ivory;
 }
 
-.caret {
+/* .caret {
     display: inline-block;
     width: 0;
     height: 0;
@@ -36,4 +40,23 @@ body {
     border-top: 0;
     border-bottom: 4px dashed;
     border-bottom: 4px solid\9;
+} */
+
+/* LOGIN */
+.form-style input {
+    border: 0;
+    height: 50px;
+    border-radius: 0;
+    border-bottom: 1px solid #ebebeb;
+}
+
+.form-style input:focus {
+    border-bottom: 1px solid #007bff;
+    box-shadow: none;
+    outline: 0;
+    background-color: #ebebeb;
+}
+
+.login-submit {
+    height: 50px;
 }

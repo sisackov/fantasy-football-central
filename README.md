@@ -69,16 +69,16 @@
 |                  |                 | teams           | :black_square_button: | 3 hours     |     |
 |                  | **Deployment**  |                 | :white_check_mark: | **6 hours** |     |
 |                  | **Pages**       |                 | :black_square_button: | **5 days**  |     |
-|                  |                 | LandingPage     | :black_square_button: | 6 hours     |     |
+|                  |                 | LandingPage     | :white_check_mark: | 6 hours     |     |
 |                  |                 | LoginPage       | :black_square_button: | 3 hours     |     |
 |                  |                 | SignUpPage      | :black_square_button: | 3 hours     |     |
-|                  |                 | LeaguesGrid     | :black_square_button: | 4 hours     |     |
-|                  |                 | LeagueView      | :black_square_button: | 4 hours     |     |
 |                  |                 | Search          | :black_square_button: | 6 hours     |     |
 |                  |                 | PlayerView      | :black_square_button: | 4 hours     |     |
 |                  |                 | TeamView        | :black_square_button: | 3 hours     |     |
 | **Nice To Have** |                 |                 |                       |             |     |
 |                  | **Pages**       |                 | :black_square_button: | **1 day**   |     |
+|                  |                 | LeagueView      | :black_square_button: | 4 hours     |     |
+|                  |                 | LeaguesGrid     | :black_square_button: | 4 hours     |     |
 |                  |                 | SimulationView  | :black_square_button: | ?           |     |
 |                  |                 | Settings        | :black_square_button: | ?           |     |
 |                  | **Hamburger**   |                 | :white_check_mark: | **3 hours** |     |

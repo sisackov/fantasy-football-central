@@ -10,7 +10,7 @@ function ReactBootstrapTableNext({ position, statsType }) {
         const fetchData = async () => {
             try {
                 const res = await fetchQueriedPlayers(
-                    `position=${position}&limit=20`
+                    `position=${position}&limit=20` //todo add default sort and remove limit
                 );
                 setData(res);
                 setSortedPlayers(res.slice(0, 10));

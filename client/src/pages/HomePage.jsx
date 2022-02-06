@@ -17,8 +17,8 @@ function HomePage() {
         // if (errorMsg) return <div className='error-message'>{errorMsg}</div>;
 
         return (
-            <div className='container mt-3 md-2'>
-                <div className='row row-cols-auto'>
+            <div className='container mx-auto'>
+                <div className='row my-3 g-3'>
                     <div className='col'>
                         <TableCard
                             position={POSITION_QB}
