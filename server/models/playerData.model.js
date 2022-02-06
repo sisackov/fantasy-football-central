@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { POS_KICKER } = require('../utils/constants');
 const { getFixedValue } = require('../utils/utils');
 
 const playerDataSchema = new mongoose.Schema(
@@ -124,16 +125,16 @@ const playerDataSchema = new mongoose.Schema(
                     fieldGoalAttempts: {
                         type: Number,
                     },
-                    bellow19yards: {
+                    underNineteen: {
                         type: Number,
                     },
-                    bellow29yards: {
+                    underTwentyNine: {
                         type: Number,
                     },
-                    bellow39yards: {
+                    underThirtyNine: {
                         type: Number,
                     },
-                    bellow49yards: {
+                    underFortyNine: {
                         type: Number,
                     },
                     fiftyYardsPlus: {
@@ -145,7 +146,7 @@ const playerDataSchema = new mongoose.Schema(
                     extraPoints: {
                         type: Number,
                     },
-                    extraPointAttempts: {
+                    extraPointAts: {
                         type: Number,
                     },
                     fantasyScore: {
@@ -222,16 +223,16 @@ const playerDataSchema = new mongoose.Schema(
                     fieldGoalAttempts: {
                         type: Number,
                     },
-                    bellow19yards: {
+                    underNineteen: {
                         type: Number,
                     },
-                    bellow29yards: {
+                    underTwentyNine: {
                         type: Number,
                     },
-                    bellow39yards: {
+                    underThirtyNine: {
                         type: Number,
                     },
-                    bellow49yards: {
+                    underFortyNine: {
                         type: Number,
                     },
                     fiftyYardsPlus: {
@@ -243,7 +244,7 @@ const playerDataSchema = new mongoose.Schema(
                     extraPoints: {
                         type: Number,
                     },
-                    extraPointAttempts: {
+                    extraPointAts: {
                         type: Number,
                     },
                     fantasyScore: {
@@ -331,18 +332,18 @@ const playerDataSchema = new mongoose.Schema(
                             type: Number,
                         },
                         fgPercentage: {
-                            type: String,
-                        },
-                        bellow19yards: {
                             type: Number,
                         },
-                        bellow29yards: {
+                        underNineteen: {
                             type: Number,
                         },
-                        bellow39yards: {
+                        underTwentyNine: {
                             type: Number,
                         },
-                        bellow49yards: {
+                        underThirtyNine: {
+                            type: Number,
+                        },
+                        underFortyNine: {
                             type: Number,
                         },
                         fiftyYardsPlus: {
@@ -354,7 +355,7 @@ const playerDataSchema = new mongoose.Schema(
                         extraPoints: {
                             type: Number,
                         },
-                        extraPointAttempts: {
+                        extraPointAts: {
                             type: Number,
                         },
                         fantasyScore: {
@@ -370,44 +371,44 @@ const playerDataSchema = new mongoose.Schema(
     }
 );
 
-const getTotals = (games) => {
-    const totals = {
-        completions: 0,
-        passingAttempts: 0,
-        passingYards: 0,
-        passingAverage: 0,
-        passingTouchdowns: 0,
-        interceptions: 0,
-        sacks: 0,
-        sackYards: 0,
-        qbRating: 0,
-        rushingAttempts: 0,
-        rushingYards: 0,
-        rushingAverage: 0,
-        rushingTouchdowns: 0,
-        fumbles: 0,
-        fumblesLost: 0,
-        receptions: 0,
-        receivingYards: 0,
-        receivingAverage: 0,
-        longestReception: 0,
-        receivingTouchdowns: 0,
-        longestRush: 0,
-        fieldGoals: 0,
-        fieldGoalAttempts: 0,
-        bellow19yards: 0,
-        bellow29yards: 0,
-        bellow39yards: 0,
-        bellow49yards: 0,
-        fiftyYardsPlus: 0,
-        longestFieldGoal: 0,
-        extraPoints: 0,
-        extraPointAttempts: 0,
-        fantasyScore: 0,
-    };
+const getTotals = (games, position) => {
+    const totals = {};
+    if (position === POS_KICKER) {
+        totals.fieldGoals = 0;
+        totals.fieldGoalAttempts = 0;
+        totals.underNineteen = 0;
+        totals.underTwentyNine = 0;
+        totals.underThirtyNine = 0;
+        totals.underFortyNine = 0;
+        totals.fiftyYardsPlus = 0;
+        totals.extraPoints = 0;
+        totals.extraPointAts = 0;
+        totals.fantasyScore = 0;
+    } else {
+        totals.completions = 0;
+        totals.passingAttempts = 0;
+        totals.passingYards = 0;
+        totals.passingTouchdowns = 0;
+        totals.interceptions = 0;
+        totals.sacks = 0;
+        totals.sackYards = 0;
+        totals.qbRating = 0;
+        totals.rushingAttempts = 0;
+        totals.rushingYards = 0;
+        totals.rushingTouchdowns = 0;
+        totals.fumbles = 0;
+        totals.fumblesLost = 0;
+        totals.receptions = 0;
+        totals.receivingYards = 0;
+        totals.longestReception = 0;
+        totals.receivingTouchdowns = 0;
+        totals.longestRush = 0;
+        totals.fantasyScore = 0;
+    }
+
     let gameCount = 0;
     games.forEach((game) => {
-        if (game.opponent !== 'Bye') {
+        if (game.opponent !== 'Bye' && game.opponent !== 'BYE Week') {
             for (const key in totals) {
                 totals[key] += game[key];
             }
@@ -441,7 +442,7 @@ const calculateFantasyScore = (game) => {
     fantasyScore += (game.fumblesLost || 0) * -2;
     fantasyScore += (game.extraPoints || 0) * 1;
     fantasyScore += (game.fieldGoals || 0) * 3; //0-39 yards:3 pts, 40-49 yards:4 pts, 50+ yards:5 pts
-    fantasyScore += (game.bellow49yards || 0) * 1;
+    fantasyScore += (game.underFortyNine || 0) * 1;
     fantasyScore += (game.fiftyYardsPlus || 0) * 2;
     return getFixedValue(fantasyScore);
 };
@@ -457,13 +458,15 @@ playerDataSchema.pre('save', async function (next) {
     if (playerData.isModified('stats')) {
         for (const yearData of playerData.stats) {
             sortGamesByWeek(playerData.position, yearData.games);
-            // console.log(yearData.games);
             for (const game of yearData.games) {
                 if (!game.fantasyScore) {
                     game.fantasyScore = calculateFantasyScore(game);
                 }
             }
-            const { totals, gameCount } = getTotals(yearData.games);
+            const { totals, gameCount } = getTotals(
+                yearData.games,
+                playerData.position
+            );
             yearData.totals = totals;
             yearData.averages = getAverages(totals, gameCount);
         }

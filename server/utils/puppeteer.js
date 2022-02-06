@@ -139,7 +139,11 @@ const getPlayerDataFiltered = async (
                     const split = cell.split('__');
                     rowData[tableColumns[index]] = split[0];
                     rowData.number = split[1];
-                    rowData.team = teamName.split('/')[1];
+                    rowData.team = teamName
+                        .split('/')[1]
+                        .split('-')
+                        .map((s) => s[0].toUpperCase() + s.slice(1))
+                        .join(' ');
                 } else {
                     rowData[tableColumns[index]] = cell;
                 }
@@ -254,11 +258,8 @@ const getKickerStats = async (playerName) => {
 
         const tableColumns = getTableColumns('PK');
 
-        return getDataFromTableContent(tableContent, tableColumns);
-
-        // return getDataFromTableContent(tableContent, tableColumns).filter(
-        //     (row) => row.opponent !== 'BYE Week'
-        // );
+        const games = getDataFromTableContent(tableContent, tableColumns);
+        return { year: 2021, games };
     } catch (err) {
         console.error(err.message);
     } finally {

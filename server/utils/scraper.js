@@ -8,7 +8,7 @@ const {
     getKickerStats,
     getPlayerStatsNFL,
 } = require('./puppeteer');
-const { loadState, saveState } = require('./utils');
+// const { loadState, saveState } = require('./utils');
 
 async function savePlayerData(playersDataList) {
     PlayerDataService.deletePlayerDataCollection();

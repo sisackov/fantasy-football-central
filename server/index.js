@@ -19,7 +19,7 @@ async function testDb() {
 }
 // testDb();
 
-// scrapeData();
+scrapeData();
 
 const rule = new schedule.RecurrenceRule();
 rule.hour = 23;
