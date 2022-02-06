@@ -455,22 +455,22 @@ const sortGamesByWeek = (position, games) => {
 
 playerDataSchema.pre('save', async function (next) {
     const playerData = this;
-    if (playerData.isModified('stats')) {
-        for (const yearData of playerData.stats) {
-            sortGamesByWeek(playerData.position, yearData.games);
-            for (const game of yearData.games) {
-                if (!game.fantasyScore) {
-                    game.fantasyScore = calculateFantasyScore(game);
-                }
+    // if (playerData.isModified('stats')) {
+    for (const yearData of playerData.stats) {
+        sortGamesByWeek(playerData.position, yearData.games);
+        for (const game of yearData.games) {
+            if (!game.fantasyScore) {
+                game.fantasyScore = calculateFantasyScore(game);
             }
-            const { totals, gameCount } = getTotals(
-                yearData.games,
-                playerData.position
-            );
-            yearData.totals = totals;
-            yearData.averages = getAverages(totals, gameCount);
         }
+        const { totals, gameCount } = getTotals(
+            yearData.games,
+            playerData.position
+        );
+        yearData.totals = totals;
+        yearData.averages = getAverages(totals, gameCount);
     }
+    // }
     next();
 });
 
