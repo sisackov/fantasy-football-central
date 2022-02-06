@@ -7,6 +7,8 @@ import {
     TABLE_TYPE_TOTAL,
 } from '../utils/constants';
 import BootstrapTable from './BootstrapTable';
+import ReactBootstrapTable from './ReactBootstrapTable';
+import ReactTable from './ReactTable';
 import StatsTable from './StatsTable';
 
 function TableCard({ position }) {
@@ -39,7 +41,8 @@ function TableCard({ position }) {
                     Card Subtitle
                 </Card.Subtitle>
 
-                <BootstrapTable position={position} statsType='averages' />
+                <ReactBootstrapTable position={position} statsType='averages' />
+                {/* <BootstrapTable position={position} statsType='averages' /> */}
             </Card.Body>
         </Card>
     );

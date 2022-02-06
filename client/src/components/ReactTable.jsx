@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { fetchQueriedPlayers } from '../api/ffc-api';
+import Table from 'react-bootstrap/Table';
 
-function BootstrapTable({ position, statsType }) {
+function ReactTable({ position, statsType }) {
     const [data, setData] = useState([]);
     const [sortedPlayers, setSortedPlayers] = useState([]);
 
@@ -14,7 +15,6 @@ function BootstrapTable({ position, statsType }) {
                 setData(res);
                 setSortedPlayers(res.slice(0, 10));
             } catch (e) {
-                // setErrorMsg(e.message);
                 console.error(e.message);
             }
         };
@@ -79,46 +79,25 @@ function BootstrapTable({ position, statsType }) {
         });
     }, [sortedPlayers, getStatValue]);
 
-    const sortTable = useCallback(
-        (stat) => {
-            console.log('sorting by', stat);
-            const sorted = stat
-                ? data.sort((a, b) => {
-                      return getStatValue(b, stat) - getStatValue(a, stat);
-                  })
-                : data.sort((a, b) => a.name.localeCompare(b.name));
-            setSortedPlayers(sorted);
-        },
-        [data, getStatValue]
-    );
-
     return (
-        <div className='table-responsive'>
-            <table
-                className='table table-striped table-hover'
-                data-show-toggle='true'
-            >
-                <thead>
-                    <tr>
-                        {/* <th scope='col'>#</th> */}
-                        <th scope='col'>Player</th>
-                        <th onClick={sortTable} scope='col'>
-                            Team
-                        </th>
-                        <th scope='col'>Position</th>
-                        {/* <th scope='col'>Games</th>//todo: add games played */}
-                        <th scope='col'>Passing Yards</th>
-                        <th scope='col'>Passing TDs</th>
-                        <th scope='col'>Interceptions</th>
-                        <th scope='col'>Rushing Yards</th>
-                        <th scope='col'>Rushing TDs</th>
-                        <th scope='col'>Receiving Yards</th>
-                    </tr>
-                </thead>
-                <tbody>{renderBody()}</tbody>
-            </table>
-        </div>
+        <Table striped bordered hover responsive>
+            <thead>
+                <tr>
+                    {/* <th scope='col'>#</th> */}
+                    <th scope='col'>Player</th>
+                    <th scope='col'>Team</th>
+                    <th scope='col'>Position</th>
+                    <th scope='col'>Passing Yards</th>
+                    <th scope='col'>Passing TDs</th>
+                    <th scope='col'>Interceptions</th>
+                    <th scope='col'>Rushing Yards</th>
+                    <th scope='col'>Rushing TDs</th>
+                    <th scope='col'>Receiving Yards</th>
+                </tr>
+            </thead>
+            <tbody>{renderBody()}</tbody>
+        </Table>
     );
 }
 
-export default BootstrapTable;
+export default ReactTable;

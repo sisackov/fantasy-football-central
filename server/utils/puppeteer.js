@@ -160,37 +160,42 @@ const getPlayersData = async (teamName) => {
     const browser = await puppeteer.launch({
         args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
-    const page = await browser.newPage();
+    try {
+        const page = await browser.newPage();
 
-    // Instructs the blank page to navigate a URL
-    const url = `https://www.espn.com/nfl/team/roster/_/name/${teamName}`;
-    console.log(url);
-    await page.goto(url);
+        // Instructs the blank page to navigate a URL
+        const url = `https://www.espn.com/nfl/team/roster/_/name/${teamName}`;
+        console.log(url);
+        await page.goto(url);
 
-    let selector = 'div.ResponsiveTable.Offense table > tbody > tr';
-    // Waits until the selector element is rendered
-    await page.waitForSelector(selector);
+        let selector = 'div.ResponsiveTable.Offense table > tbody > tr';
+        // Waits until the selector element is rendered
+        await page.waitForSelector(selector);
 
-    let tableContent = await getPlayerDataTableContent(page, selector);
-    const data = await getPlayerDataFiltered(
-        tableContent,
-        PLAYER_DATA_TABLE_COLUMNS,
-        NEEDED_OFFENSIVE_POSITIONS,
-        teamName
-    );
+        let tableContent = await getPlayerDataTableContent(page, selector);
+        const data = await getPlayerDataFiltered(
+            tableContent,
+            PLAYER_DATA_TABLE_COLUMNS,
+            NEEDED_OFFENSIVE_POSITIONS,
+            teamName
+        );
 
-    selector = 'div.ResponsiveTable.Special.Teams table > tbody > tr';
-    tableContent = await getPlayerDataTableContent(page, selector);
-    const specialTeams = await getPlayerDataFiltered(
-        tableContent,
-        PLAYER_DATA_TABLE_COLUMNS,
-        ['PK'],
-        teamName
-    );
-    data.push(...specialTeams);
-
-    await browser.close();
-    return data;
+        selector = 'div.ResponsiveTable.Special.Teams table > tbody > tr';
+        tableContent = await getPlayerDataTableContent(page, selector);
+        const specialTeams = await getPlayerDataFiltered(
+            tableContent,
+            PLAYER_DATA_TABLE_COLUMNS,
+            ['PK'],
+            teamName
+        );
+        data.push(...specialTeams);
+        return data;
+    } catch (error) {
+        console.error(error.message);
+    } finally {
+        await browser.close();
+    }
+    return [];
 };
 
 const getTeamDefenseStats = async (team) => {
