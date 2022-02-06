@@ -30,4 +30,9 @@ app.use(ROUTES_SERVER_PREFIX, userRouter);
 app.use(ROUTES_API_PREFIX, playerDataRouter);
 app.use(ROUTES_API_PREFIX, defenseStatsRouter);
 
+app.get('/*', (req, res) => {
+    res.sendFile(path.resolve(publicPath, 'index.html'));
+    // res.sendFile(path.resolve(PUBLIC_PATH, "index.html"));
+});
+
 module.exports = app;
