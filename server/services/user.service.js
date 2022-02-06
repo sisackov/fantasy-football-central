@@ -10,6 +10,7 @@ exports.createUser = async (userData, userAgent) => {
 
 exports.loginUser = async (name, password, userAgent) => {
     const user = await User.findByCredentials(name, password);
+    console.log(user);
     const token = await user.generateAuthToken(userAgent);
     return { user, token };
 };

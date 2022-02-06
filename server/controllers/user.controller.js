@@ -6,10 +6,11 @@ exports.createUser = async (req, res) => {
             req.body,
             req.get('user-agent')
         );
+        console.log(resData);
         res.status(201).send(resData);
     } catch (e) {
-        console.error(e);
-        res.status(400).send(e);
+        console.error(e.message);
+        res.status(400).send(e.message);
     }
 };
 
@@ -22,7 +23,7 @@ exports.loginUser = async (req, res) => {
         );
         res.send(resData);
     } catch (e) {
-        res.status(400).send();
+        res.status(400).send(e.message);
     }
 };
 
@@ -32,7 +33,7 @@ exports.logoutUser = async (req, res) => {
 
         res.send();
     } catch (e) {
-        res.status(500).send();
+        res.status(500).send(e.message);
     }
 };
 
@@ -41,7 +42,7 @@ exports.logoutAllDevices = async (req, res) => {
         await UserService.logoutAllDevices(req.user);
         res.send();
     } catch (e) {
-        res.status(500).send();
+        res.status(500).send(e.message);
     }
 };
 
@@ -54,7 +55,7 @@ exports.getUserById = async (req, res) => {
         const user = await UserService.getUserById(req.params.id);
         res.send(user);
     } catch (e) {
-        res.status(404).send();
+        res.status(404).send(e.message);
     }
 };
 
@@ -67,7 +68,7 @@ exports.updateAuthUser = async (req, res) => {
         );
         res.send(resData);
     } catch (e) {
-        res.status(400).send(e);
+        res.status(400).send(e.message);
     }
 };
 
@@ -76,6 +77,6 @@ exports.deleteAuthUser = async (req, res) => {
         await req.user.remove(); //todo: test this!!!
         res.send(req.user);
     } catch (e) {
-        res.status(500).send();
+        res.status(500).send(e.message);
     }
 };

@@ -16,11 +16,6 @@ const userSchema = new mongoose.Schema(
             required: true,
             minlength: 7,
             trim: true,
-            validate(value) {
-                if (value.toLowerCase().includes('password')) {
-                    throw new Error('Password cannot contain "password"');
-                }
-            },
         },
         tokens: [
             //each object will have an id property because it is considered a sub-document
@@ -71,23 +66,24 @@ userSchema.methods.generateAuthToken = async function (userAgent) {
 
     user.tokens = user.tokens.concat({ token, userAgent });
     await user.save();
+    console.log('generateAuthToken', user);
 
     return token;
 };
 
 //statics are available on the model(instance not needed)
 userSchema.statics.findByCredentials = async (name, password) => {
-    const user = await User.findOne({ name, password }); //todo: verify that this works or change to email
+    const user = await User.findOne({ name });
 
     if (!user) {
         throw new Error('Unable to login');
     }
 
-    // const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password);
 
-    // if (!isMatch) {
-    //     throw new Error('Unable to login');
-    // }
+    if (!isMatch) {
+        throw new Error('Unable to login');
+    }
 
     return user;
 };
@@ -102,14 +98,6 @@ userSchema.pre('save', async function (next) {
 
     next();
 });
-
-// todo: change to user leagues
-// Delete user tasks when user is removed
-// userSchema.pre('remove', async function (next) {
-//     const user = this;
-//     await Task.deleteMany({ owner: user._id });
-//     next();
-// });
 
 const User = mongoose.model('User', userSchema);
 

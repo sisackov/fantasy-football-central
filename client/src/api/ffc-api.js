@@ -5,7 +5,7 @@ const serverPort = process.env.REACT_APP_SERVER_PORT || '5000';
 const FFC_API = axios.create({
     baseURL:
         nodeEnv === 'development'
-            ? `http://localhost:5000/api/v1`
+            ? `http://localhost:${serverPort}/api/v1`
             : 'https://fantasy-football-central.herokuapp.com/api/v1',
 });
 
