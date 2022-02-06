@@ -49,7 +49,7 @@ async function scrapePlayerStats() {
     performance.mark('sps_START');
     const playerDataList = await PlayerData.find();
 
-    for (let i = 169; i < playerDataList.length; i++) {
+    for (let i = 0; i < playerDataList.length; i++) {
         const playerData = playerDataList[i];
         const pName = playerData.name.toLowerCase().split(' ').join('-');
         const { position } = playerData;
