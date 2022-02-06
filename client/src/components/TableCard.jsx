@@ -1,36 +1,7 @@
-import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
-import { fetchQueriedPlayers } from '../api/ffc-api';
-import {
-    QB_TABLE_HEADERS,
-    TABLE_QUERIES,
-    TABLE_TYPE_TOTAL,
-} from '../utils/constants';
-import BootstrapTable from './BootstrapTable';
-import ReactBootstrapTable from './ReactBootstrapTable';
-import ReactTable from './ReactTable';
-import StatsTable from './StatsTable';
+import ReactBootstrapTableNext from './ReactBootstrapTableNext';
 
 function TableCard({ position }) {
-    // const [data, setData] = useState([]);
-    // const [isLoading, setIsLoading] = useState(false);
-    // const [errorMsg, setErrorMsg] = useState('');
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         setIsLoading(true);
-    //         try {
-    //             const res = await fetchQueriedPlayers(TABLE_QUERIES[position]);
-    //             setData(res);
-    //         } catch (e) {
-    //             setErrorMsg(e.message);
-    //         }
-    //         setIsLoading(false);
-    //     };
-
-    //     fetchData();
-    // }, [position]);
-
     return (
         <Card>
             <Card.Body>
@@ -41,8 +12,10 @@ function TableCard({ position }) {
                     Card Subtitle
                 </Card.Subtitle>
 
-                <ReactBootstrapTable position={position} statsType='averages' />
-                {/* <BootstrapTable position={position} statsType='averages' /> */}
+                <ReactBootstrapTableNext
+                    position={position}
+                    statsType='averages'
+                />
             </Card.Body>
         </Card>
     );

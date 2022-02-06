@@ -10,7 +10,7 @@ function ReactBootstrapTable({ position, statsType }) {
         const fetchData = async () => {
             try {
                 const res = await fetchQueriedPlayers(
-                    `position=${position}&limit=10`
+                    `position=${position}&limit=20`
                 );
                 setData(res);
                 setSortedPlayers(res.slice(0, 10));
@@ -26,7 +26,7 @@ function ReactBootstrapTable({ position, statsType }) {
     const getStatValue = useCallback(
         (player, stat) => {
             const stats = player.stats[0];
-            console.log(player.stats[0]);
+            // console.log(stats);
             if (!stats || !stats[statsType]) return 0;
 
             switch (stat) {
@@ -61,19 +61,66 @@ function ReactBootstrapTable({ position, statsType }) {
         [statsType]
     );
 
+    const sortByStat = useCallback(
+        (a, b, order, stat) => {
+            const aStat = getStatValue(a, stat);
+            const bStat = getStatValue(b, stat);
+            if (order === 'desc') {
+                return bStat - aStat;
+            } else {
+                return aStat - bStat;
+            }
+        },
+        [getStatValue]
+    );
+
     const renderHeaders = useCallback(() => {
+        const options = {
+            onSortChange: (column, order) => {
+                console.log(column, order);
+                const sorted = data.sort((a, b) =>
+                    sortByStat(a, b, order, column)
+                );
+                console.log(sorted.map((p) => p.stats[0].averages));
+                setSortedPlayers(sorted.slice(0, 10));
+            },
+            defaultSortName: 'fantasyPoints',
+            defaultSortOrder: 'desc',
+            sizePerPageList: [10],
+            sizePerPage: 10,
+            pageStartIndex: 1,
+        };
+
         if (data.length === 0) return <div>Loading...</div>;
         switch (position) {
             case 'QB':
                 return (
-                    <BootstrapTable data={data} striped hover>
-                        <TableHeaderColumn dataField='name' dataSort isKey>
+                    <BootstrapTable
+                        data={sortedPlayers}
+                        options={options}
+                        striped
+                        hover
+                        version='4'
+                    >
+                        <TableHeaderColumn
+                            width='120'
+                            dataField='name'
+                            dataSort
+                            isKey
+                        >
                             Name
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='team' dataSort>
+                        <TableHeaderColumn
+                            dataAlign='center'
+                            width='120'
+                            dataField='team'
+                            dataSort
+                        >
                             Team
                         </TableHeaderColumn>
                         <TableHeaderColumn
+                            width='80'
+                            dataAlign='center'
                             dataField='passingYards'
                             dataSort
                             dataFormat={(__, player) =>
@@ -82,13 +129,38 @@ function ReactBootstrapTable({ position, statsType }) {
                         >
                             Passing Yards
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='passingTDs'>
+                        <TableHeaderColumn
+                            width='80'
+                            dataAlign='center'
+                            dataField='passingTDs'
+                            dataSort
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'passingTDs')
+                            }
+                        >
                             Passing TDs
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='interceptions'>
+                        <TableHeaderColumn
+                            width='120'
+                            dataAlign='center'
+                            dataField='interceptions'
+                            dataSort
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'interceptions')
+                            }
+                        >
                             Interceptions
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='fantasyPoints'>
+                        <TableHeaderColumn
+                            width='80'
+                            dataAlign='center'
+                            dataField='fantasyPoints'
+                            dataSort
+                            defaultSorted
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'fantasyPoints')
+                            }
+                        >
                             Fantasy Points
                         </TableHeaderColumn>
                     </BootstrapTable>
@@ -96,19 +168,50 @@ function ReactBootstrapTable({ position, statsType }) {
             case 'WR':
                 return (
                     <BootstrapTable data={data} striped hover>
-                        <TableHeaderColumn dataField='name' dataSort isKey>
+                        <TableHeaderColumn
+                            width='120'
+                            dataField='name'
+                            dataSort
+                            isKey
+                        >
                             Name
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='team' dataSort>
+                        <TableHeaderColumn
+                            dataAlign='center'
+                            width='120'
+                            dataField='team'
+                            dataSort
+                        >
                             Team
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='receivingYards'>
+                        <TableHeaderColumn
+                            width='100'
+                            dataAlign='center'
+                            dataField='receivingYards'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'receivingYards')
+                            }
+                        >
                             Receiving Yards
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='receivingTDs'>
+                        <TableHeaderColumn
+                            width='100'
+                            dataAlign='center'
+                            dataField='receivingTDs'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'receivingTDs')
+                            }
+                        >
                             Receiving TDs
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='fantasyPoints'>
+                        <TableHeaderColumn
+                            width='100'
+                            dataAlign='center'
+                            dataField='fantasyPoints'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'fantasyPoints')
+                            }
+                        >
                             Fantasy Points
                         </TableHeaderColumn>
                     </BootstrapTable>
@@ -116,22 +219,60 @@ function ReactBootstrapTable({ position, statsType }) {
             case 'RB':
                 return (
                     <BootstrapTable data={data} striped hover>
-                        <TableHeaderColumn dataField='name' dataSort isKey>
+                        <TableHeaderColumn
+                            width='120'
+                            dataField='name'
+                            dataSort
+                            isKey
+                        >
                             Name
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='team' dataSort>
+                        <TableHeaderColumn
+                            dataAlign='center'
+                            width='120'
+                            dataField='team'
+                            dataSort
+                        >
                             Team
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='rushingYards'>
+                        <TableHeaderColumn
+                            width='100'
+                            dataAlign='center'
+                            dataField='rushingYards'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'rushingYards')
+                            }
+                        >
                             Rushing Yards
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='rushingTDs'>
+                        <TableHeaderColumn
+                            dataField='rushingTDs'
+                            width='100'
+                            dataAlign='center'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'rushingTDs')
+                            }
+                        >
                             Rushing TDs
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='fumbles'>
+                        <TableHeaderColumn
+                            dataField='fumbles'
+                            width='100'
+                            dataAlign='center'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'fumbles')
+                            }
+                        >
                             Fumbles
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='fantasyPoints'>
+                        <TableHeaderColumn
+                            dataField='fantasyPoints'
+                            width='100'
+                            dataAlign='center'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'fantasyPoints')
+                            }
+                        >
                             Fantasy Points
                         </TableHeaderColumn>
                     </BootstrapTable>
@@ -139,22 +280,60 @@ function ReactBootstrapTable({ position, statsType }) {
             case 'TE':
                 return (
                     <>
-                        <TableHeaderColumn dataField='name' dataSort isKey>
+                        <TableHeaderColumn
+                            width='120'
+                            dataField='name'
+                            dataSort
+                            isKey
+                        >
                             Name
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='team' dataSort>
+                        <TableHeaderColumn
+                            dataAlign='center'
+                            width='120'
+                            dataField='team'
+                            dataSort
+                        >
                             Team
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='receivingYards'>
+                        <TableHeaderColumn
+                            dataField='receivingYards'
+                            width='100'
+                            dataAlign='center'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'receivingYards')
+                            }
+                        >
                             Receiving Yards
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='receivingTDs'>
+                        <TableHeaderColumn
+                            dataField='receivingTDs'
+                            width='100'
+                            dataAlign='center'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'receivingTDs')
+                            }
+                        >
                             Receiving TDs
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='rushingYards'>
+                        <TableHeaderColumn
+                            dataField='rushingYards'
+                            width='100'
+                            dataAlign='center'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'rushingTDs')
+                            }
+                        >
                             Rushing Yards
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='fantasyPoints'>
+                        <TableHeaderColumn
+                            dataField='fantasyPoints'
+                            width='100'
+                            dataAlign='center'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'fantasyPoints')
+                            }
+                        >
                             Fantasy Points
                         </TableHeaderColumn>
                     </>
@@ -162,22 +341,60 @@ function ReactBootstrapTable({ position, statsType }) {
             case 'PK':
                 return (
                     <>
-                        <TableHeaderColumn dataField='name' dataSort isKey>
+                        <TableHeaderColumn
+                            width='120'
+                            dataField='name'
+                            dataSort
+                            isKey
+                        >
                             Name
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='team' dataSort>
+                        <TableHeaderColumn
+                            dataAlign='center'
+                            width='120'
+                            dataField='team'
+                            dataSort
+                        >
                             Team
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='fieldGoals'>
+                        <TableHeaderColumn
+                            dataField='fieldGoals'
+                            width='100'
+                            dataAlign='center'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'rushingTDs')
+                            }
+                        >
                             Field Goals
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='fieldGoals50Plus'>
+                        <TableHeaderColumn
+                            dataField='fieldGoals50Plus'
+                            width='100'
+                            dataAlign='center'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'fieldGoals50Plus')
+                            }
+                        >
                             Field Goals 50+
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='extraPoints'>
+                        <TableHeaderColumn
+                            dataField='extraPoints'
+                            width='100'
+                            dataAlign='center'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'extraPoints')
+                            }
+                        >
                             Extra Points
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='fantasyPoints'>
+                        <TableHeaderColumn
+                            dataField='fantasyPoints'
+                            width='100'
+                            dataAlign='center'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'fantasyPoints')
+                            }
+                        >
                             Fantasy Points
                         </TableHeaderColumn>
                     </>
@@ -191,77 +408,22 @@ function ReactBootstrapTable({ position, statsType }) {
                         <TableHeaderColumn dataField='team' dataSort>
                             Team
                         </TableHeaderColumn>
-                        <TableHeaderColumn dataField='fantasyPoints'>
+                        <TableHeaderColumn
+                            dataField='fantasyPoints'
+                            width='100'
+                            dataAlign='center'
+                            dataFormat={(__, player) =>
+                                getStatValue(player, 'fantasyPoints')
+                            }
+                        >
                             Fantasy Points
                         </TableHeaderColumn>
                     </>
                 );
         }
-    }, [position, data]);
+    }, [position, sortedPlayers, getStatValue, data, sortByStat]);
 
-    const sortTable = useCallback(
-        (stat) => {
-            console.log('sorting by', stat);
-            const sorted = stat
-                ? data.sort((a, b) => {
-                      return getStatValue(b, stat) - getStatValue(a, stat);
-                  })
-                : data.sort((a, b) => a.name.localeCompare(b.name));
-            setSortedPlayers(sorted);
-        },
-        [data, getStatValue]
-    );
-
-    return (
-        <div className='table-responsive'>
-            {/* <BootstrapTable data={data} striped hover> */}
-            {renderHeaders()}
-            {/* <TableHeaderColumn dataField='name' dataSort isKey>
-                    Name
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='team'>Team</TableHeaderColumn>
-                <TableHeaderColumn dataField='position'>
-                    Position
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='passingYards'>
-                    Passing Yards
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='passingTDs'>
-                    Passing TDs
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='interceptions'>
-                    Interceptions
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='rushingYards'>
-                    Rushing Yards
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='rushingTDs'>
-                    Rushing TDs
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='receivingYards'>
-                    Receiving Yards
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='receivingTDs'>
-                    Receiving TDs
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='fumbles'>
-                    Fumbles
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='fieldGoals'>
-                    Field Goals
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='extraPoints'>
-                    Extra Points
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='fieldGoals50Plus'>
-                    Field Goals 50+
-                </TableHeaderColumn>
-                <TableHeaderColumn dataField='fantasyPoints'>
-                    Fantasy Points
-                </TableHeaderColumn> */}
-            {/* </BootstrapTable> */}
-        </div>
-    );
+    return <div className='table-responsive'>{renderHeaders()}</div>;
 }
 
 export default ReactBootstrapTable;
