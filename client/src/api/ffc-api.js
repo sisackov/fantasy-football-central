@@ -20,3 +20,9 @@ export const fetchQueriedPlayers = async (query) => {
     console.log('getQueriedPlayers: ', data);
     return data;
 };
+
+export const fetchAutoCompletePlayers = async (query) => {
+    const { data } = await FFC_API.get(`/players/autocomplete?${query}`);
+    console.log('getAutoCompletePlayers: ', data);
+    return data;
+};

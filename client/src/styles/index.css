@@ -86,3 +86,9 @@ body {
     box-shadow: none;
     border: solid 2px #007bff;
 }
+
+.dropdown-list-absolute {
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+}

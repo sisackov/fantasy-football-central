@@ -8,6 +8,7 @@ import {
 } from '../utils/constants';
 
 function HomePage() {
+    //TODO - single call to get all players
     // const [data, setData] = useState([]);
     // const [isLoading, setIsLoading] = useState(false);
     // const [errorMsg, setErrorMsg] = useState('');
@@ -20,34 +21,19 @@ function HomePage() {
             <div className='container mx-auto'>
                 <div className='row my-3 g-3'>
                     <div className='col'>
-                        <TableCard
-                            position={POSITION_QB}
-                            statsType='averages'
-                        />
+                        <TableCard position={POSITION_QB} />
                     </div>
                     <div className='col'>
-                        <TableCard
-                            position={POSITION_WR}
-                            statsType='averages'
-                        />
+                        <TableCard position={POSITION_WR} />
                     </div>
                     <div className='col'>
-                        <TableCard
-                            position={POSITION_RB}
-                            statsType='averages'
-                        />
+                        <TableCard position={POSITION_RB} />
                     </div>
                     <div className='col'>
-                        <TableCard
-                            position={POSITION_TE}
-                            statsType='averages'
-                        />
+                        <TableCard position={POSITION_TE} />
                     </div>
                     <div className='col'>
-                        <TableCard
-                            position={POSITION_PK}
-                            statsType='averages'
-                        />
+                        <TableCard position={POSITION_PK} />
                     </div>
                 </div>
             </div>

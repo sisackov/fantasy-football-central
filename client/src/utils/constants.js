@@ -49,3 +49,5 @@ export const POSITION_OPTIONS = {
         value: POSITION_DEF,
     },
 };
+
+export const DROPDOWN_SIZE = 6;
