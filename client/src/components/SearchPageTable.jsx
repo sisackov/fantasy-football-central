@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { fetchQueriedPlayers } from '../api/ffc-api';
 import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 
 function SearchPageTable({ query, statsType }) {
     const [data, setData] = useState([]);
@@ -17,7 +18,9 @@ function SearchPageTable({ query, statsType }) {
             }
         };
 
-        fetchData();
+        if (query) {
+            fetchData();
+        }
     }, [query]);
 
     const getStatValue = useCallback(
@@ -182,6 +185,32 @@ function SearchPageTable({ query, statsType }) {
         },
     ];
 
+    const customTotal = (from, to, size) => (
+        <span className='react-bootstrap-table-pagination-total px-3'>
+            Showing {from} to {to} of {size} Results
+        </span>
+    );
+
+    const options = {
+        paginationSize: 4,
+        pageStartIndex: 0,
+        // alwaysShowAllBtns: true, // Always show next and previous button
+        // withFirstAndLast: false, // Hide the going to First and Last page button
+        // hideSizePerPage: true, // Hide the sizePerPage dropdown always
+        // hidePageListOnlyOnePage: true, // Hide the pagination list when only one page
+        firstPageText: 'First',
+        prePageText: 'Back',
+        nextPageText: 'Next',
+        lastPageText: 'Last',
+        nextPageTitle: 'First page',
+        prePageTitle: 'Pre page',
+        firstPageTitle: 'Next page',
+        lastPageTitle: 'Last page',
+        showTotal: true,
+        paginationTotalRenderer: customTotal,
+        disablePageTitle: true,
+    };
+
     return (
         <div className='table-responsive'>
             <BootstrapTable
@@ -192,6 +221,7 @@ function SearchPageTable({ query, statsType }) {
                 data={data}
                 columns={getColumns()}
                 defaultSorted={defaultSorted}
+                pagination={paginationFactory(options)}
             />
         </div>
     );
