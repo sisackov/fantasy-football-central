@@ -4,6 +4,9 @@ export const PATH_SIGNUP = '/signup';
 export const PATH_LOGOUT = '/logout';
 export const PATH_SEARCH = '/search';
 export const PATH_API = '/api';
+export const PATH_PLAYER = '/player/';
+export const PATH_PLAYER_PARAM = '/player/:playerName';
+
 export const QB_TABLE_HEADERS = [
     'Player',
     'Pass Yards',

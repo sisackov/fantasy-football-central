@@ -5,6 +5,7 @@ import {
     PATH_API,
     PATH_HOME,
     PATH_LOGIN,
+    PATH_PLAYER,
     PATH_SEARCH,
 } from '../utils/constants';
 
@@ -33,6 +34,15 @@ function NavbarComponent() {
                     <Navbar.Toggle aria-controls='basic-navbar-nav' />
                     <Navbar.Collapse id='basic-navbar-nav'>
                         <Nav className='justify-content-end flex-grow-1'>
+                            <Nav.Link
+                                style={{
+                                    color: 'ivory',
+                                    fontWeight: '500',
+                                }}
+                                href={PATH_PLAYER + 'josh allen'}
+                            >
+                                Test
+                            </Nav.Link>
                             <Nav.Link
                                 style={{
                                     color: 'ivory',

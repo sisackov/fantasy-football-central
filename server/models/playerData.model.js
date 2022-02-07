@@ -477,10 +477,10 @@ playerDataSchema.pre('save', async function (next) {
 playerDataSchema.methods.toJSON = function () {
     const playerDataObject = this.toObject();
     delete playerDataObject.__v;
-    for (const yearData of playerDataObject.stats) {
-        //todo: remove this after testing
-        delete yearData.games;
-    }
+    // for (const yearData of playerDataObject.stats) {
+    //     //todo: remove this after testing
+    //     delete yearData.games;
+    // }
     return playerDataObject;
 };
 
