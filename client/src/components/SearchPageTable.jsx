@@ -76,7 +76,6 @@ function SearchPageTable({ query, statsType }) {
             const sortedData = data.sort((a, b) =>
                 sortByStat(a, b, order, stat)
             );
-            console.log(sortedData);
             setSortedPlayers(sortedData);
         },
         [data, sortByStat]
@@ -177,6 +176,7 @@ function SearchPageTable({ query, statsType }) {
 
     const defaultSorted = [
         {
+            // dataField: 'name',
             dataField: 'stats[0][' + statsType + '].fantasyScore',
             order: 'desc', // desc or asc
         },
@@ -189,7 +189,7 @@ function SearchPageTable({ query, statsType }) {
                 striped
                 hover
                 condensed
-                data={sortedPlayers}
+                data={data}
                 columns={getColumns()}
                 defaultSorted={defaultSorted}
             />
