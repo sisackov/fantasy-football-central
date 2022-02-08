@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { PATH_SEARCH, PATH_SIGNUP } from '../utils/constants';
+import { PATH_SEARCH, PATH_SIGN_UP } from '../utils/constants';
 import { loginUser } from '../api/ffc-server';
 import { useHistory } from 'react-router-dom';
 
@@ -92,7 +92,7 @@ function LoginPage() {
                         </form>
                         <div className='pt-4 text-center'>
                             New to Fantasy Football Central?{' '}
-                            <a href={PATH_SIGNUP}>Sign Up</a>
+                            <a href={PATH_SIGN_UP}>Sign Up</a>
                         </div>
                         {error && (
                             <div className='pt-4 text-center'>{error}</div>

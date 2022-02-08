@@ -33,6 +33,7 @@ function SearchPage() {
                     <Card.Body>
                         <Card.Title className='text-center'>
                             Searching for {query}
+                            {/* TODO */}
                         </Card.Title>
                         <Card.Subtitle className='my-3 text-center'>
                             <TableRadioButtons

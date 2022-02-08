@@ -211,6 +211,11 @@ function SearchPageTable({ query, statsType }) {
         disablePageTitle: true,
     };
 
+    const handleRowClick = useCallback((row) => {
+        // history.push(`/player/${row.id}`);
+        console.log(row);
+    }, []);
+
     return (
         <div className='table-responsive'>
             <BootstrapTable
@@ -219,6 +224,7 @@ function SearchPageTable({ query, statsType }) {
                 hover
                 condensed
                 data={data}
+                options={{ onRowClick: handleRowClick }}
                 columns={getColumns()}
                 defaultSorted={defaultSorted}
                 pagination={paginationFactory(options)}
