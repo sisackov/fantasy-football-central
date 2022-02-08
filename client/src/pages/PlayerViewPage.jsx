@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchQueriedPlayers } from '../api/ffc-api';
 import Card from 'react-bootstrap/Card';
-import C3Chart from '../components/C3Chart';
 import PlayerStatsTable from '../components/PlayerStatsTable';
+import PlayerGamesTable from '../components/PlayerGamesTable';
+import PlayerCharts from '../components/PlayerCharts';
 
 function PlayerViewPage() {
     let { playerName } = useParams();
@@ -24,124 +25,6 @@ function PlayerViewPage() {
             fetchData();
         }
     }, [playerName, data]);
-
-    const renderGameRowsQB = useCallback((games) => {
-        let hadByeWeek = false;
-        const rows = [];
-        for (let i = 0; i < games.length; i++) {
-            const game = games[i];
-            if (!hadByeWeek && +game.week !== i + 1) {
-                hadByeWeek = true;
-                rows.push(
-                    <tr key={`bye-week-${i}`}>
-                        <th scope='row'>{i + 1}</th>
-                        <td>Bye Week</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                        <td>-</td>
-                    </tr>
-                );
-            }
-            rows.push(
-                <tr key={game.week}>
-                    <th scope='row'>{game.week}</th>
-                    <td>{game.opponent}</td>
-                    <td>{game.result}</td>
-                    <td>{game.fantasyScore}</td>
-                    <td>{game.qbRating}</td>
-                    <td>{game.completions}</td>
-                    <td>{game.passingAttempts}</td>
-                    <td>{game.passingYards}</td>
-                    <td>{game.passingTouchdowns}</td>
-                    <td>{game.rushingAttempts}</td>
-                    <td>{game.rushingYards}</td>
-                    <td>{game.rushingTouchdowns}</td>
-                    <td>{game.interceptions}</td>
-                    <td>{game.fumbles}</td>
-                    <td>{game.fumblesLost}</td>
-                    <td>{game.sacks}</td>
-                    <td>{game.sackYards}</td>
-                </tr>
-            );
-        }
-        return rows;
-    }, []);
-
-    const renderGameRows = useCallback(
-        (games, position) => {
-            switch (position) {
-                case 'QB':
-                    return renderGameRowsQB(games);
-                default:
-                    return null;
-            }
-        },
-        [renderGameRowsQB]
-    );
-
-    const renderGamesTable = useCallback(() => {
-        const { games } = data.stats[0];
-        switch (data.position) {
-            case 'QB':
-                return (
-                    <table className='table table-bordered table-success table-hover'>
-                        <thead>
-                            <tr className='text-center'>
-                                <th scope='col' colSpan={3}>
-                                    Game
-                                </th>
-                                <th colSpan={2} align='center'>
-                                    Eval
-                                </th>
-                                <th scope='col' colSpan={4} align='center'>
-                                    Passing
-                                </th>
-                                <th scope='col' colSpan={3} align='center'>
-                                    Rushing
-                                </th>
-                                <th scope='col' colSpan={5} align='center'>
-                                    Def Pressure
-                                </th>
-                            </tr>
-                            <tr>
-                                <th scope='col'>Week</th>
-                                <th scope='col'>Opp</th>
-                                <th scope='col'>Result</th>
-                                <th scope='col'>Fantasy</th>
-                                <th scope='col'>QBR</th>
-                                <th scope='col'>Comp</th>
-                                <th scope='col'>Atts</th>
-                                <th scope='col'>Yds</th>
-                                <th scope='col'>TDs</th>
-                                <th scope='col'>Atts</th>
-                                <th scope='col'>Yds</th>
-                                <th scope='col'>TDs</th>
-                                <th scope='col'>Ints</th>
-                                <th scope='col'>Fumb</th>
-                                <th scope='col'>FumL</th>
-                                <th scope='col'>Sacks</th>
-                                <th scope='col'>SackYds</th>
-                            </tr>
-                        </thead>
-                        <tbody>{renderGameRows(games, data.position)}</tbody>
-                    </table>
-                );
-            default:
-                return null;
-        }
-    }, [data, renderGameRows]);
 
     return (
         <div className='container'>
@@ -208,9 +91,10 @@ function PlayerViewPage() {
                                     Games
                                 </Card.Title>
 
-                                <div className='table-responsive'>
-                                    {renderGamesTable()}
-                                </div>
+                                <PlayerGamesTable
+                                    position={data.position}
+                                    games={data.stats[0].games}
+                                />
                             </Card.Body>
                         </Card>
                     </div>
@@ -218,26 +102,7 @@ function PlayerViewPage() {
                         <div className='card-header text-center'>
                             <h3>Vs. League Average</h3>
                         </div>
-                        <div className='card-body'>
-                            <div className='col'>
-                                <h3 className='text-center my-2'>Total</h3>
-                                <C3Chart
-                                    playerName={data.name}
-                                    stats={data.stats[0].totals}
-                                    chartType='total'
-                                    chartId={data.espnId}
-                                />
-                            </div>
-                            <div className='col'>
-                                <h3 className='text-center my-3'>Average</h3>
-                                <C3Chart
-                                    playerName={data.name}
-                                    stats={data.stats[0].averages}
-                                    chartType='average'
-                                    chartId={data.espnId}
-                                />
-                            </div>
-                        </div>
+                        <PlayerCharts data={data} />
                     </div>
                 </>
             )}
