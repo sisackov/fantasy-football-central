@@ -4,8 +4,9 @@ import ApiDocsPage from './pages/ApiDocsPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import PlayerViewPage from './pages/PlayerViewPage';
-import SearchPage from './pages/SearchPage.jsx';
 import SignUpPage from './pages/SignUpPage';
+import SearchPage from './pages/SearchPage.jsx';
+
 import {
     PATH_API,
     PATH_HOME,
