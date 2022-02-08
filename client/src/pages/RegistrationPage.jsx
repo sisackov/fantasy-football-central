@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { PATH_LOGIN } from '../utils/constants';
-import { createNewUser } from '../api/ffc-server';
 import { useHistory } from 'react-router-dom';
+import { createNewUser } from '../api/ffc-server';
+import { PATH_LOGIN } from '../utils/constants';
 
-function SignUpPage() {
+function RegistrationPage() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -103,4 +103,4 @@ function SignUpPage() {
     );
 }
 
-export default SignUpPage;
+export default RegistrationPage;

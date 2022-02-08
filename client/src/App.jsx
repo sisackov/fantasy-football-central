@@ -4,7 +4,7 @@ import ApiDocsPage from './pages/ApiDocsPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import PlayerViewPage from './pages/PlayerViewPage';
-import SignUpPage from './pages/SignUpPage.jsx';
+import RegistrationPage from './pages/RegistrationPage';
 import SearchPage from './pages/SearchPage.jsx';
 
 import {
@@ -24,7 +24,11 @@ function App() {
                 <Switch>
                     <Route exact path={PATH_HOME} component={HomePage} />
                     <Route exact path={PATH_LOGIN} component={LoginPage} />
-                    <Route exact path={PATH_SIGN_UP} component={SignUpPage} />
+                    <Route
+                        exact
+                        path={PATH_SIGN_UP}
+                        component={RegistrationPage}
+                    />
                     <Route exact path={PATH_SEARCH} component={SearchPage} />
                     <Route exact path={PATH_API} component={ApiDocsPage} />
                     <Route
