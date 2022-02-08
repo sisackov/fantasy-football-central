@@ -4,7 +4,7 @@ import ApiDocsPage from './pages/ApiDocsPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import PlayerViewPage from './pages/PlayerViewPage';
-import SignUpPage from './pages/SignUpPage';
+import SignUpPage from './pages/SignUpPage.jsx';
 import SearchPage from './pages/SearchPage.jsx';
 
 import {
