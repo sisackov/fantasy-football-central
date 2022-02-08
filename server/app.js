@@ -8,6 +8,7 @@ mongoose.connect(process.env.MONGODB_URL);
 const userRouter = require('./routes/user.routes');
 const playerDataRouter = require('./routes/playerData.routes');
 const defenseStatsRouter = require('./routes/defenseStats.routes');
+const leagueAvgRouter = require('./routes/leagueAvg.routes');
 const {
     ROUTES_API_PREFIX,
     ROUTES_SERVER_PREFIX,
@@ -29,6 +30,7 @@ app.use(express.json());
 app.use(ROUTES_SERVER_PREFIX, userRouter);
 app.use(ROUTES_API_PREFIX, playerDataRouter);
 app.use(ROUTES_API_PREFIX, defenseStatsRouter);
+app.use(ROUTES_API_PREFIX, leagueAvgRouter);
 
 app.get('/*', (req, res) => {
     res.sendFile(path.resolve(publicPath, 'index.html'));

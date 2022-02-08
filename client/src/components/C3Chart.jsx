@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import c3 from 'c3';
 
-function C3Chart({ playerName, stats, chartType, chartId }) {
+function C3Chart({ playerName, stats, chartType, chartId, leagueAvg }) {
     const chartName = `chart-${chartId}-${chartType}`;
     useEffect(() => {
         c3.generate({
@@ -9,7 +9,7 @@ function C3Chart({ playerName, stats, chartType, chartId }) {
             data: {
                 columns: [
                     [playerName, ...Object.values(stats)],
-                    ['League', 50, 20, 10, 40, 15, 25],
+                    ['League', ...Object.values(leagueAvg)],
                 ],
                 type: 'bar',
             },
@@ -21,7 +21,7 @@ function C3Chart({ playerName, stats, chartType, chartId }) {
                 },
             },
         });
-    }, [stats, playerName, chartName]);
+    }, [stats, playerName, chartName, leagueAvg]);
 
     return <div id={chartName} />;
 }

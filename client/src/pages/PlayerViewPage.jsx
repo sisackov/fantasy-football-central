@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchQueriedPlayers } from '../api/ffc-api';
+import { fetchLeagueAvgByPosition, fetchQueriedPlayers } from '../api/ffc-api';
 import Card from 'react-bootstrap/Card';
 import PlayerStatsTable from '../components/PlayerStatsTable';
 import PlayerGamesTable from '../components/PlayerGamesTable';
@@ -9,12 +9,18 @@ import PlayerCharts from '../components/PlayerCharts';
 function PlayerViewPage() {
     let { playerName } = useParams();
     const [data, setData] = useState(null);
+    const [leagueAvg, setLeagueAvg] = useState(null);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await fetchQueriedPlayers(`name=${playerName}`);
-                console.log(res[0]);
-                setData(res[0]);
+                // const res = await fetchQueriedPlayers(`name=${playerName}`);
+                const fetchPlayer = fetchQueriedPlayers(`name=${playerName}`);
+                const fetchAvg = fetchLeagueAvgByPosition('QB'); //todo: make this dynamic
+                let responses = await Promise.all([fetchPlayer, fetchAvg]);
+                console.log('gggg', responses[1]);
+                setData(responses[0][0]);
+                setLeagueAvg(responses[1][0]);
             } catch (e) {
                 // setErrorMsg(e.message);
                 console.error(e.message);
@@ -102,7 +108,7 @@ function PlayerViewPage() {
                         <div className='card-header text-center'>
                             <h3>Vs. League Average</h3>
                         </div>
-                        <PlayerCharts data={data} />
+                        <PlayerCharts data={data} leagueAvg={leagueAvg} />
                     </div>
                 </>
             )}

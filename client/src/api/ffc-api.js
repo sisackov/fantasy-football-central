@@ -26,3 +26,9 @@ export const fetchAutoCompletePlayers = async (query) => {
     console.log('getAutoCompletePlayers: ', data);
     return data;
 };
+
+export const fetchLeagueAvgByPosition = async (position) => {
+    const { data } = await FFC_API.get(`/leagueAvg/position/${position}`);
+    console.log('getLeagueAvgByPosition: ', data);
+    return data;
+};

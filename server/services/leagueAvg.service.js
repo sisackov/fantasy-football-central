@@ -11,7 +11,7 @@ exports.createLeagueAvg = async (leagueAvgStats) => {
 
 exports.getAllLeagueAvg = async (limit) => {
     try {
-        const leagueAvg = await LeagueAvg.find().limit(limit || 0);
+        const leagueAvg = await LeagueAvg.find();
         console.log('getAllLeagueAvg length: ', leagueAvg.length);
         return leagueAvg;
     } catch (e) {
@@ -22,7 +22,7 @@ exports.getAllLeagueAvg = async (limit) => {
 
 exports.getLeagueAvgByPosition = async (position) => {
     try {
-        const allData = this.getAllLeagueAvg();
+        const allData = await LeagueAvg.find();
         const filteredData = allData.filter(
             (data) => data.position === position
         );

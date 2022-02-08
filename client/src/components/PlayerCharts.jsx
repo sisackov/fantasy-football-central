@@ -1,6 +1,6 @@
 import C3Chart from './C3Chart';
 
-function PlayerCharts({ data }) {
+function PlayerCharts({ data, leagueAvg }) {
     return (
         <div className='card-body'>
             <div className='col'>
@@ -10,6 +10,7 @@ function PlayerCharts({ data }) {
                     stats={data.stats[0].totals}
                     chartType='total'
                     chartId={data.espnId}
+                    leagueAvg={leagueAvg.totals}
                 />
             </div>
             <div className='col'>
@@ -19,6 +20,7 @@ function PlayerCharts({ data }) {
                     stats={data.stats[0].averages}
                     chartType='average'
                     chartId={data.espnId}
+                    leagueAvg={leagueAvg.averages}
                 />
             </div>
         </div>
