@@ -3,7 +3,7 @@ import { PATH_LOGIN } from '../utils/constants';
 import { createNewUser } from '../api/ffc-server';
 import { useHistory } from 'react-router-dom';
 
-function SignupPage() {
+function SignUpPage() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -103,4 +103,4 @@ function SignupPage() {
     );
 }
 
-export default SignupPage;
+export default SignUpPage;

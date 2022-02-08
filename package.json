@@ -1,7 +1,7 @@
 {
     "name": "fantasy-football-central",
     "version": "1.0.0",
-    "description": "-   The **mockup outline** can be found [here](./docs/page-outline.pdf).",
+    "description": "Fantasy Football Central is a fantasy football app that allows you to compare your fantasy football players to the best in the league.",
     "main": "index.js",
     "directories": {
         "doc": "docs"
