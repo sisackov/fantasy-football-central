@@ -1,6 +1,7 @@
 const PlayerData = require('../models/playerData.model');
 const PlayerDataService = require('../services/playerData.service');
 const DefenseStatsService = require('../services/defenseStats.service');
+const LeagueAvgService = require('../services/leagueAvg.service');
 const { ESPN_TEAM_ROSTER_LINKS, FNFL_TEAM_IDS } = require('./constants');
 const {
     getPlayersData,
@@ -8,6 +9,7 @@ const {
     getKickerStats,
     getPlayerStatsNFL,
 } = require('./puppeteer');
+const { getFixedValue } = require('./utils');
 // const { loadState, saveState } = require('./utils');
 
 async function savePlayerData(playersDataList) {
@@ -124,10 +126,22 @@ async function scrapeDefenseStats() {
     );
 }
 
-async function computeLeagueAvgs() {
+async function saveLeagueAvg(dataList) {
+    LeagueAvgService.deleteLeagueAvgCollection();
+    for (const stat of dataList) {
+        try {
+            await LeagueAvgService.createLeagueAvg(stat);
+        } catch (e) {
+            console.error('Failed to save data for: ', stat, e.message);
+        }
+    }
+    console.log('Saved all leagueAvg to DB');
+}
+
+async function computeLeagueAvg() {
     performance.mark('cla_START');
 
-    const players = await PlayerData.find();
+    const players = await PlayerData.find({});
     const playerData = {
         QB: { totals: [], averages: [] },
         RB: { totals: [], averages: [] },
@@ -148,16 +162,19 @@ async function computeLeagueAvgs() {
         const totals = playerData[position].totals.filter(
             (stat) => stat && stat.fantasyScore > 0
         );
+
         const totalsSum = {};
         for (const stat in totals[0]) {
-            totalsSum[stat] = totals.reduce((acc, curr) => acc + curr[stat], 0);
+            totalsSum[stat] = totals.reduce(
+                (acc, curr) => acc + (curr[stat] || 0),
+                0
+            );
         }
         for (const stat in totalsSum) {
-            totalsSum[stat] = totalsSum[stat] / totals.length;
+            totalsSum[stat] = getFixedValue(totalsSum[stat] / totals.length);
         }
         // console.log(totalsSum);
         const averages = playerData[position].averages.filter(
-            // (average) => average !== undefined
             (stat) => stat && stat.fantasyScore > 0
         );
         const averagesSum = {};
@@ -168,16 +185,19 @@ async function computeLeagueAvgs() {
             );
         }
         for (const stat in averagesSum) {
-            averagesSum[stat] = averagesSum[stat] / averages.length;
+            averagesSum[stat] = getFixedValue(
+                averagesSum[stat] / averages.length
+            );
         }
-        // console.log(averagesSum);
         stats.push({
             position,
             totals: totalsSum,
             averages: averagesSum,
         });
     }
-    console.log(stats);
+    // console.log(stats);
+
+    await saveLeagueAvg(stats);
 
     performance.mark('cla_END');
     const measure = performance.measure('cla', 'cla_START', 'cla_END');
@@ -189,11 +209,11 @@ async function computeLeagueAvgs() {
 }
 
 async function scrapeData() {
-    // await scrapePlayerData();
-    // await scrapePlayerStats();
-    // await scrapeDefenseStats();
-    // console.log('Scraping complete');
-    await computeLeagueAvgs();
+    await scrapePlayerData();
+    await scrapePlayerStats();
+    await scrapeDefenseStats();
+    console.log('Scraping complete');
+    await computeLeagueAvg();
 }
 
 module.exports = {
