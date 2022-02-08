@@ -124,11 +124,76 @@ async function scrapeDefenseStats() {
     );
 }
 
+async function computeLeagueAvgs() {
+    performance.mark('cla_START');
+
+    const players = await PlayerData.find();
+    const playerData = {
+        QB: { totals: [], averages: [] },
+        RB: { totals: [], averages: [] },
+        WR: { totals: [], averages: [] },
+        TE: { totals: [], averages: [] },
+        PK: { totals: [], averages: [] },
+    }; //todo DST
+    players.forEach((player) => {
+        const p = player.toObject();
+        if (p.stats.length) {
+            playerData[p.position].totals.push(p.stats[0].totals);
+            playerData[p.position].averages.push(p.stats[0].averages);
+        }
+    });
+
+    const stats = [];
+    for (const position in playerData) {
+        const totals = playerData[position].totals.filter(
+            (stat) => stat && stat.fantasyScore > 0
+        );
+        const totalsSum = {};
+        for (const stat in totals[0]) {
+            totalsSum[stat] = totals.reduce((acc, curr) => acc + curr[stat], 0);
+        }
+        for (const stat in totalsSum) {
+            totalsSum[stat] = totalsSum[stat] / totals.length;
+        }
+        // console.log(totalsSum);
+        const averages = playerData[position].averages.filter(
+            // (average) => average !== undefined
+            (stat) => stat && stat.fantasyScore > 0
+        );
+        const averagesSum = {};
+        for (const stat in averages[0]) {
+            averagesSum[stat] = averages.reduce(
+                (acc, curr) => acc + (curr[stat] || 0),
+                0
+            );
+        }
+        for (const stat in averagesSum) {
+            averagesSum[stat] = averagesSum[stat] / averages.length;
+        }
+        // console.log(averagesSum);
+        stats.push({
+            position,
+            totals: totalsSum,
+            averages: averagesSum,
+        });
+    }
+    console.log(stats);
+
+    performance.mark('cla_END');
+    const measure = performance.measure('cla', 'cla_START', 'cla_END');
+    console.log(
+        `computeLeagueAvgs performance measure: ${
+            measure.duration / 60000
+        } minutes`
+    );
+}
+
 async function scrapeData() {
-    await scrapePlayerData();
-    await scrapePlayerStats();
-    await scrapeDefenseStats();
-    console.log('Scraping complete');
+    // await scrapePlayerData();
+    // await scrapePlayerStats();
+    // await scrapeDefenseStats();
+    // console.log('Scraping complete');
+    await computeLeagueAvgs();
 }
 
 module.exports = {
