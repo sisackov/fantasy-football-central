@@ -7,6 +7,9 @@ export const PATH_API = '/api';
 export const PATH_PLAYER = '/player/';
 export const PATH_PLAYER_PARAM = '/player/:playerName';
 
+export const LS_PLAYER_KEY = 'currentPlayer';
+export const LS_LEAGUE_AVG_KEY = 'leagueAvg';
+
 export const QB_TABLE_HEADERS = [
     'Player',
     'Pass Yards',

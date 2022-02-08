@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NavbarComponent from './components/NavbarComponent';
 import ApiDocsPage from './pages/ApiDocsPage';
@@ -8,6 +9,7 @@ import RegistrationPage from './pages/RegistrationPage';
 import SearchPage from './pages/SearchPage.jsx';
 
 import {
+    LS_PLAYER_KEY,
     PATH_API,
     PATH_HOME,
     PATH_LOGIN,
@@ -17,6 +19,11 @@ import {
 } from './utils/constants';
 
 function App() {
+    useEffect(() => {
+        //reset the app state
+        localStorage.removeItem(LS_PLAYER_KEY);
+    }, []);
+
     return (
         <>
             <Router>

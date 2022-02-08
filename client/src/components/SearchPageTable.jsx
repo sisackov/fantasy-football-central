@@ -1,11 +1,14 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { fetchQueriedPlayers } from '../api/ffc-api';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import { useHistory } from 'react-router-dom';
+import { LS_PLAYER_KEY, PATH_PLAYER } from '../utils/constants';
 
 function SearchPageTable({ query, statsType }) {
     const [data, setData] = useState([]);
     const [sortedPlayers, setSortedPlayers] = useState([]);
+    const history = useHistory();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -191,6 +194,14 @@ function SearchPageTable({ query, statsType }) {
         </span>
     );
 
+    const handleRowClick = useCallback(
+        (__, row) => {
+            localStorage.setItem(LS_PLAYER_KEY, JSON.stringify(row));
+            history.push(`${PATH_PLAYER}${row.name}`);
+        },
+        [history]
+    );
+
     const options = {
         paginationSize: 4,
         pageStartIndex: 0,
@@ -211,11 +222,6 @@ function SearchPageTable({ query, statsType }) {
         disablePageTitle: true,
     };
 
-    const handleRowClick = useCallback((row) => {
-        // history.push(`/player/${row.id}`);
-        console.log(row);
-    }, []);
-
     return (
         <div className='table-responsive'>
             <BootstrapTable
@@ -224,7 +230,10 @@ function SearchPageTable({ query, statsType }) {
                 hover
                 condensed
                 data={data}
-                options={{ onRowClick: handleRowClick }}
+                rowEvents={{
+                    onClick: handleRowClick,
+                }}
+                rowStyle={{ cursor: 'pointer' }}
                 columns={getColumns()}
                 defaultSorted={defaultSorted}
                 pagination={paginationFactory(options)}

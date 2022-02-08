@@ -1,10 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchLeagueAvgByPosition, fetchQueriedPlayers } from '../api/ffc-api';
+import {
+    fetchLeagueAvgByPosition,
+    fetchLeagueAvgData,
+    fetchQueriedPlayers,
+} from '../api/ffc-api';
 import Card from 'react-bootstrap/Card';
 import PlayerStatsTable from '../components/PlayerStatsTable';
 import PlayerGamesTable from '../components/PlayerGamesTable';
 import PlayerCharts from '../components/PlayerCharts';
+import { LS_LEAGUE_AVG_KEY, LS_PLAYER_KEY } from '../utils/constants';
 
 function PlayerViewPage() {
     let { playerName } = useParams();
@@ -15,14 +20,39 @@ function PlayerViewPage() {
         const fetchData = async () => {
             try {
                 // const res = await fetchQueriedPlayers(`name=${playerName}`);
-                const fetchPlayer = fetchQueriedPlayers(`name=${playerName}`);
-                const fetchAvg = fetchLeagueAvgByPosition('QB'); //todo: make this dynamic
-                let responses = await Promise.all([fetchPlayer, fetchAvg]);
-                console.log('gggg', responses[1]);
-                setData(responses[0][0]);
-                setLeagueAvg(responses[1][0]);
+                let player = localStorage.getItem(LS_PLAYER_KEY);
+                if (!player) {
+                    console.log('fetching player');
+                    const fetchPlayer = await fetchQueriedPlayers(
+                        `name=${playerName}`
+                    );
+                    player = fetchPlayer[0];
+                } else {
+                    player = JSON.parse(player);
+                }
+                setData(player);
+                let leagueAvgData = localStorage.getItem(LS_LEAGUE_AVG_KEY);
+                if (!leagueAvgData) {
+                    console.log('fetching league avg');
+                    const fetchAvg = await fetchLeagueAvgData();
+                    leagueAvgData = fetchAvg;
+                    localStorage.setItem(
+                        LS_LEAGUE_AVG_KEY,
+                        JSON.stringify(fetchAvg)
+                    );
+                } else {
+                    leagueAvgData = JSON.parse(leagueAvgData);
+                }
+                setLeagueAvg(
+                    leagueAvgData.find((lv) => lv.position === player.position)
+                );
+                // const fetchPlayer = fetchQueriedPlayers(`name=${playerName}`);
+                // const fetchAvg = fetchLeagueAvgByPosition('QB');
+                // let responses = await Promise.all([fetchPlayer, fetchAvg]);
+                // console.log('gggg', responses[1]);
+                // setData(responses[0][0]);
+                // setLeagueAvg(responses[1][0]);
             } catch (e) {
-                // setErrorMsg(e.message);
                 console.error(e.message);
             }
         };
@@ -104,12 +134,14 @@ function PlayerViewPage() {
                             </Card.Body>
                         </Card>
                     </div>
-                    <div className='card'>
-                        <div className='card-header text-center'>
-                            <h3>Vs. League Average</h3>
+                    {leagueAvg && (
+                        <div className='card'>
+                            <div className='card-header text-center'>
+                                <h3>Vs. League Average</h3>
+                            </div>
+                            <PlayerCharts data={data} leagueAvg={leagueAvg} />
                         </div>
-                        <PlayerCharts data={data} leagueAvg={leagueAvg} />
-                    </div>
+                    )}
                 </>
             )}
         </div>
