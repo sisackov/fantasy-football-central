@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import c3 from 'c3';
 
-function C3Chart({ playerName, stats }) {
-    // console.log('C3Chart', Object.values(stats));
+function C3Chart({ playerName, stats, chartType, chartId }) {
+    const chartName = `chart-${chartId}-${chartType}`;
     useEffect(() => {
         c3.generate({
-            bindto: '#chart',
+            bindto: `#${chartName}`,
             data: {
                 columns: [
                     [playerName, ...Object.values(stats)],
@@ -21,9 +21,9 @@ function C3Chart({ playerName, stats }) {
                 },
             },
         });
-    }, []);
+    }, [stats, playerName, chartName]);
 
-    return <div id='chart' />;
+    return <div id={chartName} />;
 }
 
 export default C3Chart;

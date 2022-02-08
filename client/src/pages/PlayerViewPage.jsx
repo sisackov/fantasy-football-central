@@ -279,28 +279,31 @@ function PlayerViewPage() {
                             </Card.Body>
                         </Card>
                     </div>
-                    <Card>
-                        <Card.Body>
-                            <div className='row my-2'>
-                                <h3 className='text-center my-2'>
-                                    Vs. League Totals
-                                </h3>
+                    <div className='card'>
+                        <div className='card-header text-center'>
+                            <h3>Vs. League Average</h3>
+                        </div>
+                        <div className='card-body'>
+                            <div className='col'>
+                                <h3 className='text-center my-2'>Total</h3>
                                 <C3Chart
                                     playerName={data.name}
                                     stats={data.stats[0].totals}
+                                    chartType='total'
+                                    chartId={data.espnId}
                                 />
                             </div>
-                            <div className='row my-2'>
-                                <h3 className='text-center my-3'>
-                                    Vs. League Average
-                                </h3>
+                            <div className='col'>
+                                <h3 className='text-center my-3'>Average</h3>
                                 <C3Chart
                                     playerName={data.name}
                                     stats={data.stats[0].averages}
+                                    chartType='average'
+                                    chartId={data.espnId}
                                 />
                             </div>
-                        </Card.Body>
-                    </Card>
+                        </div>
+                    </div>
                 </div>
             )}
         </div>
