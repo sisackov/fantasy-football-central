@@ -5,7 +5,7 @@ const port = process.env.PORT;
 const schedule = require('node-schedule');
 const { herokuKeepAlive } = require('./utils/utils');
 // const DefenseStats = require('./models/defenseStats.model');
-// const PlayerData = require('./models/playerData.model');
+const PlayerData = require('./models/playerData.model');
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port);
@@ -14,10 +14,54 @@ app.listen(port, () => {
 async function testDb() {
     // const teamInDB = await DefenseStats.findOne({ team: 'Buffalo Bills' });
     // await teamInDB.save();
-    // const playerData = await PlayerData.findOne({ name: 'Stefon Diggs' });
+    const players = await PlayerData.find({ position: 'QB' });
+    const playerData = {
+        QB: { totals: [], averages: [] },
+        // RB: { totals: [], averages: [] },
+        // WR: { totals: [], averages: [] },
+        // TE: { totals: [], averages: [] },
+        // PK: { totals: [], averages: [] },
+    }; //todo DST
+    players.forEach((player) => {
+        const p = player.toObject();
+        if (p.stats.length) {
+            playerData[p.position].totals.push(p.stats[0].totals);
+            playerData[p.position].averages.push(p.stats[0].averages);
+        }
+    });
+    // console.log(playerData);
+
+    for (const position in playerData) {
+        const totals = playerData[position].totals.filter(
+            (stat) => stat && stat.fantasyScore > 0
+        );
+        const totalsSum = {};
+        for (const stat in totals[0]) {
+            totalsSum[stat] = totals.reduce((acc, curr) => acc + curr[stat], 0);
+        }
+        for (const stat in totalsSum) {
+            totalsSum[stat] = totalsSum[stat] / totals.length;
+        }
+        console.log(totalsSum);
+        const averages = playerData[position].averages.filter(
+            // (average) => average !== undefined
+            (stat) => stat && stat.fantasyScore > 0
+        );
+        const averagesSum = {};
+        for (const stat in averages[0]) {
+            averagesSum[stat] = averages.reduce(
+                (acc, curr) => acc + (curr[stat] || 0),
+                0
+            );
+        }
+        for (const stat in averagesSum) {
+            averagesSum[stat] = averagesSum[stat] / averages.length;
+        }
+        console.log(averagesSum);
+    }
     // await playerData.save();
 }
-// testDb();
+testDb();
 
 // scrapeData();
 
