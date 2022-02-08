@@ -1,20 +1,15 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import {
-    fetchLeagueAvgByPosition,
-    fetchLeagueAvgData,
-    fetchQueriedPlayers,
-} from '../api/ffc-api';
-import Card from 'react-bootstrap/Card';
-import PlayerStatsTable from '../components/PlayerStatsTable';
-import PlayerGamesTable from '../components/PlayerGamesTable';
+import { fetchLeagueAvgData, fetchQueriedPlayers } from '../api/ffc-api';
 import PlayerCharts from '../components/PlayerCharts';
 import { LS_LEAGUE_AVG_KEY, LS_PLAYER_KEY } from '../utils/constants';
+import usePlayerTable from '../hooks/usePlayerTable';
 
 function PlayerViewPage() {
     let { playerName } = useParams();
     const [data, setData] = useState(null);
     const [leagueAvg, setLeagueAvg] = useState(null);
+    const { renderPlayerStatsTable, renderPlayerGamesTable } = usePlayerTable();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,6 +25,7 @@ function PlayerViewPage() {
                 } else {
                     player = JSON.parse(player);
                 }
+                console.log('playerPage', player);
                 setData(player);
                 let leagueAvgData = localStorage.getItem(LS_LEAGUE_AVG_KEY);
                 if (!leagueAvgData) {
@@ -103,45 +99,42 @@ function PlayerViewPage() {
                                 </dd>
                             </dl>
                         </div>
-                    </div>
 
-                    <div className='row my-2'>
-                        <Card>
-                            <Card.Body>
-                                <Card.Title className='text-center'>
-                                    Stats
-                                </Card.Title>
-
-                                <PlayerStatsTable
-                                    position={data.position}
-                                    totals={data.stats[0].totals}
-                                    averages={data.stats[0].averages}
-                                />
-                            </Card.Body>
-                        </Card>
-                    </div>
-                    <div className='row my-2'>
-                        <Card>
-                            <Card.Body>
-                                <Card.Title className='text-center'>
-                                    Games
-                                </Card.Title>
-
-                                <PlayerGamesTable
-                                    position={data.position}
-                                    games={data.stats[0].games}
-                                />
-                            </Card.Body>
-                        </Card>
-                    </div>
-                    {leagueAvg && (
-                        <div className='card'>
-                            <div className='card-header text-center'>
-                                <h3>Vs. League Average</h3>
-                            </div>
-                            <PlayerCharts data={data} leagueAvg={leagueAvg} />
+                        <div className='card-header text-center'>
+                            <h3>Summary</h3>
                         </div>
-                    )}
+                        <div className='card-body'>
+                            <div className='table-responsive'>
+                                {renderPlayerStatsTable(
+                                    data.position,
+                                    data.stats[0].totals,
+                                    data.stats[0].averages
+                                )}
+                            </div>
+                        </div>
+                        <div className='card-header text-center'>
+                            <h3>Game Log</h3>
+                        </div>
+                        <div className='card-body'>
+                            <div className='table-responsive'>
+                                {renderPlayerGamesTable(
+                                    data.position,
+                                    data.stats[0].games
+                                )}
+                            </div>
+                        </div>
+                        {leagueAvg && (
+                            <div className='card'>
+                                <div className='card-header text-center'>
+                                    <h3>Vs. League Average</h3>
+                                </div>
+                                <PlayerCharts
+                                    data={data}
+                                    leagueAvg={leagueAvg}
+                                />
+                            </div>
+                        )}
+                    </div>
                 </>
             )}
         </div>

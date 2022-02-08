@@ -70,13 +70,14 @@
 |                  | **Deployment**  |                 | :white_check_mark: | **6 hours** |     |
 |                  | **Pages**       |                 | :black_square_button: | **5 days**  |     |
 |                  |                 | LandingPage     | :white_check_mark: | 6 hours     |     |
-|                  |                 | LoginPage       | :black_square_button: | 3 hours     |     |
-|                  |                 | SignUpPage      | :black_square_button: | 3 hours     |     |
+|                  |                 | LoginPage       | :white_check_mark: | 3 hours     |     |
+|                  |                 | SignUpPage      | :white_check_mark: | 3 hours     |     |
 |                  |                 | Search          | :black_square_button: | 6 hours     |     |
-|                  |                 | PlayerView      | :black_square_button: | 4 hours     |     |
-|                  |                 | TeamView        | :black_square_button: | 3 hours     |     |
+|                  |                 | PlayerView      | :white_check_mark: | 4 hours     |     |
+|                  |                 | ApiDocs        | :black_square_button: | 5 hours     |     |
 | **Nice To Have** |                 |                 |                       |             |     |
 |                  | **Pages**       |                 | :black_square_button: | **1 day**   |     |
+|                  |                 | TeamView        | :black_square_button: | 3 hours     |     |
 |                  |                 | LeagueView      | :black_square_button: | 4 hours     |     |
 |                  |                 | LeaguesGrid     | :black_square_button: | 4 hours     |     |
 |                  |                 | SimulationView  | :black_square_button: | ?           |     |
