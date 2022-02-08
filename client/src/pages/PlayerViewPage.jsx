@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchQueriedPlayers } from '../api/ffc-api';
 import Card from 'react-bootstrap/Card';
+import C3Chart from '../components/C3Chart';
 
 function PlayerViewPage() {
     let { playerName } = useParams();
@@ -28,7 +29,7 @@ function PlayerViewPage() {
         switch (data.position) {
             case 'QB':
                 return (
-                    <table className='table table-danger table-striped'>
+                    <table className='table table-danger table-striped table-hover'>
                         <thead>
                             <tr>
                                 <th scope='col'>Stats Type</th>
@@ -126,17 +127,17 @@ function PlayerViewPage() {
                     <td>{game.opponent}</td>
                     <td>{game.result}</td>
                     <td>{game.fantasyScore}</td>
+                    <td>{game.qbRating}</td>
                     <td>{game.completions}</td>
                     <td>{game.passingAttempts}</td>
                     <td>{game.passingYards}</td>
                     <td>{game.passingTouchdowns}</td>
-                    <td>{game.qbRating}</td>
-                    <td>{game.interceptions}</td>
-                    <td>{game.fumbles}</td>
-                    <td>{game.fumblesLost}</td>
                     <td>{game.rushingAttempts}</td>
                     <td>{game.rushingYards}</td>
                     <td>{game.rushingTouchdowns}</td>
+                    <td>{game.interceptions}</td>
+                    <td>{game.fumbles}</td>
+                    <td>{game.fumblesLost}</td>
                     <td>{game.sacks}</td>
                     <td>{game.sackYards}</td>
                 </tr>
@@ -162,24 +163,41 @@ function PlayerViewPage() {
         switch (data.position) {
             case 'QB':
                 return (
-                    <table className='table table-success table-striped'>
+                    <table className='table table-bordered table-success table-hover'>
                         <thead>
+                            <tr className='text-center'>
+                                <th scope='col' colSpan={3}>
+                                    Game
+                                </th>
+                                <th colSpan={2} align='center'>
+                                    Eval
+                                </th>
+                                <th scope='col' colSpan={4} align='center'>
+                                    Passing
+                                </th>
+                                <th scope='col' colSpan={3} align='center'>
+                                    Rushing
+                                </th>
+                                <th scope='col' colSpan={5} align='center'>
+                                    Def Pressure
+                                </th>
+                            </tr>
                             <tr>
                                 <th scope='col'>Week</th>
                                 <th scope='col'>Opp</th>
                                 <th scope='col'>Result</th>
                                 <th scope='col'>Fantasy</th>
-                                <th scope='col'>Comp</th>
-                                <th scope='col'>Att</th>
-                                <th scope='col'>Pass Yds</th>
-                                <th scope='col'>Pass TDs</th>
                                 <th scope='col'>QBR</th>
+                                <th scope='col'>Comp</th>
+                                <th scope='col'>Atts</th>
+                                <th scope='col'>Yds</th>
+                                <th scope='col'>TDs</th>
+                                <th scope='col'>Atts</th>
+                                <th scope='col'>Yds</th>
+                                <th scope='col'>TDs</th>
                                 <th scope='col'>Ints</th>
                                 <th scope='col'>Fumb</th>
                                 <th scope='col'>FumL</th>
-                                <th scope='col'>Rush Atts</th>
-                                <th scope='col'>Rush Yds</th>
-                                <th scope='col'>Rush TDs</th>
                                 <th scope='col'>Sacks</th>
                                 <th scope='col'>SackYds</th>
                             </tr>
@@ -196,9 +214,43 @@ function PlayerViewPage() {
         <div className='container'>
             {data && (
                 <div>
-                    <h1>{data.name}</h1>
-                    <div>
-                        <img src={data.imageLink} alt={data.name} />
+                    <div className='header d-flex justify-content-center align-items-center py-3'>
+                        <img
+                            // src={data.imageLink}
+                            // src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3918298.png&w=350&h=254`}
+                            src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${data.espnId}.png&h=80&w=110&scale=crop`}
+                            alt={data.name}
+                        />
+                        <h1>{data.name}</h1>
+                    </div>
+                    <div className='card'>
+                        <div className='card-header text-center'>
+                            <h3>General Info</h3>
+                        </div>
+                        <div className='card-body'>
+                            <dl className='row'>
+                                <dt className='col-3'>Position:</dt>
+                                <dd className='col-3'>{data.position}</dd>
+                                <dt className='col-3'>Team:</dt>
+                                <dd className='col-3'>{data.team}</dd>
+                                <dt className='col-3'>Age:</dt>
+                                <dd className='col-3'>{data.age}</dd>
+                                <dt className='col-3'>Experience:</dt>
+                                <dd className='col-3'>
+                                    {data.experience} years
+                                </dd>
+                                <dt className='col-3'>Height:</dt>
+                                <dd className='col-3'>{data.height}</dd>
+                                <dt className='col-3'>Weight:</dt>
+                                <dd className='col-3'>{data.weight}</dd>
+                                <dt className='col-3'>College:</dt>
+                                <dd className='col-3'>{data.college}</dd>
+                                <dt className='col-3'>Games Played:</dt>
+                                <dd className='col-3'>
+                                    {data.stats[0].games.length}
+                                </dd>
+                            </dl>
+                        </div>
                     </div>
 
                     <div className='row my-2'>
@@ -227,6 +279,28 @@ function PlayerViewPage() {
                             </Card.Body>
                         </Card>
                     </div>
+                    <Card>
+                        <Card.Body>
+                            <div className='row my-2'>
+                                <h3 className='text-center my-2'>
+                                    Vs. League Totals
+                                </h3>
+                                <C3Chart
+                                    playerName={data.name}
+                                    stats={data.stats[0].totals}
+                                />
+                            </div>
+                            <div className='row my-2'>
+                                <h3 className='text-center my-3'>
+                                    Vs. League Average
+                                </h3>
+                                <C3Chart
+                                    playerName={data.name}
+                                    stats={data.stats[0].averages}
+                                />
+                            </div>
+                        </Card.Body>
+                    </Card>
                 </div>
             )}
         </div>
