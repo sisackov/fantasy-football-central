@@ -20,7 +20,12 @@ function NavbarComponent() {
                 `}
             </style>
 
-            <Navbar variant='dark' className='navbar-vikings' expand='md'>
+            <Navbar
+                variant='dark'
+                className='navbar-vikings'
+                expand='md'
+                sticky='top'
+            >
                 <Container>
                     <Navbar.Brand
                         style={{
