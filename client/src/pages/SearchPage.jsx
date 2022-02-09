@@ -28,24 +28,29 @@ function SearchPage() {
             <div className='row border border-1 rounded my-2 pb-3 border-info'>
                 <SearchBar onSearch={handleSearch} />
             </div>
-            <div className='row'>
-                <Card>
-                    <Card.Body>
-                        <Card.Title className='text-center'>
-                            Searching for {query}
-                            {/* TODO */}
-                        </Card.Title>
-                        <Card.Subtitle className='my-3 text-center'>
-                            <TableRadioButtons
-                                statsType={statsType}
-                                setStatsType={setStatsType}
-                            />
-                        </Card.Subtitle>
+            {query && (
+                <div className='row'>
+                    <Card>
+                        <Card.Body>
+                            <Card.Title className='text-center'>
+                                Searching for {query}
+                                {/* TODO */}
+                            </Card.Title>
+                            <Card.Subtitle className='my-3 text-center'>
+                                <TableRadioButtons
+                                    statsType={statsType}
+                                    setStatsType={setStatsType}
+                                />
+                            </Card.Subtitle>
 
-                        <SearchPageTable query={query} statsType={statsType} />
-                    </Card.Body>
-                </Card>
-            </div>
+                            <SearchPageTable
+                                query={query}
+                                statsType={statsType}
+                            />
+                        </Card.Body>
+                    </Card>
+                </div>
+            )}
         </div>
     );
 }

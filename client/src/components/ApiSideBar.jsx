@@ -1,6 +1,98 @@
+import Nav from 'react-bootstrap/Nav';
+
 function ApiSideBar() {
     return (
-        <>
+        <Nav defaultActiveKey='/home' className='flex-column'>
+            <Nav.Link href='/home'>Active</Nav.Link>
+            <Nav.Link eventKey='link-1'>Link</Nav.Link>
+            <Nav.Link eventKey='link-2'>Link</Nav.Link>
+            <Nav.Link eventKey='disabled' disabled>
+                Disabled
+            </Nav.Link>
+        </Nav>
+    );
+}
+
+export default ApiSideBar;
+
+/* 
+
+<div className='col-4 col-md-2'>
+            <nav className='navbar bg-light'>
+                <div className='navbar-brand'>
+                    <ul className='navbar-nav ml-auto list-group'>
+                        <li className='list-group-item nav-item'>
+                            <a className='nav-link' href='#api-header'>
+                                {' '}
+                                Home{' '}
+                            </a>
+                        </li>
+                        <li className='list-group-item nav-item'>
+                            <a className='nav-link' href='#api-endpoints'>
+                                {' '}
+                                Endpoints{' '}
+                            </a>
+
+                            <ul className='list-group'>
+                                <li className='list-group-item'>
+                                    <a
+                                        className='nav-link'
+                                        href='#api-endpoints-get-players'
+                                    >
+                                        {' '}
+                                        Get Players{' '}
+                                    </a>
+                                </li>
+                                <li className='list-group-item'>
+                                    <a
+                                        className='nav-link'
+                                        href='#api-endpoints-get-players'
+                                    >
+                                        {' '}
+                                        Get Players{' '}
+                                    </a>
+                                </li>
+                                <li className='list-group-item'>
+                                    <a
+                                        className='nav-link'
+                                        href='#api-endpoints-get-players'
+                                    >
+                                        {' '}
+                                        Get Players{' '}
+                                    </a>
+                                </li>
+                                <li className='list-group-item'>
+                                    <a
+                                        className='nav-link'
+                                        href='#api-endpoints-get-players'
+                                    >
+                                        {' '}
+                                        Get Players{' '}
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li className='nav-item'>
+                            <a className='nav-link' href='#api-fantasy-score'>
+                                {' '}
+                                Fantasy Score{' '}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+
+
+
+
+
+
+
+
+
+<>
             <a
                 href='/'
                 className='d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom'
@@ -141,8 +233,4 @@ function ApiSideBar() {
                     </div>
                 </li>
             </ul>
-        </>
-    );
-}
-
-export default ApiSideBar;
+        </> */
