@@ -73,7 +73,10 @@ function ApiDocsPage() {
                         backgroundColor: 'gold', //todo
                     }}
                 >
-                    <Nav variant='primary'>
+                    <Nav
+                        variant='success'
+                        style={{ fontWeight: '600', fontSize: '1.05em' }}
+                    >
                         <div
                             style={{
                                 position: 'fixed',
