@@ -33,12 +33,12 @@ const createQueryList = (query) => {
     const { team } = query;
     const queryList = [];
     if (team) {
-        if (teamRegex) {
-            const regex = new RegExp('^' + team, 'i');
-            queryList.push({ team: regex });
-        } else {
-            queryList.push({ team: { $regex: team, $options: 'i' } });
-        }
+        // if (teamRegex) {
+        // const regex = new RegExp('^' + team, 'i');
+        // queryList.push({ team: regex });
+        // } else {
+        queryList.push({ team: { $regex: team, $options: 'i' } });
+        // }
     }
     return queryList;
 };
@@ -54,7 +54,7 @@ exports.getQueriedDefenses = async (query) => {
             : DefenseStats.find();
 
         if (sort) {
-            dbQuery.sort({ 'stats.averageFantasyScore': -1 });
+            dbQuery.sort({ 'stats.averages.fantasyScore': sort });
         }
         if (limit) {
             dbQuery.limit(limit);

@@ -5,6 +5,14 @@ import { PATH_LOGIN } from '../utils/constants';
 import {
     APID_ALL_PLAYER_QUERY,
     APID_ALL_PLAYER_QUERY_LIM,
+    APID_DST_ALL_QUERY,
+    APID_DST_ALL_RES,
+    APID_DST_ID_FETCH,
+    APID_DST_ID_QUERY,
+    APID_DST_ID_RES,
+    APID_DST_Q_FETCH,
+    APID_DST_Q_QUERY,
+    APID_DST_Q_RES,
     APID_PLAYER_AUTOCOMPLETE_FETCH,
     APID_PLAYER_AUTOCOMPLETE_QUERY,
     APID_PLAYER_AUTOCOMPLETE_RES,
@@ -199,8 +207,8 @@ function ApiDocsPage() {
 
                         <h4 className='my-3'>Query</h4>
                         <p>
-                            To get get players using an extended query, you can
-                            use the endpoint:
+                            To get players using an extended query, you can use
+                            the endpoint:
                         </p>
                         <CodeBox codeStr={APID_PLAYER_Q_QUERY} />
 
@@ -317,7 +325,78 @@ function ApiDocsPage() {
                     <div className='card-header text-center'>
                         <h5>Defense & Special Teams Data</h5>
                     </div>
-                    <div className='card-body'></div>
+                    <div className='card-body'>
+                        <h4 className='my-3'>All Team data</h4>
+                        <p>
+                            To get data on all defense and special teams, you
+                            can use the endpoint:
+                        </p>
+
+                        <h6 className='my-3'>Example</h6>
+                        <CodeBox codeStr={APID_DST_ALL_QUERY} />
+                        <CodeAccordion
+                            codeStr={APID_DST_ALL_RES}
+                            format={true}
+                            title='Output'
+                        />
+
+                        <h4 className='my-3'>Team By ID</h4>
+                        <p className='my-3'>
+                            To fetch data by team ID, you can use the endpoint:
+                        </p>
+                        <CodeBox codeStr={APID_DST_ID_QUERY} />
+
+                        <h6 className='my-3'>Example</h6>
+                        <CodeBox codeStr={APID_DST_ID_FETCH} />
+                        <CodeAccordion
+                            codeStr={APID_DST_ID_RES}
+                            format={true}
+                            title='Output'
+                        />
+
+                        <h4 className='my-3'>Query</h4>
+                        <p>
+                            To get data using an extended query, you can use the
+                            endpoint:
+                        </p>
+                        <CodeBox codeStr={APID_DST_Q_QUERY} />
+
+                        <p className='mt-2'>
+                            You can also use the following query parameters to
+                            filter the results:
+                        </p>
+                        <ul>
+                            <li>
+                                <b>team</b> - team name
+                            </li>
+                            <li>
+                                <b>limit</b> - The number of players you'd like
+                                to retrieve.
+                            </li>
+                            <li>
+                                <b>sort</b> - sort by a specific field
+                            </li>
+                        </ul>
+
+                        <p className='mt-2'>
+                            The following fields are available for sorting:
+                        </p>
+                        <ul>
+                            <li>
+                                <b>averageFantasyScore</b> - team's average
+                                fantasy score. Should be set to 1 or -1 to sort
+                                in ascending/descending order
+                            </li>
+                        </ul>
+
+                        <h6 className='my-3'>Example</h6>
+                        <CodeBox codeStr={APID_DST_Q_FETCH} />
+                        <CodeAccordion
+                            codeStr={APID_DST_Q_RES}
+                            format={true}
+                            title='Output'
+                        />
+                    </div>
 
                     <div id='api-endpoints-league' className='mb-5'></div>
                     <div className='card-header text-center'>

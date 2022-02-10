@@ -1492,11 +1492,369 @@ export const APID_PLAYER_Q_RES = `
 ]
 `;
 
-export const APID_PLAYER__QUERY =
-    'http://fantasy-football-central.herokuapp.com/api/v1/players/';
-export const APID_PLAYER__FETCH =
-    'http://fantasy-football-central.herokuapp.com/api/v1/players/';
+export const APID_DST_ALL_QUERY =
+    'http://fantasy-football-central.herokuapp.com/api/v1/defense/';
+export const APID_DST_ALL_RES = `
+[
+    {
+    _id: "61ffa677448b3c2d3ec20494",
+    team: "Buffalo Bills",
+    stats: [
+    {
+        averages: {
+        sacks: 2.47,
+        interceptions: 1.12,
+        fumbleRecoveries: 0.65,
+        safeties: 0,
+        defensiveTouchdowns: 0.06,
+        defensive2PtReturns: 0,
+        returnedTouchdowns: 0,
+        pointsAllowed: 16.88,
+        fantasyScore: 8.76
+    },
+        totals: {
+        sacks: 42,
+        interceptions: 19,
+        fumbleRecoveries: 11,
+        safeties: 0,
+        defensiveTouchdowns: 1,
+        defensive2PtReturns: 0,
+        returnedTouchdowns: 0,
+        pointsAllowed: 287,
+        fantasyScore: 149
+    },
+    year: 2021,
+    games: [
+    {
+        week: "1",
+        opponent: "PIT",
+        result: "Loss, 16-23",
+        sacks: 2,
+        interceptions: 0,
+        fumbleRecoveries: 0,
+        safeties: 0,
+        defensiveTouchdowns: 0,
+        defensive2PtReturns: 0,
+        returnedTouchdowns: 0,
+        pointsAllowed: 23,
+        fantasyScore: 2,
+        _id: "61ffa677448b3c2d3ec20496"
+    },
+    {
+        week: "2",
+        opponent: "@MIA",
+        result: "Win, 35-0",
+        sacks: 6,
+        interceptions: 1,
+        fumbleRecoveries: 2,
+        safeties: 0,
+        defensiveTouchdowns: 0,
+        defensive2PtReturns: 0,
+        returnedTouchdowns: 0,
+        pointsAllowed: 0,
+        fantasyScore: 22,
+        _id: "61ffa677448b3c2d3ec20497"
+    },
+    {
+        week: "3",
+        opponent: "WAS",
+        result: "Win, 43-21",
+        sacks: 1,
+        interceptions: 2,
+        fumbleRecoveries: 1,
+        safeties: 0,
+        defensiveTouchdowns: 0,
+        defensive2PtReturns: 0,
+        returnedTouchdowns: 0,
+        pointsAllowed: 21,
+        fantasyScore: 7,
+        _id: "61ffa677448b3c2d3ec20498"
+    },
+    {
+        week: "4",
+        opponent: "HOU",
+        result: "Win, 40-0",
+        sacks: 3,
+        interceptions: 4,
+        fumbleRecoveries: 1,
+        safeties: 0,
+        defensiveTouchdowns: 0,
+        defensive2PtReturns: 0,
+        returnedTouchdowns: 0,
+        pointsAllowed: 0,
+        fantasyScore: 23,
+        _id: "61ffa677448b3c2d3ec20499"
+    },
+    {
+        week: "5",
+        opponent: "@KC",
+        result: "Win, 38-20",
+        sacks: 2,
+        interceptions: 2,
+        fumbleRecoveries: 2,
+        safeties: 0,
+        defensiveTouchdowns: 1,
+        defensive2PtReturns: 0,
+        returnedTouchdowns: 0,
+        pointsAllowed: 20,
+        fantasyScore: 17,
+        _id: "61ffa677448b3c2d3ec2049a"
+    },
+    {
+        week: "6",
+        opponent: "@TEN",
+        result: "Loss, 31-34",
+        sacks: 0,
+        interceptions: 1,
+        fumbleRecoveries: 0,
+        safeties: 0,
+        defensiveTouchdowns: 0,
+        defensive2PtReturns: 0,
+        returnedTouchdowns: 0,
+        pointsAllowed: 34,
+        fantasyScore: 1,
+        _id: "61ffa677448b3c2d3ec2049b"
+    },
+    {
+        week: "7",
+        opponent: "Bye",
+        result: "  ",
+        sacks: 0,
+        interceptions: 0,
+        fumbleRecoveries: 0,
+        safeties: 0,
+        defensiveTouchdowns: 0,
+        defensive2PtReturns: 0,
+        returnedTouchdowns: 0,
+        pointsAllowed: 0,
+        fantasyScore: 0,
+        _id: "61ffa677448b3c2d3ec2049c"
+    },
+    {
+        week: "8",
+        opponent: "MIA",
+        result: "Win, 26-11",
+        sacks: 2,
+        interceptions: 1,
+        fumbleRecoveries: 1,
+        safeties: 0,
+        defensiveTouchdowns: 0,
+        defensive2PtReturns: 0,
+        returnedTouchdowns: 0,
+        pointsAllowed: 11,
+        fantasyScore: 10,
+        _id: "61ffa677448b3c2d3ec2049d"
+    },
+    {
+        week: "9",
+        opponent: "@JAX",
+        result: "Loss, 6-9",
+        sacks: 2,
+        interceptions: 0,
+        fumbleRecoveries: 1,
+        safeties: 0,
+        defensiveTouchdowns: 0,
+        defensive2PtReturns: 0,
+        returnedTouchdowns: 0,
+        pointsAllowed: 9,
+        fantasyScore: 8,
+        _id: "61ffa677448b3c2d3ec2049e"
+    },
+    ...
+    ...
+    ]
+`;
 
-export const APID_PLAYER__RES = `
+export const APID_DST_Q_QUERY =
+    'http://fantasy-football-central.herokuapp.com/api/v1/defense/query';
+export const APID_DST_Q_FETCH =
+    'http://fantasy-football-central.herokuapp.com/api/v1/defense/query?team=bay&sort=-1&limit=1';
+export const APID_DST_Q_RES = `
+[
+    {
+    _id: "61ffa680448b3c2d3ec206e6",
+    team: "Tampa Bay Buccaneers",
+    stats: [
+        {
+            averages: {
+            sacks: 2.76,
+            interceptions: 1,
+            fumbleRecoveries: 0.71,
+            safeties: 0,
+            defensiveTouchdowns: 0.12,
+            defensive2PtReturns: 0,
+            returnedTouchdowns: 0,
+            pointsAllowed: 20.06,
+            fantasyScore: 8.29
+        },
+            totals: {
+            sacks: 47,
+            interceptions: 17,
+            fumbleRecoveries: 12,
+            safeties: 0,
+            defensiveTouchdowns: 2,
+            defensive2PtReturns: 0,
+            returnedTouchdowns: 0,
+            pointsAllowed: 341,
+            fantasyScore: 141
+        },
+        year: 2021,
+        games: [
+        {
+            week: "1",
+            opponent: "DAL",
+            result: "Win, 31-29",
+            sacks: 1,
+            interceptions: 1,
+            fumbleRecoveries: 0,
+            safeties: 0,
+            defensiveTouchdowns: 0,
+            defensive2PtReturns: 0,
+            returnedTouchdowns: 0,
+            pointsAllowed: 29,
+            fantasyScore: 2,
+            _id: "61ffa680448b3c2d3ec206e8"
+        },
+        {
+            week: "2",
+            opponent: "ATL",
+            result: "Win, 48-25",
+            sacks: 1,
+            interceptions: 3,
+            fumbleRecoveries: 0,
+            safeties: 0,
+            defensiveTouchdowns: 2,
+            defensive2PtReturns: 0,
+            returnedTouchdowns: 0,
+            pointsAllowed: 25,
+            fantasyScore: 19,
+            _id: "61ffa680448b3c2d3ec206e9"
+        },
+        {
+            week: "3",
+            opponent: "@LA",
+            result: "Loss, 24-34",
+            sacks: 1,
+            interceptions: 0,
+            fumbleRecoveries: 0,
+            safeties: 0,
+            defensiveTouchdowns: 0,
+            defensive2PtReturns: 0,
+            returnedTouchdowns: 0,
+            pointsAllowed: 34,
+            fantasyScore: 0,
+            _id: "61ffa680448b3c2d3ec206ea"
+        },
+....
+....
+]
+`;
+
+export const APID_DST_ID_QUERY =
+    'http://fantasy-football-central.herokuapp.com/api/v1/defense/:id';
+export const APID_DST_ID_FETCH =
+    'http://fantasy-football-central.herokuapp.com/api/v1/defense/61ffa680448b3c2d3ec206ba';
+export const APID_DST_ID_RES = `
+{
+    _id: "61ffa680448b3c2d3ec206ba",
+    team: "Carolina Panthers",
+    stats: [
+        {
+            averages: {
+            sacks: 2.29,
+            interceptions: 0.53,
+            fumbleRecoveries: 0.41,
+            safeties: 0.06,
+            defensiveTouchdowns: 0.06,
+            defensive2PtReturns: 0,
+            returnedTouchdowns: 0,
+            pointsAllowed: 22.94,
+            fantasyScore: 5.06
+        },
+            totals: {
+            sacks: 39,
+            interceptions: 9,
+            fumbleRecoveries: 7,
+            safeties: 1,
+            defensiveTouchdowns: 1,
+            defensive2PtReturns: 0,
+            returnedTouchdowns: 0,
+            pointsAllowed: 390,
+            fantasyScore: 86
+        },
+        year: 2021,
+        games: [
+        {
+            week: "1",
+            opponent: "NYJ",
+            result: "Win, 19-14",
+            sacks: 6,
+            interceptions: 1,
+            fumbleRecoveries: 0,
+            safeties: 0,
+            defensiveTouchdowns: 0,
+            defensive2PtReturns: 0,
+            returnedTouchdowns: 0,
+            pointsAllowed: 14,
+            fantasyScore: 9,
+            _id: "61ffa680448b3c2d3ec206bc"
+        },
+        {
+            week: "2",
+            opponent: "NO",
+            result: "Win, 26-7",
+            sacks: 4,
+            interceptions: 2,
+            fumbleRecoveries: 0,
+            safeties: 0,
+            defensiveTouchdowns: 0,
+            defensive2PtReturns: 0,
+            returnedTouchdowns: 0,
+            pointsAllowed: 7,
+            fantasyScore: 12,
+            _id: "61ffa680448b3c2d3ec206bd"
+        },
+        {
+            week: "3",
+            opponent: "@HOU",
+            result: "Win, 24-9",
+            sacks: 4,
+            interceptions: 0,
+            fumbleRecoveries: 0,
+            safeties: 0,
+            defensiveTouchdowns: 0,
+            defensive2PtReturns: 0,
+            returnedTouchdowns: 0,
+            pointsAllowed: 9,
+            fantasyScore: 8,
+            _id: "61ffa680448b3c2d3ec206be"
+        },
+        {
+            week: "4",
+            opponent: "@DAL",
+            result: "Loss, 28-36",
+            sacks: 0,
+            interceptions: 0,
+            fumbleRecoveries: 0,
+            safeties: 0,
+            defensiveTouchdowns: 0,
+            defensive2PtReturns: 0,
+            returnedTouchdowns: 0,
+            pointsAllowed: 36,
+            fantasyScore: -4,
+            _id: "61ffa680448b3c2d3ec206bf"
+        },
+....
+....
+}
+
+`;
+
+export const APID_DST__QUERY =
+    'http://fantasy-football-central.herokuapp.com/api/v1/defense/';
+export const APID_DST__FETCH =
+    'http://fantasy-football-central.herokuapp.com/api/v1/defense/';
+
+export const APID_DST__RES = `
 
 `;
