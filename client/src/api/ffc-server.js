@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { LS_FAVORITES_KEY } from '../utils/constants';
 
 const nodeEnv = process.env.NODE_ENV;
 const FFC_SERVER = axios.create({
@@ -74,5 +75,13 @@ export const logoutAllDevices = async () => {
 export const deleteUser = async () => {
     const { data } = await FFC_SERVER.delete('/users/auth', getAuthHeader());
     console.log('deleteUser: ', data);
+    return data;
+};
+
+export const updateUserFavorites = async (isRemove) => {
+    const route = isRemove ? '/users/favorites/remove' : '/users/favorites/add';
+    const { data } = await FFC_SERVER.delete(route, getAuthHeader());
+    console.log('updateUserFavorites: ', data);
+    localStorage.setItem(LS_FAVORITES_KEY, JSON.stringify(data.favorites));
     return data;
 };

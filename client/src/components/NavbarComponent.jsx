@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import {
     PATH_API,
+    PATH_FAVORITES,
     PATH_HOME,
     PATH_LOGIN,
     PATH_PLAYER,
@@ -65,6 +66,15 @@ function NavbarComponent() {
                                 href={PATH_SEARCH}
                             >
                                 Search
+                            </Nav.Link>
+                            <Nav.Link
+                                style={{
+                                    color: 'ivory',
+                                    fontWeight: '500',
+                                }}
+                                href={PATH_FAVORITES}
+                            >
+                                Favorites
                             </Nav.Link>
                             <Nav.Link
                                 style={{

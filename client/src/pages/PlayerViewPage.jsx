@@ -2,31 +2,38 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchLeagueAvgData, fetchQueriedPlayers } from '../api/ffc-api';
 import PlayerCharts from '../components/PlayerCharts';
-import { LS_LEAGUE_AVG_KEY, LS_PLAYER_KEY } from '../utils/constants';
+import { LS_FAVORITES_KEY, LS_LEAGUE_AVG_KEY } from '../utils/constants';
 import usePlayerTable from '../hooks/usePlayerTable';
+import { updateUserFavorites } from '../api/ffc-server';
 
 function PlayerViewPage() {
     let { playerName } = useParams();
     const [data, setData] = useState(null);
     const [leagueAvg, setLeagueAvg] = useState(null);
     const { renderPlayerStatsTable, renderPlayerGamesTable } = usePlayerTable();
+    const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                // localStorage.setItem(LS_FAVORITES_KEY, [
+                //     '61ff8e14448b3c2d3ec1d555',
+                //     '61ff8e15448b3c2d3ec1d567',
+                // ]);
                 // const res = await fetchQueriedPlayers(`name=${playerName}`);
-                let player = localStorage.getItem(LS_PLAYER_KEY);
-                if (!player) {
-                    console.log('fetching player');
-                    const fetchPlayer = await fetchQueriedPlayers(
-                        `name=${playerName}`
-                    );
-                    player = fetchPlayer[0];
-                } else {
-                    player = JSON.parse(player);
-                }
-                console.log('playerPage', player);
+                let favs = localStorage.getItem(LS_FAVORITES_KEY) || [];
+                console.log('favs', favs);
+
+                console.log('fetching player');
+                const fetchPlayer = await fetchQueriedPlayers(
+                    `name=${playerName}`
+                );
+                const player = fetchPlayer[0];
                 setData(player);
+
+                console.log(player._id);
+                setIsFavorite(favs.includes(player._id));
+
                 let leagueAvgData = localStorage.getItem(LS_LEAGUE_AVG_KEY);
                 if (!leagueAvgData) {
                     console.log('fetching league avg');
@@ -42,12 +49,6 @@ function PlayerViewPage() {
                 setLeagueAvg(
                     leagueAvgData.find((lv) => lv.position === player.position)
                 );
-                // const fetchPlayer = fetchQueriedPlayers(`name=${playerName}`);
-                // const fetchAvg = fetchLeagueAvgByPosition('QB');
-                // let responses = await Promise.all([fetchPlayer, fetchAvg]);
-                // console.log('gggg', responses[1]);
-                // setData(responses[0][0]);
-                // setLeagueAvg(responses[1][0]);
             } catch (e) {
                 console.error(e.message);
             }
@@ -58,11 +59,18 @@ function PlayerViewPage() {
         }
     }, [playerName, data]);
 
+    const handleFavoritesClick = async () => {
+        const res = await updateUserFavorites(!isFavorite);
+        if (res) {
+            setIsFavorite(!isFavorite);
+        }
+    };
+
     return (
         <div className='container'>
             {data && (
                 <>
-                    <div className='header d-flex justify-content-center align-items-center py-3'>
+                    <div className='header d-flex justify-content-around align-items-center py-3'>
                         <img
                             // src={data.imageLink}
                             // src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3918298.png&w=350&h=254`}
@@ -70,6 +78,16 @@ function PlayerViewPage() {
                             alt={data.name}
                         />
                         <h1>{data.name}</h1>
+                        <button
+                            className={`btn shadow ${
+                                isFavorite ? 'btn-warning' : 'btn-success'
+                            } `}
+                            onClick={() => handleFavoritesClick}
+                        >
+                            {isFavorite
+                                ? 'Remove from Favorites'
+                                : 'Add to Favorites'}
+                        </button>
                     </div>
                     <div className='card'>
                         <div className='card-header text-center'>
@@ -85,7 +103,9 @@ function PlayerViewPage() {
                                 <dd className='col-3'>{data.age}</dd>
                                 <dt className='col-3'>Experience:</dt>
                                 <dd className='col-3'>
-                                    {data.experience} years
+                                    {`${data.experience} ${
+                                        isNaN(data.experience) ? '' : 'years'
+                                    }`}
                                 </dd>
                                 <dt className='col-3'>Height:</dt>
                                 <dd className='col-3'>{data.height}</dd>

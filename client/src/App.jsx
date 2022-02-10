@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NavbarComponent from './components/NavbarComponent';
 import ApiDocsPage from './pages/ApiDocsPage';
+import FavoritesPage from './pages/FavoritesPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/LoginPage';
 import PlayerViewPage from './pages/PlayerViewPage';
@@ -11,6 +12,7 @@ import SearchPage from './pages/SearchPage.jsx';
 import {
     LS_PLAYER_KEY,
     PATH_API,
+    PATH_FAVORITES,
     PATH_HOME,
     PATH_LOGIN,
     PATH_PLAYER_PARAM,
@@ -37,6 +39,11 @@ function App() {
                         component={RegistrationPage}
                     />
                     <Route exact path={PATH_SEARCH} component={SearchPage} />
+                    <Route
+                        exact
+                        path={PATH_FAVORITES}
+                        component={FavoritesPage}
+                    />
                     <Route exact path={PATH_API} component={ApiDocsPage} />
                     <Route
                         exact
