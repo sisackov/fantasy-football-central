@@ -78,6 +78,13 @@ export const deleteUser = async () => {
     return data;
 };
 
+export const fetchUserFavorites = async () => {
+    const route = `/users/favorites`;
+    const { data } = await FFC_SERVER.get(route, getAuthHeader());
+    console.log('fetchUserFavorites: ', data);
+    return data;
+};
+
 export const updateUserFavorites = async (action, playerID) => {
     const route = `/users/favorites/${action}`;
     const { data } = await FFC_SERVER.patch(
@@ -86,6 +93,5 @@ export const updateUserFavorites = async (action, playerID) => {
         getAuthHeader()
     );
     console.log('updateUserFavorites: ', data);
-    localStorage.setItem(LS_FAVORITES_KEY, JSON.stringify(data.favorites));
     return data;
 };

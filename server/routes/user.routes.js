@@ -17,6 +17,8 @@ router.post('/users/logoutAll', auth, UserController.logoutAllDevices);
 //gets the data of the logged user
 router.get('/users/auth', auth, UserController.getAuthUser);
 
+router.get('/users/favorites', auth, UserController.getUserFavorites);
+
 router.get('/users/:id', UserController.getUserById);
 
 router.patch('/users/auth', auth, UserController.updateAuthUser);

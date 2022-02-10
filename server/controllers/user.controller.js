@@ -50,6 +50,10 @@ exports.getAuthUser = async (req, res) => {
     res.send(req.user);
 };
 
+exports.getUserFavorites = async (req, res) => {
+    res.send(req.user.favorites);
+};
+
 exports.getUserById = async (req, res) => {
     try {
         const user = await UserService.getUserById(req.params.id);

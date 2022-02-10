@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { PATH_SEARCH, PATH_SIGN_UP } from '../utils/constants';
 import { loginUser } from '../api/ffc-server';
 import { useHistory } from 'react-router-dom';
+import { useTokenProvider } from '../providers/SessionProvider';
 
 function LoginPage() {
     const [name, setName] = useState('');
@@ -9,6 +10,7 @@ function LoginPage() {
     const [error, setError] = useState('');
     const [user, setUser] = useState(null);
     const history = useHistory();
+    const [token, setToken] = useTokenProvider();
 
     useEffect(() => {
         const sendServerRequest = async () => {
@@ -17,8 +19,9 @@ function LoginPage() {
             if (response.error) {
                 setError(response.error);
             } else {
+                setToken(response.token);
                 localStorage.setItem('token', response.token);
-                localStorage.setItem('user', JSON.stringify(response.user));
+                // localStorage.setItem('user', JSON.stringify(response.user));
                 history.push(PATH_SEARCH); //TODO: redirect to search page/team page/favorites page
             }
         };
@@ -27,7 +30,7 @@ function LoginPage() {
             console.log('sendLogin', user);
             sendServerRequest();
         }
-    }, [user, history]);
+    }, [user, history, setToken]);
 
     const handleLogin = (e) => {
         console.log('handleLogin');

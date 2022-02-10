@@ -5,55 +5,26 @@ import PlayerCharts from '../components/PlayerCharts';
 import { LS_FAVORITES_KEY, LS_LEAGUE_AVG_KEY } from '../utils/constants';
 import usePlayerTable from '../hooks/usePlayerTable';
 import { updateUserFavorites } from '../api/ffc-server';
+import {
+    useFavoritesProvider,
+    useLeagueAvgProvider,
+} from '../providers/SessionProvider';
 
 function PlayerViewPage() {
     let { playerName } = useParams();
     const [data, setData] = useState(null);
-    const [leagueAvg, setLeagueAvg] = useState(null);
+    const [leagueAvg, setLeagueAvg] = useLeagueAvgProvider();
+    const [favorites, setFavorites] = useFavoritesProvider();
     const { renderPlayerStatsTable, renderPlayerGamesTable } = usePlayerTable();
     const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // localStorage.setItem(
-                //     LS_FAVORITES_KEY,
-                //     JSON.stringify([
-                //         '61ff8e14448b3c2d3ec1d555',
-                //         '61ff8e15448b3c2d3ec1d567',
-                //     ])
-                // );
-
-                console.log('fetching player');
                 const fetchPlayer = await fetchQueriedPlayers(
                     `name=${playerName}`
                 );
-                const player = fetchPlayer[0];
-                setData(player);
-
-                console.log(player._id);
-                let favorites = localStorage.getItem(LS_FAVORITES_KEY);
-                if (favorites) {
-                    favorites = JSON.parse(favorites);
-                    setIsFavorite(favorites.includes(player._id));
-                }
-                console.log('favorites', favorites);
-
-                let leagueAvgData = localStorage.getItem(LS_LEAGUE_AVG_KEY);
-                if (!leagueAvgData) {
-                    console.log('fetching league avg');
-                    const fetchAvg = await fetchLeagueAvgData();
-                    leagueAvgData = fetchAvg;
-                    localStorage.setItem(
-                        LS_LEAGUE_AVG_KEY,
-                        JSON.stringify(fetchAvg)
-                    );
-                } else {
-                    leagueAvgData = JSON.parse(leagueAvgData);
-                }
-                setLeagueAvg(
-                    leagueAvgData.find((lv) => lv.position === player.position)
-                );
+                setData(fetchPlayer[0]);
             } catch (e) {
                 console.error(e.message);
             }
@@ -62,13 +33,19 @@ function PlayerViewPage() {
         if (!data) {
             fetchData();
         }
-    }, [playerName, data]);
+    }, [playerName, data, leagueAvg, setLeagueAvg]);
+
+    useEffect(() => {
+        if (data && favorites.length) {
+            setIsFavorite(favorites.includes(data._id));
+        }
+    }, [data, favorites]);
 
     const handleFavoritesClick = async () => {
-        console.log('clicked');
         const action = isFavorite ? 'remove' : 'add';
         const res = await updateUserFavorites(action, data._id);
         if (res) {
+            setFavorites(res.favorites);
             setIsFavorite(!isFavorite);
         }
     };
@@ -81,7 +58,7 @@ function PlayerViewPage() {
                         <img
                             // src={data.imageLink}
                             // src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3918298.png&w=350&h=254`}
-                            src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${data.espnId}.png&h=80&w=110&scale=crop`}
+                            src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${data.espnId}.png&h=90&w=110&scale=crop`}
                             alt={data.name}
                         />
                         <h1>{data.name}</h1>
@@ -150,14 +127,16 @@ function PlayerViewPage() {
                                 )}
                             </div>
                         </div>
-                        {leagueAvg && (
+                        {leagueAvg.length && (
                             <div className='card'>
                                 <div className='card-header text-center'>
                                     <h3>Vs. League Average</h3>
                                 </div>
                                 <PlayerCharts
                                     data={data}
-                                    leagueAvg={leagueAvg}
+                                    leagueAvg={leagueAvg.find(
+                                        (lav) => lav.position === data.position
+                                    )}
                                 />
                             </div>
                         )}

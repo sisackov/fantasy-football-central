@@ -32,10 +32,10 @@ import {
     APID_PLAYER_Q_QUERY,
     APID_PLAYER_Q_RES,
 } from '../utils/api-docs-consts';
+import { useTokenProvider } from '../providers/SessionProvider';
 
 function ApiDocsPage() {
-    const userToken = localStorage.getItem('token');
-    const [isLoggedIn, setIsLoggedIn] = useState(userToken !== null);
+    const [token, __] = useTokenProvider();
 
     const CodeBox = ({ codeStr, centered, format }) => (
         <div className='card p-2'>
@@ -122,17 +122,14 @@ function ApiDocsPage() {
                                 <a href={PATH_LOGIN}>login</a>.
                             </p>
 
-                            {isLoggedIn && (
+                            {token && (
                                 <>
                                     <p>
                                         Below Is your Access Token('#token')
                                         that you'll need to use to access the
                                         API.
                                     </p>
-                                    <CodeBox
-                                        codeStr={userToken}
-                                        centered={true}
-                                    />
+                                    <CodeBox codeStr={token} centered={true} />
                                 </>
                             )}
                         </div>

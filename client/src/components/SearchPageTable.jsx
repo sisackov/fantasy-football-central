@@ -3,7 +3,7 @@ import { fetchQueriedPlayers } from '../api/ffc-api';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import { useHistory } from 'react-router-dom';
-import { LS_PLAYER_KEY, PATH_PLAYER } from '../utils/constants';
+import { PATH_PLAYER } from '../utils/constants';
 
 function SearchPageTable({ query, statsType }) {
     const [data, setData] = useState([]);
@@ -196,7 +196,7 @@ function SearchPageTable({ query, statsType }) {
 
     const handleRowClick = useCallback(
         (__, row) => {
-            localStorage.setItem(LS_PLAYER_KEY, JSON.stringify(row));
+            // localStorage.setItem(LS_PLAYER_KEY, JSON.stringify(row));
             history.push(`${PATH_PLAYER}${row.name}`);
         },
         [history]

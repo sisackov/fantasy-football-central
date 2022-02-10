@@ -3,41 +3,29 @@ import { fetchPlayerById } from '../api/ffc-api';
 import PlayerCard from '../components/PlayerCard';
 import Row from 'react-bootstrap/Row';
 import { LS_FAVORITES_KEY, PATH_SEARCH } from '../utils/constants';
+import { useFavoritesProvider } from '../providers/SessionProvider';
 
 function FavoritesPage() {
     //TODO - single call to get all players
     const [playerIDs, setPlayerIDs] = useState(null);
     const [players, setPlayers] = useState(null);
+    const [favorites, setFavorites] = useFavoritesProvider();
     // const [isLoading, setIsLoading] = useState(false);
     // const [errorMsg, setErrorMsg] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
-            const favorites = localStorage.getItem(LS_FAVORITES_KEY);
-            if (favorites) {
-                setPlayerIDs(JSON.parse(favorites));
-            } else {
-                setPlayerIDs([]);
-            }
-        };
-        if (!playerIDs) {
-            fetchData();
-        }
-    }, [playerIDs]);
-
-    useEffect(() => {
-        const fetchData = async () => {
             const res = await Promise.all(
-                playerIDs.map((id) => fetchPlayerById(id))
+                favorites.map((id) => fetchPlayerById(id))
             );
             console.log('fetching players', res);
 
             setPlayers(res);
         };
-        if (playerIDs && playerIDs.length && !players) {
+        if (favorites.length && !players) {
             fetchData();
         }
-    }, [playerIDs, players]);
+    }, [favorites, players]);
 
     const renderPlayerCards = () => {
         if (players && players.length) {

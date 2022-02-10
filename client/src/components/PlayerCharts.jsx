@@ -2,10 +2,6 @@ import { useEffect } from 'react';
 import C3Chart from './C3Chart';
 
 function PlayerCharts({ data, leagueAvg }) {
-    useEffect(() => {
-        console.log('PlayerCharts', leagueAvg);
-    }, [data, leagueAvg]);
-
     return (
         <div className='card-body'>
             <div className='col'>
