@@ -32,18 +32,17 @@ const userSchema = new mongoose.Schema(
                 },
             },
         ],
+        favorites: [
+            {
+                type: String,
+                required: true,
+            },
+        ],
     },
     {
         timestamps: true,
     }
 );
-
-//todo: use this for saving the user's leagues
-// userSchema.virtual('tasks', {
-//     ref: 'Task',
-//     localField: '_id',
-//     foreignField: 'owner',
-// });
 
 //don't send the password and tokens in JSON response
 userSchema.methods.toJSON = function () {

@@ -164,7 +164,7 @@ exports.getQueriedPlayers = async (query) => {
 exports.getPlayerById = async (id) => {
     try {
         const playerData = await PlayerData.findById(id);
-        console.log('getPlayerById : ', playerData);
+        console.log('getPlayerById : ', id);
         return playerData;
     } catch (e) {
         console.error('Failed to get player data by id: ', e.message);

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { fetchPlayerById } from '../api/ffc-api';
 import PlayerCard from '../components/PlayerCard';
 import Row from 'react-bootstrap/Row';
-import { PATH_SEARCH } from '../utils/constants';
+import { LS_FAVORITES_KEY, PATH_SEARCH } from '../utils/constants';
 
 function FavoritesPage() {
     //TODO - single call to get all players
@@ -13,12 +13,12 @@ function FavoritesPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            // const response = await fetch('/api/favorites');
-            // const json = await response.json();
-            setPlayerIDs([
-                '61ff8e14448b3c2d3ec1d555',
-                '61ff8e15448b3c2d3ec1d567',
-            ]);
+            const favorites = localStorage.getItem(LS_FAVORITES_KEY);
+            if (favorites) {
+                setPlayerIDs(JSON.parse(favorites));
+            } else {
+                setPlayerIDs([]);
+            }
         };
         if (!playerIDs) {
             fetchData();
@@ -27,10 +27,11 @@ function FavoritesPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            // const res = await fetch('/api/favorites');
             const res = await Promise.all(
                 playerIDs.map((id) => fetchPlayerById(id))
             );
+            console.log('fetching players', res);
+
             setPlayers(res);
         };
         if (playerIDs && playerIDs.length && !players) {
@@ -40,7 +41,6 @@ function FavoritesPage() {
 
     const renderPlayerCards = () => {
         if (players && players.length) {
-            // console.log('players', players);
             return players.map((player) => {
                 return <PlayerCard key={player._id} player={player} />;
             });
@@ -48,31 +48,24 @@ function FavoritesPage() {
         return null;
     };
 
-    const renderPage = () => {
-        // if (isLoading) return <div>Loading...</div>;
-        // if (errorMsg) return <div className='error-message'>{errorMsg}</div>;
-
-        return (
-            <div className='container mx-auto'>
-                <div className='header text-center my-2'>
-                    <h1>Favorites</h1>
-                    {playerIDs && (
-                        <p>
-                            You have no favorites. Select players in{' '}
-                            <a href={PATH_SEARCH}>search list</a> and add them
-                            to your favorites.
-                        </p>
-                    )}
-                </div>
-
-                <Row className='m-4 d-flex-md justify-content-center'>
-                    {renderPlayerCards()}
-                </Row>
+    return (
+        <div className='container mx-auto'>
+            <div className='header text-center my-2'>
+                <h1>Favorites</h1>
+                {!players && (
+                    <p>
+                        You have no favorites. Select players in{' '}
+                        <a href={PATH_SEARCH}>search list</a> and add them to
+                        your favorites.
+                    </p>
+                )}
             </div>
-        );
-    };
 
-    return <>{renderPage()}</>;
+            <Row className='m-4 d-flex-md justify-content-center'>
+                {renderPlayerCards()}
+            </Row>
+        </div>
+    );
 }
 
 export default FavoritesPage;

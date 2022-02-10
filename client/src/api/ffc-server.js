@@ -78,9 +78,13 @@ export const deleteUser = async () => {
     return data;
 };
 
-export const updateUserFavorites = async (isRemove) => {
-    const route = isRemove ? '/users/favorites/remove' : '/users/favorites/add';
-    const { data } = await FFC_SERVER.delete(route, getAuthHeader());
+export const updateUserFavorites = async (action, playerID) => {
+    const route = `/users/favorites/${action}`;
+    const { data } = await FFC_SERVER.patch(
+        route,
+        { playerID },
+        getAuthHeader()
+    );
     console.log('updateUserFavorites: ', data);
     localStorage.setItem(LS_FAVORITES_KEY, JSON.stringify(data.favorites));
     return data;

@@ -21,6 +21,12 @@ router.get('/users/:id', UserController.getUserById);
 
 router.patch('/users/auth', auth, UserController.updateAuthUser);
 
+router.patch(
+    '/users/favorites/:action',
+    auth,
+    UserController.updateUserFavorites
+);
+
 router.delete('/users/auth', auth, UserController.deleteAuthUser);
 
 router.get('/ping', (__, res) => {

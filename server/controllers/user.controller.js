@@ -72,6 +72,19 @@ exports.updateAuthUser = async (req, res) => {
     }
 };
 
+exports.updateUserFavorites = async (req, res) => {
+    try {
+        const resData = await UserService.updateUserFavorites(
+            req.user,
+            req.body,
+            req.params.action
+        );
+        res.send(resData);
+    } catch (e) {
+        res.status(400).send(e.message);
+    }
+};
+
 exports.deleteAuthUser = async (req, res) => {
     try {
         await req.user.remove(); //todo: test this!!!

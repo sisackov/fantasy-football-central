@@ -16,13 +16,13 @@ function PlayerViewPage() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // localStorage.setItem(LS_FAVORITES_KEY, [
-                //     '61ff8e14448b3c2d3ec1d555',
-                //     '61ff8e15448b3c2d3ec1d567',
-                // ]);
-                // const res = await fetchQueriedPlayers(`name=${playerName}`);
-                let favs = localStorage.getItem(LS_FAVORITES_KEY) || [];
-                console.log('favs', favs);
+                // localStorage.setItem(
+                //     LS_FAVORITES_KEY,
+                //     JSON.stringify([
+                //         '61ff8e14448b3c2d3ec1d555',
+                //         '61ff8e15448b3c2d3ec1d567',
+                //     ])
+                // );
 
                 console.log('fetching player');
                 const fetchPlayer = await fetchQueriedPlayers(
@@ -32,7 +32,12 @@ function PlayerViewPage() {
                 setData(player);
 
                 console.log(player._id);
-                setIsFavorite(favs.includes(player._id));
+                let favorites = localStorage.getItem(LS_FAVORITES_KEY);
+                if (favorites) {
+                    favorites = JSON.parse(favorites);
+                    setIsFavorite(favorites.includes(player._id));
+                }
+                console.log('favorites', favorites);
 
                 let leagueAvgData = localStorage.getItem(LS_LEAGUE_AVG_KEY);
                 if (!leagueAvgData) {
@@ -60,7 +65,9 @@ function PlayerViewPage() {
     }, [playerName, data]);
 
     const handleFavoritesClick = async () => {
-        const res = await updateUserFavorites(!isFavorite);
+        console.log('clicked');
+        const action = isFavorite ? 'remove' : 'add';
+        const res = await updateUserFavorites(action, data._id);
         if (res) {
             setIsFavorite(!isFavorite);
         }
@@ -82,7 +89,7 @@ function PlayerViewPage() {
                             className={`btn shadow ${
                                 isFavorite ? 'btn-warning' : 'btn-success'
                             } `}
-                            onClick={() => handleFavoritesClick}
+                            onClick={handleFavoritesClick}
                         >
                             {isFavorite
                                 ? 'Remove from Favorites'
