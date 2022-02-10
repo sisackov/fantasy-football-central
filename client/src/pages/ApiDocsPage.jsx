@@ -1,8 +1,4 @@
 import { useState } from 'react';
-import { slide as Menu } from 'react-burger-menu';
-import ApiSideBar from '../components/ApiSideBar';
-import Tab from 'react-bootstrap/Tab';
-import ListGroup from 'react-bootstrap/ListGroup';
 import Nav from 'react-bootstrap/Nav';
 import Accordion from 'react-bootstrap/Accordion';
 import { PATH_LOGIN } from '../utils/constants';
@@ -18,7 +14,7 @@ import {
     APID_PLAYER_Q_FETCH,
     APID_PLAYER_Q_QUERY,
     APID_PLAYER_Q_RES,
-} from '../utils/outputs';
+} from '../utils/api-docs-consts';
 
 function ApiDocsPage() {
     const userToken = localStorage.getItem('token');
@@ -105,11 +101,20 @@ function ApiDocsPage() {
                                 to register for an account and{' '}
                                 <a href={PATH_LOGIN}>login</a>.
                             </p>
-                            <p>
-                                Below Is your Access Token('#token') that you'll
-                                need to use to access the API.
-                            </p>
-                            <CodeBox codeStr={userToken} centered={true} />
+
+                            {isLoggedIn && (
+                                <>
+                                    <p>
+                                        Below Is your Access Token('#token')
+                                        that you'll need to use to access the
+                                        API.
+                                    </p>
+                                    <CodeBox
+                                        codeStr={userToken}
+                                        centered={true}
+                                    />
+                                </>
+                            )}
                         </div>
                     </div>
 
@@ -312,43 +317,13 @@ function ApiDocsPage() {
                     <div className='card-header text-center'>
                         <h5>Defense & Special Teams Data</h5>
                     </div>
-                    <div className='card-body'>
-                        <p>
-                            In order to get access to the API, you will need to
-                            register for an account and{' '}
-                            <a href={PATH_LOGIN}>login</a>.
-                        </p>
-                        <p>
-                            Below Is your Access Token('#token') that you'll
-                            need to use to access the API.
-                        </p>
-                        <blockquote>
-                            <code className='text-center'>
-                                <span>{userToken}</span>
-                            </code>
-                        </blockquote>
-                    </div>
+                    <div className='card-body'></div>
 
                     <div id='api-endpoints-league' className='mb-5'></div>
                     <div className='card-header text-center'>
                         <h5>League Averages</h5>
                     </div>
-                    <div className='card-body'>
-                        <p>
-                            In order to get access to the API, you will need to
-                            register for an account and{' '}
-                            <a href={PATH_LOGIN}>login</a>.
-                        </p>
-                        <p>
-                            Below Is your Access Token('#token') that you'll
-                            need to use to access the API.
-                        </p>
-                        <blockquote>
-                            <code className='text-center'>
-                                <span>{userToken}</span>
-                            </code>
-                        </blockquote>
-                    </div>
+                    <div className='card-body'></div>
 
                     <div id='api-notes'></div>
                     <div className='card-header text-center'>
@@ -361,19 +336,83 @@ function ApiDocsPage() {
                     </div>
                     <div className='card-body'>
                         <p>
-                            In order to get access to the API, you will need to
-                            register for an account and{' '}
-                            <a href={PATH_LOGIN}>login</a>.
+                            There are many different ways to score fantasy and
+                            set fantasy leagues. Below is the basic scoring
+                            system for fantasy football.
                         </p>
-                        <p>
-                            Below Is your Access Token('#token') that you'll
-                            need to use to access the API.
-                        </p>
-                        <blockquote>
-                            <code className='text-center'>
-                                <span>{userToken}</span>
-                            </code>
-                        </blockquote>
+                        <p>Each team consists of the following positions:</p>
+                        <ul>
+                            <li>
+                                <b>QB</b> - Quarterback - (1)
+                            </li>
+                            <li>
+                                <b>RB</b> - Running Back - (2)
+                            </li>
+                            <li>
+                                <b>WR</b> - Wide Receiver - (2)
+                            </li>
+                            <li>
+                                <b>TE</b> - Tight End - (1)
+                            </li>
+                            <li>
+                                <b>W/R</b> - Wide Receiver or Running Back - (1)
+                            </li>
+                            <li>
+                                <b>K</b> - Kicker - (1)
+                            </li>
+                            <li>
+                                <b>DEF</b> - Defensive Player - (1)
+                            </li>
+                        </ul>
+
+                        <h6 className='my-3'>Scoring System</h6>
+                        <ul>
+                            <li>
+                                <b>Passing Yards</b> - (Passing Yards x 0.04)
+                            </li>
+                            <li>
+                                <b>Rushing Yards</b> - (Rushing Yards x 0.1)
+                            </li>
+                            <li>
+                                <b>Receiving Yards</b> - (Receiving Yards x 0.1)
+                            </li>
+                            <li>
+                                <b>Passing Touchdowns</b> - (Passing Touchdowns
+                                x 4)
+                            </li>
+                            <li>
+                                <b>Rushing Touchdowns</b> - (Rushing Touchdowns
+                                x 6)
+                            </li>
+                            <li>
+                                <b>Receiving Touchdowns</b> - (Receiving
+                                Touchdowns x 6)
+                            </li>
+                            <li>
+                                <b>Receptions</b> - (Receptions x 0.5)
+                            </li>
+                            <li>
+                                <b>Fumbles</b> - (Fumbles x -2)
+                            </li>
+                            <li>
+                                <b>Interceptions</b> - (Interceptions x -1)
+                            </li>
+                            <li>
+                                <b>Extra Points</b> - (Extra Points x 1)
+                            </li>
+                            <li>
+                                <b>Field Goals under 39 Yards</b> - (Field Goals
+                                x 3)
+                            </li>
+                            <li>
+                                <b>Field Goals 39 - 49 Yards</b> - (Field Goals
+                                x 4)
+                            </li>
+                            <li>
+                                <b>Field Goals 50 Plus Yards</b> - (Field Goals
+                                x 5)
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
