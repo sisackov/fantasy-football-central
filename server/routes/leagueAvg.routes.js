@@ -5,7 +5,7 @@ const router = new express.Router();
 router.get('/leagueAvg', LeagueAvgController.getAllLeagueAvg);
 
 router.get(
-    '/leagueAvg/position/:position',
+    '/leagueAvg/position/:pos',
     LeagueAvgController.getLeagueAvgByPosition
 );
 

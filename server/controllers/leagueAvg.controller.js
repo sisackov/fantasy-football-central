@@ -2,7 +2,9 @@ const LeagueAvgService = require('../services/leagueAvg.service');
 
 exports.getAllLeagueAvg = async (req, res) => {
     try {
-        const leagueAvg = await LeagueAvgService.getAllLeagueAvg();
+        const leagueAvg = await LeagueAvgService.getAllLeagueAvg(
+            req.query.limit
+        );
         res.send(leagueAvg);
     } catch (e) {
         console.error(e);
@@ -13,7 +15,7 @@ exports.getAllLeagueAvg = async (req, res) => {
 exports.getLeagueAvgByPosition = async (req, res) => {
     try {
         const leagueAvg = await LeagueAvgService.getLeagueAvgByPosition(
-            req.params.position
+            req.params.pos
         );
         res.send(leagueAvg);
     } catch (e) {

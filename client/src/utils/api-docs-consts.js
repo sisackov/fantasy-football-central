@@ -1850,11 +1850,148 @@ export const APID_DST_ID_RES = `
 
 `;
 
-export const APID_DST__QUERY =
-    'http://fantasy-football-central.herokuapp.com/api/v1/defense/';
-export const APID_DST__FETCH =
-    'http://fantasy-football-central.herokuapp.com/api/v1/defense/';
+export const APID_LG_AVG_ALL_QUERY =
+    'http://fantasy-football-central.herokuapp.com/api/v1/leagueAvg/';
+export const APID_LG_AVG_ALL_FETCH =
+    'http://fantasy-football-central.herokuapp.com/api/v1/leagueAvg?limit=2';
+export const APID_LG_AVG_ALL_RES = `
+[
+    {
+        totals: {
+            completions: 167.79,
+            passingAttempts: 258.79,
+            passingYards: 1840.97,
+            passingTouchdowns: 11.52,
+            interceptions: 6.14,
+            sacks: 17.61,
+            sackYards: 122.59,
+            qbRating: 777.42,
+            rushingAttempts: 31,
+            rushingYards: 138.55,
+            rushingTouchdowns: 1.44,
+            fumbles: 4.3,
+            fumblesLost: 1.58,
+            fantasyScore: 132.9
+        },
+        averages: {
+            completions: 10.8,
+            passingAttempts: 16.76,
+            passingYards: 117.61,
+            passingTouchdowns: 0.74,
+            interceptions: 0.4,
+            sacks: 1.15,
+            sackYards: 7.91,
+            qbRating: 50.93,
+            rushingAttempts: 2.03,
+            rushingYards: 9.18,
+            rushingTouchdowns: 0.1,
+            fumbles: 0.29,
+            fumblesLost: 0.1,
+            fantasyScore: 8.54
+        },
+        position: "QB",
+    },
+    {
+        totals: {
+            rushingAttempts: 74.63,
+            rushingYards: 318.18,
+            rushingTouchdowns: 2.47,
+            fumbles: 1,
+            fumblesLost: 0.45,
+            receptions: 17.18,
+            receivingYards: 130.02,
+            longestReception: 76.06,
+            receivingTouchdowns: 0.77,
+            longestRush: 105.11,
+            fantasyScore: 71.97
+        },
+        averages: {
+            rushingAttempts: 5.48,
+            rushingYards: 23.41,
+            rushingTouchdowns: 0.19,
+            fumbles: 0.08,
+            fumblesLost: 0.04,
+            receptions: 1.22,
+            receivingYards: 9.09,
+            longestReception: 5.53,
+            receivingTouchdowns: 0.05,
+            longestRush: 7.9,
+            fantasyScore: 5.25
+        },
+        position: "RB",
+    }
+]
+`;
 
-export const APID_DST__RES = `
+export const APID_LG_AVG_POS_QUERY =
+    'http://fantasy-football-central.herokuapp.com/api/v1/leagueAvg/position/:pos';
+export const APID_LG_AVG_POS_FETCH =
+    'http://fantasy-football-central.herokuapp.com/api/v1/leagueAvg/position/TE';
 
+export const APID_LG_AVG_POS_RES = `
+{
+    totals: {
+        rushingAttempts: 0.3,
+        rushingYards: 1.06,
+        rushingTouchdowns: 0.03,
+        fumbles: 0.31,
+        fumblesLost: 0.14,
+        receptions: 21.76,
+        receivingYards: 231.74,
+        longestReception: 119.64,
+        receivingTouchdowns: 1.72,
+        longestRush: 1.05,
+        fantasyScore: 44.36
+    },
+    averages: {
+        rushingAttempts: 0.02,
+        rushingYards: 0.07,
+        rushingTouchdowns: 0,
+        fumbles: 0.02,
+        fumblesLost: 0.01,
+        receptions: 1.46,
+        receivingYards: 15.42,
+        longestReception: 8.07,
+        receivingTouchdowns: 0.12,
+        longestRush: 0.07,
+        fantasyScore: 2.97
+    },
+    _id: "62025577e77b4b93cdd8bfd3",
+    position: "TE",
+}
+`;
+
+export const APID_LG_AVG_ID_QUERY =
+    'http://fantasy-football-central.herokuapp.com/api/v1/leagueAvg/:id';
+export const APID_LG_AVG_ID_FETCH =
+    'http://fantasy-football-central.herokuapp.com/api/v1/leagueAvg/62025577e77b4b93cdd8bfd5';
+export const APID_LG_AVG_ID_RES = `
+{
+    totals: {
+        fieldGoals: 22.13,
+        fieldGoalAttempts: 25.74,
+        underNineteen: 0.03,
+        underTwentyNine: 5.92,
+        underThirtyNine: 7.11,
+        underFortyNine: 6.05,
+        fiftyYardsPlus: 3.03,
+        extraPoints: 29.29,
+        extraPointAts: 31,
+        fantasyScore: 107.79
+    },
+    averages: {
+        fieldGoals: 1.36,
+        fieldGoalAttempts: 1.58,
+        underNineteen: 0,
+        underTwentyNine: 0.37,
+        underThirtyNine: 0.44,
+        underFortyNine: 0.37,
+        fiftyYardsPlus: 0.18,
+        extraPoints: 1.81,
+        extraPointAts: 1.92,
+        fantasyScore: 6.63
+    },
+    _id: "62025577e77b4b93cdd8bfd5",
+    position: "PK",
+}
 `;

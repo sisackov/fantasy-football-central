@@ -13,6 +13,15 @@ import {
     APID_DST_Q_FETCH,
     APID_DST_Q_QUERY,
     APID_DST_Q_RES,
+    APID_LG_AVG_ALL_FETCH,
+    APID_LG_AVG_ALL_QUERY,
+    APID_LG_AVG_ALL_RES,
+    APID_LG_AVG_ID_FETCH,
+    APID_LG_AVG_ID_QUERY,
+    APID_LG_AVG_ID_RES,
+    APID_LG_AVG_POS_FETCH,
+    APID_LG_AVG_POS_QUERY,
+    APID_LG_AVG_POS_RES,
     APID_PLAYER_AUTOCOMPLETE_FETCH,
     APID_PLAYER_AUTOCOMPLETE_QUERY,
     APID_PLAYER_AUTOCOMPLETE_RES,
@@ -402,7 +411,84 @@ function ApiDocsPage() {
                     <div className='card-header text-center'>
                         <h5>League Averages</h5>
                     </div>
-                    <div className='card-body'></div>
+                    <div className='card-body'>
+                        <h4 className='my-3'>All League data</h4>
+                        <p>
+                            To get data on all league's averages, you can use
+                            the endpoint:
+                        </p>
+                        <CodeBox codeStr={APID_LG_AVG_ALL_QUERY} />
+
+                        <p className='mt-2'>
+                            You can also use the following query parameters to
+                            filter the results:
+                        </p>
+                        <ul>
+                            <li>
+                                <b>limit</b> - The number of players you'd like
+                                to retrieve.
+                            </li>
+                        </ul>
+
+                        <h6 className='my-3'>Example</h6>
+                        <CodeBox codeStr={APID_LG_AVG_ALL_FETCH} />
+                        <CodeAccordion
+                            codeStr={APID_LG_AVG_ALL_RES}
+                            format={true}
+                            title='Output'
+                        />
+
+                        <h4 className='my-3'>League Data By ID</h4>
+                        <p className='my-3'>
+                            To fetch data by position's ID, you can use the
+                            endpoint:
+                        </p>
+                        <CodeBox codeStr={APID_LG_AVG_ID_QUERY} />
+
+                        <h6 className='my-3'>Example</h6>
+                        <CodeBox codeStr={APID_LG_AVG_ID_FETCH} />
+                        <CodeAccordion
+                            codeStr={APID_LG_AVG_ID_RES}
+                            format={true}
+                            title='Output'
+                        />
+
+                        <h4 className='my-3'>Position</h4>
+                        <p>
+                            To get data based on a position, you can use the
+                            endpoint:
+                        </p>
+                        <CodeBox codeStr={APID_LG_AVG_POS_QUERY} />
+
+                        <p className='mt-2'>
+                            The list of positions is available below:
+                        </p>
+                        <ul>
+                            <li>
+                                <b>QB</b> - Quarterback
+                            </li>
+                            <li>
+                                <b>RB</b> - Running Back
+                            </li>
+                            <li>
+                                <b>WR</b> - Wide Receiver
+                            </li>
+                            <li>
+                                <b>TE</b> - Tight End
+                            </li>
+                            <li>
+                                <b>PK</b> - Kicker
+                            </li>
+                        </ul>
+
+                        <h6 className='my-3'>Example</h6>
+                        <CodeBox codeStr={APID_LG_AVG_POS_FETCH} />
+                        <CodeAccordion
+                            codeStr={APID_LG_AVG_POS_RES}
+                            format={true}
+                            title='Output'
+                        />
+                    </div>
 
                     <div id='api-notes'></div>
                     <div className='card-header text-center'>
