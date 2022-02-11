@@ -1,13 +1,14 @@
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
+
 import {
+    LOGO_IMAGE,
     LS_TOKEN_KEY,
     PATH_API,
     PATH_FAVORITES,
     PATH_HOME,
     PATH_LOGIN,
-    PATH_PLAYER,
     PATH_SEARCH,
 } from '../utils/constants';
 import { useTokenProvider } from '../providers/SessionProvider';
@@ -18,6 +19,7 @@ const styles = {
         backgroundColor: 'rgb(79, 38, 131)',
     },
     navbarBrand: {
+        backgroundImage: `url('../assets/6779723328_d65d1a8a.png')`,
         color: 'gold',
         fontWeight: '600',
     },
@@ -94,7 +96,13 @@ function NavbarComponent() {
         >
             <Container>
                 <Navbar.Brand style={styles.navbarBrand} href={PATH_HOME}>
-                    FFC
+                    <img
+                        src={LOGO_IMAGE}
+                        width='310'
+                        height='35'
+                        className='d-inline-block align-top'
+                        alt='FFC logo'
+                    />
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls='basic-navbar-nav' />
                 {renderNavbar()}

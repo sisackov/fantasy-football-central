@@ -1,3 +1,9 @@
+import LOGO from '../assets/6779723328_d65d1a8a.png';
+import LOGO_2 from '../assets/6779716027_d9b386a5.png';
+
+export const LOGO_IMAGE = LOGO;
+export const LOGO_IMAGE_2 = LOGO_2;
+
 export const PATH_HOME = '/';
 export const PATH_LOGIN = '/login';
 export const PATH_SIGN_UP = '/signup';
