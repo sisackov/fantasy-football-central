@@ -8,7 +8,7 @@ import { updateUserFavorites } from '../api/ffc-server';
 import {
     useFavoritesProvider,
     useLeagueAvgProvider,
-} from '../providers/SessionProvider';
+} from '../hooks/providers/SessionProvider';
 
 function PlayerViewPage() {
     let { playerName } = useParams();

@@ -7,7 +7,7 @@ import {
 } from '../utils/constants';
 import { loginUser } from '../api/ffc-server';
 import { useHistory } from 'react-router-dom';
-import { useTokenProvider } from '../providers/SessionProvider';
+import { useTokenProvider } from '../hooks/providers/SessionProvider';
 
 function LoginPage() {
     const [name, setName] = useState('');
@@ -53,20 +53,12 @@ function LoginPage() {
     return (
         <div className='container-fluid'>
             <div className='row m-5 no-gutters shadow justify-content-center'>
-                {/* <div className='col-md-6 d-none d-md-block'>
-                    <img
-                        src='https://images.unsplash.com/photo-1566579090262-51cde5ebe92e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80'
-                        className='img-fluid'
-                        style={{ minHeight: '100%' }}
-                        alt='login logo'
-                    />
-                </div> */}
                 <div className='col col-md-7 col-lg-5 col-xl-4  bg-white p-5'>
                     <img
                         src={LOGO_IMAGE_2}
                         width='310'
                         height='35'
-                        className='mb-4'
+                        className='mb-4 img-fluid d-block mx-auto'
                         alt='FFC logo'
                     />
                     <div className='form-style'>

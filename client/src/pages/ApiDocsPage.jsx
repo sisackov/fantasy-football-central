@@ -32,7 +32,7 @@ import {
     APID_PLAYER_Q_QUERY,
     APID_PLAYER_Q_RES,
 } from '../utils/api-docs-consts';
-import { useTokenProvider } from '../providers/SessionProvider';
+import { useTokenProvider } from '../hooks/providers/SessionProvider';
 
 function ApiDocsPage() {
     const [token, __] = useTokenProvider();

@@ -11,7 +11,7 @@ import {
     PATH_LOGIN,
     PATH_SEARCH,
 } from '../utils/constants';
-import { useTokenProvider } from '../providers/SessionProvider';
+import { useTokenProvider } from '../hooks/providers/SessionProvider';
 import { useHistory } from 'react-router-dom';
 
 const styles = {
@@ -100,7 +100,7 @@ function NavbarComponent() {
                         src={LOGO_IMAGE}
                         width='310'
                         height='35'
-                        className='d-inline-block align-top'
+                        className='d-inline-block align-top img-fluid'
                         alt='FFC logo'
                     />
                 </Navbar.Brand>

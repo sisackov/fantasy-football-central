@@ -3,7 +3,7 @@ import { fetchPlayerById } from '../api/ffc-api';
 import PlayerCard from '../components/PlayerCard';
 import Row from 'react-bootstrap/Row';
 import { LS_FAVORITES_KEY, PATH_SEARCH } from '../utils/constants';
-import { useFavoritesProvider } from '../providers/SessionProvider';
+import { useFavoritesProvider } from '../hooks/providers/SessionProvider';
 
 function FavoritesPage() {
     //TODO - single call to get all players

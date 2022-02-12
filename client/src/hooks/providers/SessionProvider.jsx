@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { fetchLeagueAvgData } from '../api/ffc-api';
-import { fetchUserFavorites } from '../api/ffc-server';
+import { fetchLeagueAvgData } from '../../api/ffc-api';
+import { fetchUserFavorites } from '../../api/ffc-server';
 import {
     LS_FAVORITES_KEY,
     LS_LEAGUE_AVG_KEY,
     LS_TOKEN_KEY,
-} from '../utils/constants';
+} from '../../utils/constants';
 
 const { createContext, useContext, useState } = require('react');
 

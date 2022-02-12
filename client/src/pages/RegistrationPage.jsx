@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { createNewUser } from '../api/ffc-server';
-import { PATH_LOGIN } from '../utils/constants';
+import { LOGO_IMAGE_2, PATH_LOGIN } from '../utils/constants';
 
 function RegistrationPage() {
     const [name, setName] = useState('');
@@ -42,12 +42,16 @@ function RegistrationPage() {
     };
 
     return (
-        <div className='container'>
-            <div className='row m-5 no-gutters shadow-lg'>
-                <div className='col-md-6 bg-white p-5'>
-                    <h3 className='text-center pb-3 text-color-vikings'>
-                        Fantasy Football Central
-                    </h3>
+        <div className='container-fluid '>
+            <div className='row m-5 no-gutters shadow justify-content-center'>
+                <div className='col col-md-7 col-lg-5 col-xl-4 bg-white p-5 rounded'>
+                    <img
+                        src={LOGO_IMAGE_2}
+                        width='310'
+                        height='35'
+                        className='mb-4 img-fluid d-block mx-auto'
+                        alt='FFC logo'
+                    />
                     <div className='form-style'>
                         <form onSubmit={handleSubmit}>
                             <div className='form-group pb-3'>
@@ -89,14 +93,6 @@ function RegistrationPage() {
                             <div className='pt-4 text-center'>{error}</div>
                         )}
                     </div>
-                </div>
-                <div className='col-md-6 d-none d-md-block'>
-                    <img
-                        src='https://images.unsplash.com/photo-1566579090262-51cde5ebe92e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=764&q=80'
-                        className='img-fluid'
-                        style={{ minHeight: '100%' }}
-                        alt='login logo'
-                    />
                 </div>
             </div>
         </div>

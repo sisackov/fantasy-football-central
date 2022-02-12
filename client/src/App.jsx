@@ -8,7 +8,7 @@ import LoginPage from './pages/LoginPage';
 import PlayerViewPage from './pages/PlayerViewPage';
 import RegistrationPage from './pages/RegistrationPage';
 import SearchPage from './pages/SearchPage.jsx';
-import SessionProvider from './providers/SessionProvider';
+import SessionProvider from './hooks/providers/SessionProvider';
 
 import {
     LS_PLAYER_KEY,
