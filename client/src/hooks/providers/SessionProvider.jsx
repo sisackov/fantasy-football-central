@@ -1,4 +1,9 @@
-import { LS_TOKEN_KEY } from '../../utils/constants';
+import { useEffect } from 'react';
+import {
+    LS_FAVORITES_KEY,
+    LS_LEAGUE_AVG_KEY,
+    LS_TOKEN_KEY,
+} from '../../utils/constants';
 
 const { createContext, useContext, useState } = require('react');
 
@@ -30,11 +35,15 @@ export const useLeagueAvgProvider = () => {
 };
 
 const lsToken = localStorage.getItem(LS_TOKEN_KEY);
+let lsFavs = localStorage.getItem(LS_FAVORITES_KEY);
+lsFavs = lsFavs ? JSON.parse(lsFavs) : [];
+let lsLgAvg = localStorage.getItem(LS_LEAGUE_AVG_KEY);
+lsLgAvg = lsLgAvg ? JSON.parse(lsLgAvg) : [];
 
 export default function SessionProvider({ children }) {
     const [token, setToken] = useState(lsToken);
-    const [favorites, setFavorites] = useState([]);
-    const [leagueAvg, setLeagueAvg] = useState([]);
+    const [favorites, setFavorites] = useState(lsFavs);
+    const [leagueAvg, setLeagueAvg] = useState(lsLgAvg);
 
     return (
         <tokenProvider.Provider value={token}>

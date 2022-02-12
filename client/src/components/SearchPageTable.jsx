@@ -4,27 +4,13 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import { useHistory } from 'react-router-dom';
 import { PATH_PLAYER } from '../utils/constants';
+import useQueryParams from '../hooks/useQueryParams';
+import Loader from './Loader';
 
-function SearchPageTable({ query, statsType }) {
-    const [data, setData] = useState([]);
+function SearchPageTable({ playersData, statsType }) {
+    // const [playersData, setData] = useState([]);
     const [sortedPlayers, setSortedPlayers] = useState([]);
     const history = useHistory();
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await fetchQueriedPlayers(query);
-                setData(res);
-            } catch (e) {
-                // setErrorMsg(e.message);
-                console.error(e.message);
-            }
-        };
-
-        if (query) {
-            fetchData();
-        }
-    }, [query]);
 
     const getStatValue = useCallback(
         (player, stat) => {
@@ -79,12 +65,12 @@ function SearchPageTable({ query, statsType }) {
 
     const sortTable = useCallback(
         (order, stat) => {
-            const sortedData = data.sort((a, b) =>
+            const sortedData = playersData.sort((a, b) =>
                 sortByStat(a, b, order, stat)
             );
             setSortedPlayers(sortedData);
         },
-        [data, sortByStat]
+        [playersData, sortByStat]
     );
 
     const getColumns = useCallback(() => {
@@ -229,7 +215,7 @@ function SearchPageTable({ query, statsType }) {
                 striped
                 hover
                 condensed
-                data={data}
+                data={playersData}
                 rowEvents={{
                     onClick: handleRowClick,
                 }}

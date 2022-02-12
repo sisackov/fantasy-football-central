@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchQueriedPlayers } from '../api/ffc-api';
+import { fetchLeagueAvgData, fetchQueriedPlayers } from '../api/ffc-api';
 import PlayerCharts from '../components/PlayerCharts';
 import usePlayerTable from '../hooks/usePlayerTable';
 import { updateUserFavorites } from '../api/ffc-server';
@@ -12,10 +12,27 @@ import {
 function PlayerViewPage() {
     let { playerName } = useParams();
     const [data, setData] = useState(null);
-    const { leagueAvg } = useLeagueAvgProvider();
-    const { favorites, setFavorites } = useFavoritesProvider();
     const { renderPlayerStatsTable, renderPlayerGamesTable } = usePlayerTable();
+
+    const { leagueAvg, setLeagueAvg } = useLeagueAvgProvider();
+    const { favorites, setFavorites } = useFavoritesProvider();
     const [isFavorite, setIsFavorite] = useState(false);
+
+    useEffect(() => {
+        const fetchLeagueAvg = async () => {
+            try {
+                const fetchLgAvg = await fetchLeagueAvgData();
+                console.log('fetchLeagueAvg', leagueAvg);
+                setLeagueAvg(fetchLgAvg);
+            } catch (e) {
+                console.error(e.message);
+            }
+        };
+
+        if (!leagueAvg.length) {
+            fetchLeagueAvg();
+        }
+    }, [leagueAvg, setLeagueAvg]);
 
     useEffect(() => {
         const fetchData = async () => {

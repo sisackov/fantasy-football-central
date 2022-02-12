@@ -13,8 +13,8 @@ import { useEffect, useState } from 'react';
 import { fetchAutoCompletePlayers } from '../api/ffc-api';
 const $ = document.querySelector.bind(document);
 
-function SearchBar({ onSearch }) {
-    const [term, setTerm] = useState('');
+function SearchBar({ onSearch, initialTerm }) {
+    const [term, setTerm] = useState(initialTerm);
     const [debouncedTerm, setDebouncedTerm] = useState(term);
     const [results, setResults] = useState([]);
     const [position, setPosition] = useState('');
@@ -37,14 +37,13 @@ function SearchBar({ onSearch }) {
                 query += `&position=${position}`;
             }
             const data = await fetchAutoCompletePlayers(query);
-            console.log(data);
             setResults(data);
         };
 
-        if (debouncedTerm) {
+        if (debouncedTerm && initialTerm !== term) {
             search();
         }
-    }, [debouncedTerm, position]);
+    }, [debouncedTerm, position, initialTerm, term]);
 
     const handlePositionSelect = (eventKey) => {
         setPosition(eventKey);
@@ -63,7 +62,6 @@ function SearchBar({ onSearch }) {
 
     const sendSearch = (pName) => {
         onSearch({ name: pName, position });
-        setTerm('');
         setResults([]);
     };
 
@@ -73,9 +71,7 @@ function SearchBar({ onSearch }) {
     };
 
     const handleDropdownSelect = (e) => {
-        // console.log(e.target.innerText);
-        // setTerm('');
-        // setResults([]);
+        setTerm(e.target.innerText);
         sendSearch(e.target.innerText);
     };
 

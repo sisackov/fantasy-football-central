@@ -24,8 +24,7 @@ function LoginPage() {
                 setError(response.error);
             } else {
                 setToken(response.token);
-                localStorage.setItem('token', response.token);
-                setFavorites(response.favorites);
+                setFavorites(response.user.favorites);
                 history.push(PATH_FAVORITES);
             }
         };

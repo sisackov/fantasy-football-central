@@ -55,11 +55,13 @@ exports.updateAuthUser = async (user, updatesObj, userAgent) => {
 
 exports.updateUserFavorites = async (user, { playerID }, action) => {
     const favorites = user.favorites;
+    console.log('favorites', favorites);
     if (action === 'add') {
         favorites.push(playerID);
     } else if (action === 'remove') {
         favorites.splice(favorites.indexOf(playerID), 1);
     }
+    console.log('favorites', favorites);
     await user.save();
 
     return user;

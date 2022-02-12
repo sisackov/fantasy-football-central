@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Nav from 'react-bootstrap/Nav';
 import Accordion from 'react-bootstrap/Accordion';
 import { PATH_LOGIN } from '../utils/constants';

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LS_FAVORITES_KEY } from '../utils/constants';
+import { LS_FAVORITES_KEY, LS_TOKEN_KEY } from '../utils/constants';
 
 const nodeEnv = process.env.NODE_ENV;
 const FFC_SERVER = axios.create({
@@ -49,6 +49,13 @@ export const updateUserDetails = async (user) => {
 export const loginUser = async (user) => {
     const { data } = await FFC_SERVER.post('/users/login', user);
     console.log('loginUser: ', data);
+    if (data.token) {
+        localStorage.setItem(LS_TOKEN_KEY, data.token);
+        localStorage.setItem(
+            LS_FAVORITES_KEY,
+            JSON.stringify(data.user.favorites)
+        );
+    }
     return data;
 };
 

@@ -52,6 +52,7 @@ function RegistrationPage() {
                         className='mb-4 img-fluid d-block mx-auto'
                         alt='FFC logo'
                     />
+                    <h4 className='text-center pb-2'>Registration</h4>
                     <div className='form-style'>
                         <form onSubmit={handleSubmit}>
                             <div className='form-group pb-3'>

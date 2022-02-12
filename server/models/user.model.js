@@ -36,7 +36,6 @@ const userSchema = new mongoose.Schema(
             {
                 type: String,
                 required: true,
-                unique: true,
             },
         ],
     },

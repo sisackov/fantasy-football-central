@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NavbarComponent from './components/NavbarComponent';
 import ApiDocsPage from './pages/ApiDocsPage';
@@ -8,9 +7,7 @@ import LoginPage from './pages/LoginPage';
 import PlayerViewPage from './pages/PlayerViewPage';
 import RegistrationPage from './pages/RegistrationPage';
 import SearchPage from './pages/SearchPage.jsx';
-import SessionProvider, {
-    useLeagueAvgProvider,
-} from './hooks/providers/SessionProvider';
+import SessionProvider from './hooks/providers/SessionProvider';
 
 import {
     PATH_API,
@@ -21,24 +18,8 @@ import {
     PATH_SEARCH,
     PATH_SIGN_UP,
 } from './utils/constants';
-import { fetchLeagueAvgData } from './api/ffc-api';
 
 function App() {
-    const { setLeagueAvg } = useLeagueAvgProvider();
-
-    useEffect(() => {
-        const fetchLeagueAvg = async () => {
-            try {
-                const fetchLgAvg = await fetchLeagueAvgData();
-                setLeagueAvg(fetchLgAvg);
-            } catch (e) {
-                console.error(e.message);
-            }
-        };
-
-        fetchLeagueAvg();
-    }, [setLeagueAvg]);
-
     return (
         <>
             <SessionProvider>

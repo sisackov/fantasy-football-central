@@ -15,6 +15,8 @@ export const PATH_PLAYER = '/player/';
 export const PATH_PLAYER_PARAM = '/player/:playerName';
 
 export const LS_TOKEN_KEY = 'token';
+export const LS_FAVORITES_KEY = 'favorites';
+export const LS_LEAGUE_AVG_KEY = 'leagueAvg';
 
 export const QB_TABLE_HEADERS = [
     'Player',

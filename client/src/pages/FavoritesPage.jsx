@@ -2,18 +2,21 @@ import { useEffect, useState } from 'react';
 import { fetchPlayerById } from '../api/ffc-api';
 import PlayerCard from '../components/PlayerCard';
 import Row from 'react-bootstrap/Row';
-import { PATH_SEARCH } from '../utils/constants';
+import { LS_FAVORITES_KEY, PATH_SEARCH } from '../utils/constants';
 import { useFavoritesProvider } from '../hooks/providers/SessionProvider';
 import Loader from '../components/Loader';
+import { fetchUserFavorites } from '../api/ffc-server';
 
 function FavoritesPage() {
     const [players, setPlayers] = useState(null);
-    const { favorites } = useFavoritesProvider();
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
+    const { favorites, setFavorites } = useFavoritesProvider();
+
     useEffect(() => {
         const fetchData = async () => {
+            console.log('fetchData', favorites);
             setIsLoading(true);
             try {
                 const res = await Promise.all(
@@ -28,10 +31,10 @@ function FavoritesPage() {
             }
         };
 
-        if (favorites.length && !players) {
+        if (!players) {
             fetchData();
         }
-    }, [favorites, players]);
+    }, [favorites, setFavorites, players]);
 
     const renderPlayerCards = () => {
         if (isLoading) return <Loader />;
@@ -50,12 +53,12 @@ function FavoritesPage() {
         <div className='container mx-auto'>
             <div className='header text-center my-2'>
                 <h1>Favorites</h1>
-                {!players && (
-                    <p>
+                {players && !players.length && (
+                    <h6>
                         You have no favorites. Select players in{' '}
                         <a href={PATH_SEARCH}>search list</a> and add them to
                         your favorites.
-                    </p>
+                    </h6>
                 )}
             </div>
 
