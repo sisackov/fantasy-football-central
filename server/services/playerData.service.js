@@ -84,49 +84,49 @@ exports.getAutocomplete = async (query) => {
 const getSortBy = (sort) => {
     switch (sort) {
         case 'avgFantasy':
-            return 'stats.averages.fantasyScoreAvg';
+            return 'stats.averages.fantasyScore';
 
         case 'avgPassYds':
-            return 'stats.averages.passingYardsAvg';
+            return 'stats.averages.passingYards';
 
         case 'avgPassTD':
-            return 'stats.averages.passingTouchdownsAvg';
+            return 'stats.averages.passingTouchdowns';
 
         case 'avgRushYds':
-            return 'stats.averages.rushingYardsAvg';
+            return 'stats.averages.rushingYards';
 
         case 'avgRushTD':
-            return 'stats.averages.rushingTouchdownsAvg';
+            return 'stats.averages.rushingTouchdowns';
 
         case 'avgRecYds':
-            return 'stats.averages.receivingYardsAvg';
+            return 'stats.averages.receivingYards';
 
         case 'avgRecTds':
-            return 'stats.averages.receivingTouchdownsAvg';
+            return 'stats.averages.receivingTouchdowns';
 
         case 'avgRushTds':
-            return 'stats.averages.rushingTouchdownsAvg';
+            return 'stats.averages.rushingTouchdowns';
 
         case 'totalFantasy':
-            return 'stats.totals.fantasyScoreTotal';
+            return 'stats.totals.fantasyScore';
 
         case 'totalPassYds':
-            return 'stats.totals.passingYardsTotal';
+            return 'stats.totals.passingYards';
 
         case 'totalPassTD':
-            return 'stats.totals.passingTouchdownsTotal';
+            return 'stats.totals.passingTouchdowns';
 
         case 'totalRushYds':
-            return 'stats.totals.rushingYardsTotal';
+            return 'stats.totals.rushingYards';
 
         case 'totalRecYds':
-            return 'stats.totals.receivingYardsTotal';
+            return 'stats.totals.receivingYards';
 
         case 'totalRecTds':
-            return 'stats.totals.receivingTouchdownsTotal';
+            return 'stats.totals.receivingTouchdowns';
 
         case 'totalFumbles':
-            return 'stats.totals.fumblesTotal';
+            return 'stats.totals.fumbles';
 
         default:
             return 'name';
@@ -146,7 +146,6 @@ exports.getQueriedPlayers = async (query) => {
         if (sort) {
             const sortQuery = { [getSortBy(sort)]: order === 'asc' ? 1 : -1 };
             dbQuery.sort(sortQuery);
-            // dbQuery.sort({ 'stats.averages.fantasyScoreAvg': -1 });
         }
         if (limit) {
             dbQuery.limit(limit);

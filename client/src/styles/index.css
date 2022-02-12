@@ -17,8 +17,12 @@ body {
     background-color: rgba(79, 38, 131, 0.8);
 }
 
-.text-color-vikings {
+.text-color-vikings-purple {
     color: rgba(79, 38, 131, 0.8);
+}
+
+.text-color-vikings {
+    color: rgb(79, 38, 131);
 }
 
 .color-seashell1 {

@@ -2,17 +2,17 @@ function Loader() {
     return (
         <div
             style={{ overflowY: 'hidden', height: '60vh' }}
-            class='d-flex flex-column  justify-content-center'
+            className='d-flex flex-column  justify-content-center'
         >
-            <div class='text-secondary text-center' role='status'>
-                <div class='loader1'>
+            <div className='text-secondary text-center' role='status'>
+                <div className='loader1'>
                     <span></span>
                     <span></span>
                     <span></span>
                     <span></span>
                     <span></span>
                 </div>
-                <h3 class='mt-3 '>Loading...</h3>
+                <h3 className='mt-3 '>Loading...</h3>
             </div>
         </div>
     );

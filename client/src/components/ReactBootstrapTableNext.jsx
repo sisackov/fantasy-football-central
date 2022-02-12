@@ -1,32 +1,18 @@
 import { useCallback, useEffect, useState } from 'react';
-import { fetchQueriedPlayers } from '../api/ffc-api';
 import BootstrapTable from 'react-bootstrap-table-next';
 
-function ReactBootstrapTableNext({ position, statsType }) {
+function ReactBootstrapTableNext({ position, statsType, playersData }) {
     const [data, setData] = useState([]);
     const [sortedPlayers, setSortedPlayers] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await fetchQueriedPlayers(
-                    `position=${position}&limit=20` //todo add default sort and remove limit
-                );
-                setData(res);
-                setSortedPlayers(res.slice(0, 10));
-            } catch (e) {
-                // setErrorMsg(e.message);
-                console.error(e.message);
-            }
-        };
-
-        fetchData();
-    }, [position, statsType]);
+        setData(playersData);
+        setSortedPlayers(playersData.slice(0, 10));
+    }, [playersData]);
 
     const getStatValue = useCallback(
         (player, stat) => {
             const stats = player.stats[0];
-            // console.log(stats);
             if (!stats || !stats[statsType]) return 0;
 
             switch (stat) {
@@ -94,11 +80,6 @@ function ReactBootstrapTableNext({ position, statsType }) {
                         sort: true,
                     },
                     {
-                        dataField: 'team',
-                        text: 'Team',
-                        sort: true,
-                    },
-                    {
                         dataField: `stats[0][${statsType}].passingYards`,
                         text: 'Passing Yards',
                         sort: true,
@@ -134,11 +115,6 @@ function ReactBootstrapTableNext({ position, statsType }) {
                         sort: true,
                     },
                     {
-                        dataField: 'team',
-                        text: 'Team',
-                        sort: true,
-                    },
-                    {
                         dataField: `stats[0][${statsType}].rushingYards`,
                         text: 'Rushing Yards',
                         sort: true,
@@ -170,11 +146,6 @@ function ReactBootstrapTableNext({ position, statsType }) {
                     {
                         dataField: 'name',
                         text: 'Name',
-                        sort: true,
-                    },
-                    {
-                        dataField: 'team',
-                        text: 'Team',
                         sort: true,
                     },
                     {
@@ -213,11 +184,6 @@ function ReactBootstrapTableNext({ position, statsType }) {
                         sort: true,
                     },
                     {
-                        dataField: 'team',
-                        text: 'Team',
-                        sort: true,
-                    },
-                    {
                         dataField: `stats[0][${statsType}].receivingYards`,
                         text: 'Receiving Yards',
                         sort: true,
@@ -250,11 +216,6 @@ function ReactBootstrapTableNext({ position, statsType }) {
                     {
                         dataField: 'name',
                         text: 'Name',
-                        sort: true,
-                    },
-                    {
-                        dataField: 'team',
-                        text: 'Team',
                         sort: true,
                     },
                     {

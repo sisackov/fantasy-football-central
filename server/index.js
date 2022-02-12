@@ -1,23 +1,12 @@
 const app = require('./app');
-// const axios = require('axios');
 const { scrapeData } = require('./utils/scraper');
 const port = process.env.PORT;
 const schedule = require('node-schedule');
 const { herokuKeepAlive } = require('./utils/utils');
-// const DefenseStats = require('./models/defenseStats.model');
-// const PlayerData = require('./models/playerData.model');
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port);
 });
-
-async function testDb() {
-    // const teamInDB = await DefenseStats.findOne({ team: 'Buffalo Bills' });
-    // await teamInDB.save();
-    // const players = await PlayerData.find();
-    // await playerData.save();
-}
-// testDb();
 
 // scrapeData();
 

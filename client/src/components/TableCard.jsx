@@ -1,11 +1,17 @@
 import { useState } from 'react';
 import Card from 'react-bootstrap/Card';
-import { POSITION_OPTIONS } from '../utils/constants';
+import { useHistory } from 'react-router-dom';
+import { PATH_SEARCH, POSITION_OPTIONS } from '../utils/constants';
 import ReactBootstrapTableNext from './ReactBootstrapTableNext';
 import TableRadioButtons from './TableRadioButtons';
 
-function TableCard({ position }) {
+function TableCard({ position, players }) {
     const [statsType, setStatsType] = useState('averages');
+    const history = useHistory();
+
+    const handleLinkClick = () => {
+        history.push(`${PATH_SEARCH}?position=${position}`);
+    };
 
     return (
         <Card>
@@ -17,13 +23,24 @@ function TableCard({ position }) {
                     <TableRadioButtons
                         statsType={statsType}
                         setStatsType={setStatsType}
+                        position={position}
                     />
                 </Card.Subtitle>
 
                 <ReactBootstrapTableNext
                     position={position}
                     statsType={statsType}
+                    playersData={players}
                 />
+
+                <div
+                    className='text-center text-primary'
+                    role='button'
+                    onClick={handleLinkClick}
+                >
+                    {' '}
+                    See more players{' '}
+                </div>
             </Card.Body>
         </Card>
     );
