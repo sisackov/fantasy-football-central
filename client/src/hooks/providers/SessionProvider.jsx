@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import {
     LS_FAVORITES_KEY,
     LS_LEAGUE_AVG_KEY,

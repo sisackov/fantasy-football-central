@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react';
 import { fetchPlayerById } from '../api/ffc-api';
 import PlayerCard from '../components/PlayerCard';
 import Row from 'react-bootstrap/Row';
-import { LS_FAVORITES_KEY, PATH_SEARCH } from '../utils/constants';
+import { PATH_SEARCH } from '../utils/constants';
 import { useFavoritesProvider } from '../hooks/providers/SessionProvider';
 import Loader from '../components/Loader';
-import { fetchUserFavorites } from '../api/ffc-server';
 
 function FavoritesPage() {
     const [players, setPlayers] = useState(null);

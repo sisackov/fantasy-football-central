@@ -1,15 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
-import { fetchQueriedPlayers } from '../api/ffc-api';
+import { useCallback } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import { useHistory } from 'react-router-dom';
 import { PATH_PLAYER } from '../utils/constants';
-import useQueryParams from '../hooks/useQueryParams';
-import Loader from './Loader';
 
 function SearchPageTable({ playersData, statsType }) {
-    // const [playersData, setData] = useState([]);
-    const [sortedPlayers, setSortedPlayers] = useState([]);
     const history = useHistory();
 
     const getStatValue = useCallback(
@@ -65,10 +60,8 @@ function SearchPageTable({ playersData, statsType }) {
 
     const sortTable = useCallback(
         (order, stat) => {
-            const sortedData = playersData.sort((a, b) =>
-                sortByStat(a, b, order, stat)
-            );
-            setSortedPlayers(sortedData);
+            playersData.sort((a, b) => sortByStat(a, b, order, stat));
+            // setSortedPlayers(sortedData);
         },
         [playersData, sortByStat]
     );

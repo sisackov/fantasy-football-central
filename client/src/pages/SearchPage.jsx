@@ -1,5 +1,3 @@
-// import DropdownButton from 'react-bootstrap/DropdownButton';
-// import Dropdown from 'react-bootstrap/Dropdown';
 import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import SearchPageTable from '../components/SearchPageTable';
@@ -30,7 +28,7 @@ function SearchPage() {
         } else {
             setQuery('sort=avgFantasy&order=desc&limit=100');
         }
-    }, [location]);
+    }, [location, qParams]);
 
     useEffect(() => {
         const fetchData = async () => {
