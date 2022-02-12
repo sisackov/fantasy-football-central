@@ -1,11 +1,7 @@
 import { useEffect } from 'react';
 import { fetchLeagueAvgData } from '../../api/ffc-api';
 import { fetchUserFavorites } from '../../api/ffc-server';
-import {
-    LS_FAVORITES_KEY,
-    LS_LEAGUE_AVG_KEY,
-    LS_TOKEN_KEY,
-} from '../../utils/constants';
+import { LS_TOKEN_KEY } from '../../utils/constants';
 
 const { createContext, useContext, useState } = require('react');
 
@@ -18,7 +14,10 @@ export const useTokenProvider = () => {
 const favoritesProvider = createContext();
 const favoritesProviderUpdate = createContext();
 export const useFavoritesProvider = () => {
-    return [useContext(favoritesProvider), useContext(favoritesProviderUpdate)];
+    return {
+        favorites: useContext(favoritesProvider),
+        setFavorites: useContext(favoritesProviderUpdate),
+    };
 };
 
 const leagueAvgProvider = createContext();
@@ -28,11 +27,6 @@ export const useLeagueAvgProvider = () => {
 };
 
 const lsToken = localStorage.getItem(LS_TOKEN_KEY);
-// console.log('lsToken: ', lsToken);
-// let lsFavs = localStorage.getItem(LS_FAVORITES_KEY);
-// lsFavs = lsFavs ? JSON.parse(lsFavs) : [];
-// let lsLgAvg = localStorage.getItem(LS_LEAGUE_AVG_KEY);
-// lsLgAvg = lsLgAvg ? JSON.parse(lsLgAvg) : [];
 
 export default function SessionProvider({ children }) {
     const [token, setToken] = useState(lsToken);

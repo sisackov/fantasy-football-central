@@ -1,10 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-    LOGO_IMAGE,
-    LOGO_IMAGE_2,
-    PATH_SEARCH,
-    PATH_SIGN_UP,
-} from '../utils/constants';
+import { LOGO_IMAGE_2, PATH_SEARCH, PATH_SIGN_UP } from '../utils/constants';
 import { loginUser } from '../api/ffc-server';
 import { useHistory } from 'react-router-dom';
 import { useTokenProvider } from '../hooks/providers/SessionProvider';

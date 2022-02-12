@@ -4,30 +4,40 @@ import PlayerCard from '../components/PlayerCard';
 import Row from 'react-bootstrap/Row';
 import { LS_FAVORITES_KEY, PATH_SEARCH } from '../utils/constants';
 import { useFavoritesProvider } from '../hooks/providers/SessionProvider';
+import Loader from '../components/Loader';
 
 function FavoritesPage() {
-    //TODO - single call to get all players
-    const [playerIDs, setPlayerIDs] = useState(null);
     const [players, setPlayers] = useState(null);
-    const [favorites, setFavorites] = useFavoritesProvider();
-    // const [isLoading, setIsLoading] = useState(false);
-    // const [errorMsg, setErrorMsg] = useState('');
+    const { favorites } = useFavoritesProvider();
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMsg, setErrorMsg] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await Promise.all(
-                favorites.map((id) => fetchPlayerById(id))
-            );
-            console.log('fetching players', res);
+            setIsLoading(true);
+            try {
+                const res = await Promise.all(
+                    favorites.map((id) => fetchPlayerById(id))
+                );
 
-            setPlayers(res);
+                setPlayers(res);
+                setIsLoading(false);
+            } catch (e) {
+                setErrorMsg(e.message);
+                setIsLoading(false);
+            }
         };
+
         if (favorites.length && !players) {
             fetchData();
         }
     }, [favorites, players]);
 
     const renderPlayerCards = () => {
+        if (isLoading) return <Loader />;
+        if (errorMsg)
+            return <h6 className='text-center text-danger mt-5'>{errorMsg}</h6>;
+
         if (players && players.length) {
             return players.map((player) => {
                 return <PlayerCard key={player._id} player={player} />;
