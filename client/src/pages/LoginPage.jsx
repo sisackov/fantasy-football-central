@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
-import { LOGO_IMAGE_2, PATH_SEARCH, PATH_SIGN_UP } from '../utils/constants';
+import { LOGO_IMAGE_2, PATH_FAVORITES, PATH_SIGN_UP } from '../utils/constants';
 import { loginUser } from '../api/ffc-server';
 import { useHistory } from 'react-router-dom';
-import { useTokenProvider } from '../hooks/providers/SessionProvider';
+import {
+    useFavoritesProvider,
+    useTokenProvider,
+} from '../hooks/providers/SessionProvider';
 
 function LoginPage() {
     const [name, setName] = useState('');
@@ -10,7 +13,8 @@ function LoginPage() {
     const [error, setError] = useState('');
     const [user, setUser] = useState(null);
     const history = useHistory();
-    const [token, setToken] = useTokenProvider();
+    const { setToken } = useTokenProvider();
+    const { setFavorites } = useFavoritesProvider();
 
     useEffect(() => {
         const sendServerRequest = async () => {
@@ -21,8 +25,8 @@ function LoginPage() {
             } else {
                 setToken(response.token);
                 localStorage.setItem('token', response.token);
-                // localStorage.setItem('user', JSON.stringify(response.user));
-                history.push(PATH_SEARCH); //TODO: redirect to search page/team page/favorites page
+                setFavorites(response.favorites);
+                history.push(PATH_FAVORITES);
             }
         };
 
@@ -30,7 +34,7 @@ function LoginPage() {
             console.log('sendLogin', user);
             sendServerRequest();
         }
-    }, [user, history, setToken]);
+    }, [user, history, setToken, setFavorites]);
 
     const handleLogin = (e) => {
         console.log('handleLogin');

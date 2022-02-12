@@ -30,7 +30,7 @@ const styles = {
 };
 
 function NavbarComponent() {
-    const [token, setToken] = useTokenProvider();
+    const { token, setToken } = useTokenProvider();
     const history = useHistory();
 
     const handleLogout = () => {

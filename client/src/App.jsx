@@ -8,10 +8,11 @@ import LoginPage from './pages/LoginPage';
 import PlayerViewPage from './pages/PlayerViewPage';
 import RegistrationPage from './pages/RegistrationPage';
 import SearchPage from './pages/SearchPage.jsx';
-import SessionProvider from './hooks/providers/SessionProvider';
+import SessionProvider, {
+    useLeagueAvgProvider,
+} from './hooks/providers/SessionProvider';
 
 import {
-    LS_PLAYER_KEY,
     PATH_API,
     PATH_FAVORITES,
     PATH_HOME,
@@ -20,8 +21,24 @@ import {
     PATH_SEARCH,
     PATH_SIGN_UP,
 } from './utils/constants';
+import { fetchLeagueAvgData } from './api/ffc-api';
 
 function App() {
+    const { setLeagueAvg } = useLeagueAvgProvider();
+
+    useEffect(() => {
+        const fetchLeagueAvg = async () => {
+            try {
+                const fetchLgAvg = await fetchLeagueAvgData();
+                setLeagueAvg(fetchLgAvg);
+            } catch (e) {
+                console.error(e.message);
+            }
+        };
+
+        fetchLeagueAvg();
+    }, [setLeagueAvg]);
+
     return (
         <>
             <SessionProvider>

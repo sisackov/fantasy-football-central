@@ -35,7 +35,7 @@ import {
 import { useTokenProvider } from '../hooks/providers/SessionProvider';
 
 function ApiDocsPage() {
-    const [token, __] = useTokenProvider();
+    const { token } = useTokenProvider();
 
     const CodeBox = ({ codeStr, centered, format }) => (
         <div className='card p-2'>
