@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { LS_LEAGUE_AVG_KEY } from '../utils/constants';
 
 const nodeEnv = process.env.NODE_ENV;
 const serverPort = process.env.REACT_APP_SERVER_PORT || '5000';
@@ -30,6 +31,7 @@ export const fetchAutoCompletePlayers = async (query) => {
 export const fetchLeagueAvgData = async () => {
     const { data } = await FFC_API.get('/leagueAvg');
     console.log('getLeagueAvgData: ', data);
+    localStorage.setItem(LS_LEAGUE_AVG_KEY, JSON.stringify(data));
     return data;
 };
 

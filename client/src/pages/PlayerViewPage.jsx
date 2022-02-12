@@ -7,6 +7,7 @@ import { updateUserFavorites } from '../api/ffc-server';
 import {
     useFavoritesProvider,
     useLeagueAvgProvider,
+    useTokenProvider,
 } from '../hooks/providers/SessionProvider';
 
 function PlayerViewPage() {
@@ -14,6 +15,7 @@ function PlayerViewPage() {
     const [data, setData] = useState(null);
     const { renderPlayerStatsTable, renderPlayerGamesTable } = usePlayerTable();
 
+    const { token } = useTokenProvider();
     const { leagueAvg, setLeagueAvg } = useLeagueAvgProvider();
     const { favorites, setFavorites } = useFavoritesProvider();
     const [isFavorite, setIsFavorite] = useState(false);
@@ -22,7 +24,6 @@ function PlayerViewPage() {
         const fetchLeagueAvg = async () => {
             try {
                 const fetchLgAvg = await fetchLeagueAvgData();
-                console.log('fetchLeagueAvg', leagueAvg);
                 setLeagueAvg(fetchLgAvg);
             } catch (e) {
                 console.error(e.message);
@@ -66,28 +67,40 @@ function PlayerViewPage() {
         }
     };
 
+    const renderFavoritesButton = () => {
+        return (
+            token && (
+                <button
+                    className={`btn shadow ${
+                        isFavorite ? 'btn-warning' : 'btn-success'
+                    } `}
+                    onClick={handleFavoritesClick}
+                >
+                    {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
+                </button>
+            )
+        );
+    };
+
+    const getTitleClassName = () => {
+        return token
+            ? 'header d-flex justify-content-around align-items-center py-3'
+            : 'header d-flex justify-content-center align-items-center py-3';
+    };
+
     return (
         <div className='container'>
             {data && (
                 <>
-                    <div className='header d-flex justify-content-around align-items-center py-3'>
+                    <div className={getTitleClassName()}>
                         <img
                             // src={data.imageLink}
                             // src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/3918298.png&w=350&h=254`}
                             src={`https://a.espncdn.com/combiner/i?img=/i/headshots/nfl/players/full/${data.espnId}.png&h=90&w=110&scale=crop`}
                             alt={data.name}
                         />
-                        <h1>{data.name}</h1>
-                        <button
-                            className={`btn shadow ${
-                                isFavorite ? 'btn-warning' : 'btn-success'
-                            } `}
-                            onClick={handleFavoritesClick}
-                        >
-                            {isFavorite
-                                ? 'Remove from Favorites'
-                                : 'Add to Favorites'}
-                        </button>
+                        <h1 className={token ? '' : 'mx-5'}>{data.name}</h1>
+                        {renderFavoritesButton()}
                     </div>
                     <div className='card'>
                         <div className='card-header text-center'>
