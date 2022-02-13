@@ -9,6 +9,7 @@ import {
     useLeagueAvgProvider,
     useTokenProvider,
 } from '../hooks/providers/SessionProvider';
+import { LS_FAVORITES_KEY } from '../utils/constants';
 
 function PlayerViewPage() {
     let { playerName } = useParams();
@@ -63,6 +64,10 @@ function PlayerViewPage() {
         const res = await updateUserFavorites(action, data._id);
         if (res) {
             setFavorites(res.favorites);
+            localStorage.setItem(
+                LS_FAVORITES_KEY,
+                JSON.stringify(res.favorites)
+            );
             setIsFavorite(!isFavorite);
         }
     };

@@ -11,7 +11,7 @@ function FavoritesPage() {
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
-    const { favorites, setFavorites } = useFavoritesProvider();
+    const { favorites } = useFavoritesProvider();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,7 +33,7 @@ function FavoritesPage() {
         if (!players) {
             fetchData();
         }
-    }, [favorites, setFavorites, players]);
+    }, [favorites, players]);
 
     const renderPlayerCards = () => {
         if (isLoading) return <Loader />;
