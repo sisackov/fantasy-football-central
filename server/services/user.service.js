@@ -9,9 +9,10 @@ exports.createUser = async (userData, userAgent) => {
 };
 
 exports.loginUser = async (name, password, userAgent) => {
+    console.log(userAgent);
     const user = await User.findByCredentials(name, password);
-    console.log(user);
     const token = await user.generateAuthToken(userAgent);
+    console.log(token);
     return { user, token };
 };
 
