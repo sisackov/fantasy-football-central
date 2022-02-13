@@ -9,8 +9,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleIncrement: () => dispatch({ type: 'INCREMENT' }),
-        handleDecrement: () => dispatch({ type: 'DECREMENT' }),
+        setToken: () => dispatch({ type: 'SET_TOKEN' }),
+        clearToken: () => dispatch({ type: 'CLEAR_TOKEN' }),
     };
 };
 
