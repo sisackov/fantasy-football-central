@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 
 import {
     LOGO_IMAGE,
+    LOGO_IMAGE_3,
     LS_TOKEN_KEY,
     PATH_API,
     PATH_FAVORITES,
@@ -97,10 +98,10 @@ function NavbarComponent() {
             <Container>
                 <Navbar.Brand style={styles.navbarBrand} href={PATH_HOME}>
                     <img
-                        src={LOGO_IMAGE}
-                        width='310'
+                        src={LOGO_IMAGE_3}
+                        width='80'
                         height='35'
-                        className='d-inline-block align-top img-fluid'
+                        className='d-inline-block align-top img'
                         alt='FFC logo'
                     />
                 </Navbar.Brand>
