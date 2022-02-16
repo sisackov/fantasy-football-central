@@ -1,6 +1,6 @@
 const app = require('./app');
 const { scrapeData } = require('./utils/scraper');
-const port = process.env.PORT;
+const port = process.env.SERVER_PORT;
 const schedule = require('node-schedule');
 const { herokuKeepAlive } = require('./utils/utils');
 
