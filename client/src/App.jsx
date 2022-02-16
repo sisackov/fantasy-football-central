@@ -32,6 +32,8 @@ function App() {
 
     unsubscribe();
 
+    console.log('NODE_ENV -> ', process.process.env.NODE_ENV);
+
     return (
         <>
             <SessionProvider>
