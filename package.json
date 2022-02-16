@@ -11,7 +11,7 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node server/index.js",
         "client": "npm run start --prefix client",
-        "dev": "concurrently \"npm run server\" \"npm run client\"",
+        "dev": "concurrently \"npm run start\" \"npm run client\"",
         "copy": "cp -r client/build server/",
         "heroku-postbuild": "npm install --prefix client && npm run build --prefix client && npm run copy"
     },
