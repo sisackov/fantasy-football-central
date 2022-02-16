@@ -32,7 +32,7 @@ function App() {
 
     unsubscribe();
 
-    console.log('NODE_ENV -> ', process.process.env.NODE_ENV);
+    console.log('NODE_ENV -> ', process.env.NODE_ENV);
 
     return (
         <>
