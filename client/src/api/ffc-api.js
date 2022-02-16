@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { LS_LEAGUE_AVG_KEY } from '../utils/constants';
 
-const nodeEnv = process.env.NODE_ENV;
+const nodeEnv = process.env.NODE_ENV || 'development';
 const serverPort = process.env.REACT_APP_SERVER_PORT || '5000';
 const FFC_API = axios.create({
     baseURL:
