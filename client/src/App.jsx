@@ -18,8 +18,20 @@ import {
     PATH_SEARCH,
     PATH_SIGN_UP,
 } from './utils/constants';
+import store from './store';
 
 function App() {
+    console.log('Initial state: ', store.getState());
+
+    const unsubscribe = store.subscribe(() =>
+        console.log('State after dispatch: ', store.getState())
+    );
+
+    store.dispatch({ type: 'token/setToken', payload: 'wertyuiop' });
+    store.dispatch({ type: 'token/clearToken' });
+
+    unsubscribe();
+
     return (
         <>
             <SessionProvider>

@@ -98,9 +98,9 @@ function NavbarComponent() {
                 <Navbar.Brand style={styles.navbarBrand} href={PATH_HOME}>
                     <img
                         src={LOGO_IMAGE}
-                        width='310'
+                        width='80'
                         height='35'
-                        className='d-inline-block align-top img-fluid'
+                        className='d-inline-block align-top img'
                         alt='FFC logo'
                     />
                 </Navbar.Brand>
