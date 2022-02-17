@@ -1,13 +1,9 @@
 import axios from 'axios';
 import { LS_LEAGUE_AVG_KEY } from '../utils/constants';
+import { getBaseUrl } from '../utils/utils';
 
-const nodeEnv = process.env.NODE_ENV || 'development';
-const serverPort = process.env.REACT_APP_SERVER_PORT || '5000';
 const FFC_API = axios.create({
-    baseURL:
-        nodeEnv === 'development'
-            ? `http://localhost:${serverPort}/api/v1`
-            : 'https://fantasy-football-central.herokuapp.com/api/v1',
+    baseURL: `${getBaseUrl()}/api/v1`,
 });
 
 export const fetchPlayerById = async (id) => {

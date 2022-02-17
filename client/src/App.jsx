@@ -21,18 +21,16 @@ import {
 import store from './store';
 
 function App() {
-    console.log('Initial state: ', store.getState());
+    // console.log('Initial state: ', store.getState());
 
-    const unsubscribe = store.subscribe(() =>
-        console.log('State after dispatch: ', store.getState())
-    );
+    // const unsubscribe = store.subscribe(() =>
+    //     console.log('State after dispatch: ', store.getState())
+    // );
 
-    store.dispatch({ type: 'token/setToken', payload: 'wertyuiop' });
-    store.dispatch({ type: 'token/clearToken' });
+    // store.dispatch({ type: 'token/setToken', payload: 'wertyuiop' });
+    // store.dispatch({ type: 'token/clearToken' });
 
-    unsubscribe();
-
-    console.log('NODE_ENV -> ', process.env.NODE_ENV);
+    // unsubscribe();
 
     return (
         <>

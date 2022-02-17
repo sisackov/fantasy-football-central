@@ -1,12 +1,9 @@
 import axios from 'axios';
 import { LS_FAVORITES_KEY, LS_TOKEN_KEY } from '../utils/constants';
+import { getBaseUrl } from '../utils/utils';
 
-const nodeEnv = process.env.NODE_ENV;
 const FFC_SERVER = axios.create({
-    baseURL:
-        nodeEnv === 'development'
-            ? `http://localhost:5000/ffc/server`
-            : 'https://fantasy-football-central.herokuapp.com/ffc/server',
+    baseURL: `${getBaseUrl()}/ffc/server`,
 });
 
 const getAuthHeader = () => {
