@@ -7,9 +7,10 @@
         "doc": "docs"
     },
     "scripts": {
-        "server": "env-cmd -f config/dev.env nodemon server/index.js",
-        "test": "echo \"Error: no test specified\" && exit 1",
         "start": "node server/index.js",
+        "aws-start": "env-cmd -f config/dev.env node server/index.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "server": "env-cmd -f config/dev.env nodemon server/index.js",
         "client": "npm run start --prefix client",
         "dev": "concurrently \"npm run start\" \"npm run client\"",
         "copy": "cp -r client/build server/",
