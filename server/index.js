@@ -11,10 +11,10 @@ app.listen(port, () => {
 
 // scrapeData();
 
-const rule = new schedule.RecurrenceRule();
-rule.hour = 23;
-rule.dayOfWeek = 5;
-rule.tz = 'Etc/UTC'; //this will execute the job at 23:00 UTC on Fridays
+// const rule = new schedule.RecurrenceRule();
+// rule.hour = 23;
+// rule.dayOfWeek = 5;
+// rule.tz = 'Etc/UTC'; //this will execute the job at 23:00 UTC on Fridays
 // schedule.scheduleJob(rule, scrapeData);
 
 //runs every tenth minute
