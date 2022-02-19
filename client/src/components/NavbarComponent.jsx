@@ -77,6 +77,9 @@ function NavbarComponent() {
                         <Nav.Link style={styles.navbarLink} href={PATH_API}>
                             API Documentation
                         </Nav.Link>
+                        <Nav.Link style={styles.navbarLink} href={PATH_API}>
+                            API Documentation
+                        </Nav.Link>
                         <Nav.Link style={styles.navbarLink} href={PATH_LOGIN}>
                             Login
                         </Nav.Link>
