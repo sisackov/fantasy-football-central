@@ -20,7 +20,7 @@ module.exports = Object.freeze({
         'ten/tennessee-titans',
         'den/denver-broncos',
         'kc/kansas-city-chiefs',
-        'oak/oakland-raiders',
+        'lv/las-vegas-raiders',
         'lac/los-angeles-chargers',
         'chi/chicago-bears',
         'det/detroit-lions',
