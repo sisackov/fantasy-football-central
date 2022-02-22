@@ -1,4 +1,4 @@
-# fantasy-football-central
+# Fantasy Football Central
 
 ## System Design
 
