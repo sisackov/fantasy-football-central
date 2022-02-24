@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware} from 'redux';
-import rootReducer from './store/rootReducer';
+import rootReducer from './rootReducer';
 import { composeWithDevTools } from '@redux-devtools/extension';
-import {LS_FAVORITES_KEY, LS_LEAGUE_AVG_KEY, LS_TOKEN_KEY} from './utils/constants';
+import {LS_FAVORITES_KEY, LS_LEAGUE_AVG_KEY, LS_TOKEN_KEY} from '../utils/constants';
 
 let preloadedState;
 const persistedTokenString = localStorage.getItem(LS_TOKEN_KEY);

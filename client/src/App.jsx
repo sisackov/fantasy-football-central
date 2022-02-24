@@ -17,7 +17,7 @@ import {
     PATH_SEARCH,
     PATH_SIGN_UP,
 } from './utils/constants';
-import store from './store';
+import store from './store/store';
 import {Provider} from "react-redux";
 
 function App() {

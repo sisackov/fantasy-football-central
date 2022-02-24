@@ -31,10 +31,12 @@ import {
     APID_PLAYER_Q_QUERY,
     APID_PLAYER_Q_RES,
 } from '../utils/api-docs-consts';
-import { useTokenProvider } from '../hooks/providers/SessionProvider';
+import {useSelector} from "react-redux";
+
+const selectToken = state => state.token;
 
 function ApiDocsPage() {
-    const { token } = useTokenProvider();
+    const token = useSelector(selectToken)
 
     const CodeBox = ({ codeStr, centered, format }) => (
         <div className='card p-2'>
