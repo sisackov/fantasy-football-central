@@ -14,7 +14,7 @@ export const fetchPlayerById = async (id) => {
 
 export const fetchQueriedPlayers = async (query) => {
     const { data } = await FFC_API.get(`/players/query?${query}`);
-    console.log('getQueriedPlayers: ', data);
+    // console.log('getQueriedPlayers: ', data);
     return data;
 };
 

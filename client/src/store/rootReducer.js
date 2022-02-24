@@ -1,3 +1,6 @@
+import {LS_TOKEN_KEY} from "../utils/constants";
+
+
 // {type: 'token/setToken', payload: tokenString}
 // {type: 'token/clearToken'}
 // {type: 'favorites/setFavorites, payload: [ids...]}
@@ -9,35 +12,14 @@
 
 const initialState = {token: '', favorites: [], leagueAvgs: []};
 
-
-export default function appReducer(state = initialState, action) {
-    return {
-        token: tokenReducer(state.token, action),
-        favorites: favoritesReducer(state.favorites, action),
-        leagueAvgs: leagueAvgsReducer(state.leagueAvgs, action),
-    }
-}
-
-
-export function tokenReducer(state = initialState, {type, payload} = {}) {
+export default function rootReducer(state = initialState, {type, payload} = {}) {
+    console.log('rootReducer payload', payload)
+    console.log('rootReducer state', state)
     switch (type) {
         case 'token/setToken':
-            return {
-                ...state,
-                token: payload,
-            };
+            return handleTokenDispatch(state, payload);
         case 'token/clearToken':
-            return {
-                ...state,
-                token: '',
-            };
-        default:
-            return state;
-    }
-}
-
-export function favoritesReducer(state = initialState, {type, payload} = {}) {
-    switch (type) {
+            return handleTokenDispatch(state, '');
         case 'favorites/setFavorites':
             return {
                 ...state,
@@ -58,14 +40,6 @@ export function favoritesReducer(state = initialState, {type, payload} = {}) {
                 ...state,
                 favorites: [],
             };
-        default:
-            return state;
-    }
-}
-
-
-export function leagueAvgsReducer(state = initialState, {type, payload} = {}) {
-    switch (type) {
         case 'leagueAvgs/setAvgs':
             return {
                 ...state,
@@ -79,4 +53,12 @@ export function leagueAvgsReducer(state = initialState, {type, payload} = {}) {
         default:
             return state;
     }
+}
+
+function handleTokenDispatch(state, tokenString) {
+    localStorage.setItem(LS_TOKEN_KEY, tokenString);
+    return {
+        ...state,
+        token: tokenString,
+    };
 }

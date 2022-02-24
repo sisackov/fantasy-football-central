@@ -27,8 +27,9 @@ function App() {
         console.log('State after dispatch: ', store.getState())
     );
 
-    store.dispatch({ type: 'token/setToken', payload: 'wertyuiop' });
-    store.dispatch({ type: 'token/clearToken' });
+    // store.dispatch({ type: 'token/clearToken' });
+    // store.dispatch({ type: 'token/setToken', payload: 'wertyuiop' });
+    // store.dispatch({ type: 'token/clearToken' });
 
     unsubscribe();
 
