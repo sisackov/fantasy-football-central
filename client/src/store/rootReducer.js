@@ -1,16 +1,6 @@
-import {LS_FAVORITES_KEY, LS_TOKEN_KEY} from "../utils/constants";
+import {LS_FAVORITES_KEY, LS_LEAGUE_AVG_KEY, LS_TOKEN_KEY} from "../utils/constants";
 
-
-// {type: 'token/setToken', payload: tokenString}
-// {type: 'token/clearToken'}
-// {type: 'favorites/setFavorites, payload: [ids...]}
-// {type: 'favorites/addFavorite', payload: idString}
-// {type: 'favorites/removeFavorite', payload: idString}
-// {type: 'favorites/clearFavorites'}
-// {type: 'leagueAvgs/setAvgs, payload: [{position, avg}...]}
-// {type: 'leagueAvgs/clearAvgs'}
-
-const initialState = {token: '', favorites: [], leagueAvgs: []};
+const initialState = {token: '', favorites: [], leagueAvg: []};
 
 export default function rootReducer(state = initialState, {type, payload} = {}) {
     console.log('rootReducer payload', payload)
@@ -26,18 +16,12 @@ export default function rootReducer(state = initialState, {type, payload} = {}) 
             return handleFavoritesDispatch(state, state.favorites.concat(payload))
         case 'favorites/removeFavorite':
             return handleFavoritesDispatch(state, state.favorites.filter(items => items !== payload))
-        case 'favorites/clearFavorites':
+        case 'favorites/clearAll':
             return handleFavoritesDispatch(state, []);
-        case 'leagueAvgs/setAvgs':
-            return {
-                ...state,
-                leagueAvgs: payload,
-            };
-        case 'leagueAvgs/clearToken':
-            return {
-                ...state,
-                leagueAvgs: [],
-            };
+        case 'leagueAvg/setAvg':
+            return handleLeagueAvgDispatch(state, payload);
+        case 'leagueAvg/clearAll':
+            return handleLeagueAvgDispatch(state, []);
         default:
             return state;
     }
@@ -56,6 +40,14 @@ function handleFavoritesDispatch(state, favorites) {
     return {
         ...state,
         favorites,
+    };
+}
+
+function handleLeagueAvgDispatch(state, leagueAvg) {
+    localStorage.setItem(LS_LEAGUE_AVG_KEY, JSON.stringify(leagueAvg));
+    return {
+        ...state,
+        leagueAvg,
     };
 }
 

@@ -1,35 +1,31 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { fetchLeagueAvgData, fetchQueriedPlayers } from '../api/ffc-api';
+import {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
+import {fetchLeagueAvgData, fetchQueriedPlayers} from '../api/ffc-api';
 import PlayerCharts from '../components/PlayerCharts';
 import usePlayerTable from '../hooks/usePlayerTable';
-import { updateUserFavorites } from '../api/ffc-server';
-import {
-    useFavoritesProvider,
-    useLeagueAvgProvider,
-    useTokenProvider,
-} from '../hooks/providers/SessionProvider';
-import { LS_FAVORITES_KEY } from '../utils/constants';
-
+import {updateUserFavorites} from '../api/ffc-server';
+import {useDispatch, useSelector} from "react-redux";
 
 const selectToken = state => state.token;
-
+const selectFavorites = state => state.favorites;
+const selectLeagueAvg = state => state.leagueAvg;
 
 function PlayerViewPage() {
-    let { playerName } = useParams();
+    let {playerName} = useParams();
     const [data, setData] = useState(null);
-    const { renderPlayerStatsTable, renderPlayerGamesTable } = usePlayerTable();
+    const {renderPlayerStatsTable, renderPlayerGamesTable} = usePlayerTable();
 
-    const { token } = useTokenProvider();
-    const { leagueAvg, setLeagueAvg } = useLeagueAvgProvider();
-    const { favorites, setFavorites } = useFavoritesProvider();
+    const dispatch = useDispatch();
+    const token = useSelector(selectToken)
+    const favorites = useSelector(selectFavorites);
+    const leagueAvg = useSelector(selectLeagueAvg);
     const [isFavorite, setIsFavorite] = useState(false);
 
     useEffect(() => {
         const fetchLeagueAvg = async () => {
             try {
                 const fetchLgAvg = await fetchLeagueAvgData();
-                setLeagueAvg(fetchLgAvg);
+                dispatch({type: 'leagueAvg/setAvg', payload: fetchLgAvg});
             } catch (e) {
                 console.error(e.message);
             }
@@ -38,7 +34,7 @@ function PlayerViewPage() {
         if (!leagueAvg.length) {
             fetchLeagueAvg();
         }
-    }, [leagueAvg, setLeagueAvg]);
+    }, [leagueAvg]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -67,11 +63,11 @@ function PlayerViewPage() {
         const action = isFavorite ? 'remove' : 'add';
         const res = await updateUserFavorites(action, data._id);
         if (res) {
-            setFavorites(res.favorites);
-            localStorage.setItem(
-                LS_FAVORITES_KEY,
-                JSON.stringify(res.favorites)
-            );
+            if (isFavorite) {
+                dispatch({type: 'favorites/removeFavorite', payload: data._id});
+            } else {
+                dispatch({type: 'favorites/addFavorite', payload: data._id});
+            }
             setIsFavorite(!isFavorite);
         }
     };
