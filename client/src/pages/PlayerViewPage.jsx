@@ -11,6 +11,10 @@ import {
 } from '../hooks/providers/SessionProvider';
 import { LS_FAVORITES_KEY } from '../utils/constants';
 
+
+const selectToken = state => state.token;
+
+
 function PlayerViewPage() {
     let { playerName } = useParams();
     const [data, setData] = useState(null);

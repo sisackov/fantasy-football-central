@@ -1,10 +1,12 @@
 import {createStore, applyMiddleware} from 'redux';
 import rootReducer from './store/rootReducer';
 import { composeWithDevTools } from '@redux-devtools/extension';
-import {LS_TOKEN_KEY} from './utils/constants';
+import {LS_FAVORITES_KEY, LS_LEAGUE_AVG_KEY, LS_TOKEN_KEY} from './utils/constants';
 
 let preloadedState;
 const persistedTokenString = localStorage.getItem(LS_TOKEN_KEY);
+const persistedFavorites = localStorage.getItem(LS_FAVORITES_KEY);
+const persistedLeagueAvg = localStorage.getItem(LS_LEAGUE_AVG_KEY);
 
 //TODO: add logger middleware
 
@@ -24,6 +26,8 @@ const composedEnhancer = composeWithDevTools(
 if (persistedTokenString) {
     preloadedState = {
         [LS_TOKEN_KEY]: persistedTokenString,
+        [LS_FAVORITES_KEY]: persistedFavorites ? JSON.parse(persistedFavorites) : [],
+        [LS_LEAGUE_AVG_KEY]: persistedLeagueAvg ? JSON.parse(persistedLeagueAvg) : [],
     };
 }
 

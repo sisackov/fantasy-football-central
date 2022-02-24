@@ -1,4 +1,4 @@
-import {LS_TOKEN_KEY} from "../utils/constants";
+import {LS_FAVORITES_KEY, LS_TOKEN_KEY} from "../utils/constants";
 
 
 // {type: 'token/setToken', payload: tokenString}
@@ -21,25 +21,13 @@ export default function rootReducer(state = initialState, {type, payload} = {}) 
         case 'token/clearToken':
             return handleTokenDispatch(state, '');
         case 'favorites/setFavorites':
-            return {
-                ...state,
-                favorites: payload,
-            };
+            return handleFavoritesDispatch(state, payload);
         case 'favorites/addFavorite':
-            return {
-                ...state,
-                favorites: state.favorites.push(payload),
-            };
+            return handleFavoritesDispatch(state, state.favorites.concat(payload))
         case 'favorites/removeFavorite':
-            return {
-                ...state,
-                favorites: state.favorites.filter(items => items !== payload),
-            };
+            return handleFavoritesDispatch(state, state.favorites.filter(items => items !== payload))
         case 'favorites/clearFavorites':
-            return {
-                ...state,
-                favorites: [],
-            };
+            return handleFavoritesDispatch(state, []);
         case 'leagueAvgs/setAvgs':
             return {
                 ...state,
@@ -62,3 +50,12 @@ function handleTokenDispatch(state, tokenString) {
         token: tokenString,
     };
 }
+
+function handleFavoritesDispatch(state, favorites) {
+    localStorage.setItem(LS_FAVORITES_KEY, JSON.stringify(favorites));
+    return {
+        ...state,
+        favorites,
+    };
+}
+

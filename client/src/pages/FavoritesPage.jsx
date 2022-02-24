@@ -1,17 +1,19 @@
-import { useEffect, useState } from 'react';
-import { fetchPlayerById } from '../api/ffc-api';
+import {useEffect, useState} from 'react';
+import {fetchPlayerById} from '../api/ffc-api';
 import PlayerCard from '../components/PlayerCard';
 import Row from 'react-bootstrap/Row';
-import { PATH_SEARCH } from '../utils/constants';
-import { useFavoritesProvider } from '../hooks/providers/SessionProvider';
+import {PATH_SEARCH} from '../utils/constants';
 import Loader from '../components/Loader';
+import {useSelector} from "react-redux";
+
+const selectFavorites = state => state.favorites;
 
 function FavoritesPage() {
     const [players, setPlayers] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState('');
 
-    const { favorites } = useFavoritesProvider();
+    const favorites = useSelector(selectFavorites);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,13 +38,13 @@ function FavoritesPage() {
     }, [favorites, players]);
 
     const renderPlayerCards = () => {
-        if (isLoading) return <Loader />;
+        if (isLoading) return <Loader/>;
         if (errorMsg)
             return <h6 className='text-center text-danger mt-5'>{errorMsg}</h6>;
 
         if (players && players.length) {
             return players.map((player) => {
-                return <PlayerCard key={player._id} player={player} />;
+                return <PlayerCard key={player._id} player={player}/>;
             });
         }
         return null;
