@@ -4,15 +4,14 @@ import Nav from 'react-bootstrap/Nav';
 
 import {
     LOGO_IMAGE,
-    LS_TOKEN_KEY,
     PATH_API,
     PATH_FAVORITES,
     PATH_HOME,
     PATH_LOGIN,
     PATH_SEARCH,
 } from '../utils/constants';
-import { useTokenProvider } from '../hooks/providers/SessionProvider';
 import { useHistory } from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
 
 const styles = {
     navbar: {
@@ -29,13 +28,15 @@ const styles = {
     },
 };
 
+const selectToken = state => state.token;
+
 function NavbarComponent() {
-    const { token, setToken } = useTokenProvider();
+    const dispatch = useDispatch();
+    const token = useSelector(selectToken);
     const history = useHistory();
 
     const handleLogout = () => {
-        setToken(null);
-        localStorage.removeItem(LS_TOKEN_KEY);
+        dispatch({type: 'token/clearToken'})
         history.push(PATH_HOME);
     };
 

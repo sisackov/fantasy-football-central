@@ -27,6 +27,7 @@
     },
     "homepage": "https://github.com/sisackov/fantasy-football-central#readme",
     "dependencies": {
+        "@redux-devtools/extension": "^3.2.2",
         "axios": "^0.25.0",
         "bcryptjs": "^2.4.3",
         "cors": "^2.8.5",

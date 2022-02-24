@@ -56,7 +56,7 @@ export default function rootReducer(state = initialState, {type, payload} = {}) 
 }
 
 function handleTokenDispatch(state, tokenString) {
-    localStorage.setItem(LS_TOKEN_KEY, tokenString);
+    localStorage.setItem(LS_TOKEN_KEY, tokenString);//TODO: move to cookie
     return {
         ...state,
         token: tokenString,

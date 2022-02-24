@@ -7,7 +7,6 @@ import LoginPage from './pages/LoginPage';
 import PlayerViewPage from './pages/PlayerViewPage';
 import RegistrationPage from './pages/RegistrationPage';
 import SearchPage from './pages/SearchPage.jsx';
-import SessionProvider from './hooks/providers/SessionProvider';
 
 import {
     PATH_API,
@@ -19,6 +18,7 @@ import {
     PATH_SIGN_UP,
 } from './utils/constants';
 import store from './store';
+import {Provider} from "react-redux";
 
 function App() {
     console.log('Initial state: ', store.getState());
@@ -26,16 +26,11 @@ function App() {
     const unsubscribe = store.subscribe(() =>
         console.log('State after dispatch: ', store.getState())
     );
-
-    // store.dispatch({ type: 'token/clearToken' });
-    // store.dispatch({ type: 'token/setToken', payload: 'wertyuiop' });
-    // store.dispatch({ type: 'token/clearToken' });
-
     unsubscribe();
 
     return (
         <>
-            <SessionProvider>
+            <Provider store={store}>
                 <Router>
                     <NavbarComponent />
                     <Switch>
@@ -64,7 +59,7 @@ function App() {
                         />
                     </Switch>
                 </Router>
-            </SessionProvider>
+            </Provider>
         </>
     );
 }

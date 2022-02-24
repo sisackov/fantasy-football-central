@@ -1,20 +1,16 @@
-import { useState, useEffect } from 'react';
-import { LOGO_IMAGE_2, PATH_FAVORITES, PATH_SIGN_UP } from '../utils/constants';
-import { loginUser } from '../api/ffc-server';
-import { useHistory } from 'react-router-dom';
-import {
-    useFavoritesProvider,
-    useTokenProvider,
-} from '../hooks/providers/SessionProvider';
+import {useState, useEffect} from 'react';
+import {LOGO_IMAGE_2, PATH_FAVORITES, PATH_SIGN_UP} from '../utils/constants';
+import {loginUser} from '../api/ffc-server';
+import {useHistory} from 'react-router-dom';
+import {useDispatch} from 'react-redux';
 
 function LoginPage() {
+    const dispatch = useDispatch();
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [user, setUser] = useState(null);
     const history = useHistory();
-    const { setToken } = useTokenProvider();
-    const { setFavorites } = useFavoritesProvider();
 
     useEffect(() => {
         const sendServerRequest = async () => {
@@ -23,8 +19,8 @@ function LoginPage() {
             if (response.error) {
                 setError(response.error);
             } else {
-                setToken(response.token);
-                setFavorites(response.user.favorites);
+                dispatch({type: 'token/setToken', payload: response.token})
+                dispatch({type: 'favorites/setFavorites', payload: response.user.favorites})
                 history.push(PATH_FAVORITES);
             }
         };
@@ -33,7 +29,7 @@ function LoginPage() {
             console.log('sendLogin', user);
             sendServerRequest();
         }
-    }, [user, history, setToken, setFavorites]);
+    }, [user, history]);
 
     const handleLogin = (e) => {
         console.log('handleLogin');
@@ -45,7 +41,7 @@ function LoginPage() {
         }
 
         setError('');
-        setUser({ name, password });
+        setUser({name, password});
     };
 
     return (
