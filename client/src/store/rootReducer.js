@@ -7,12 +7,19 @@
 // {type: 'leagueAvgs/setAvgs, payload: [{position, avg}...]}
 // {type: 'leagueAvgs/clearAvgs'}
 
-const initialState = { token: '', favorites: [], leagueAvg: [] };
+const initialState = {token: '', favorites: [], leagueAvgs: []};
 
-export default function appReducer(
-    state = initialState,
-    { type, payload } = {}
-) {
+
+export default function appReducer(state = initialState, action) {
+    return {
+        token: tokenReducer(state.token, action),
+        favorites: favoritesReducer(state.favorites, action),
+        leagueAvgs: leagueAvgsReducer(state.leagueAvgs, action),
+    }
+}
+
+
+export function tokenReducer(state = initialState, {type, payload} = {}) {
     switch (type) {
         case 'token/setToken':
             return {
@@ -29,27 +36,47 @@ export default function appReducer(
     }
 }
 
-// function tokenReducer(state = initialState, { type, payload } = {}) {
-//     console.log('tokenReducerAction', { type, payload });
+export function favoritesReducer(state = initialState, {type, payload} = {}) {
+    switch (type) {
+        case 'favorites/setFavorites':
+            return {
+                ...state,
+                favorites: payload,
+            };
+        case 'favorites/addFavorite':
+            return {
+                ...state,
+                favorites: state.favorites.push(payload),
+            };
+        case 'favorites/removeFavorite':
+            return {
+                ...state,
+                favorites: state.favorites.filter(items => items !== payload),
+            };
+        case 'favorites/clearFavorites':
+            return {
+                ...state,
+                favorites: [],
+            };
+        default:
+            return state;
+    }
+}
 
-//     // Check to see if the reducer cares about this action
-//     if (type === 'SET_TOKEN') {
-//         // If so, make a copy of `state`
-//         return {
-//             ...state,
-//             // and update the copy with the new value
-//             token: payload,
-//         };
-//     } else if (type === 'CLEAR_TOKEN') {
-//         // If not, return the original state
-//         return {
-//             ...state,
-//             token: '',
-//         };
-//     }
-//     console.log('tokenReducerState', state);
-//     // otherwise return the existing state unchanged
-//     return state;
-// }
 
-// export default tokenReducer;
+export function leagueAvgsReducer(state = initialState, {type, payload} = {}) {
+    switch (type) {
+        case 'leagueAvgs/setAvgs':
+            return {
+                ...state,
+                leagueAvgs: payload,
+            };
+        case 'leagueAvgs/clearToken':
+            return {
+                ...state,
+                leagueAvgs: [],
+            };
+        default:
+            return state;
+    }
+}
