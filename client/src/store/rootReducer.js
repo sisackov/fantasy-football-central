@@ -1,10 +1,17 @@
-import {LS_FAVORITES_KEY, LS_LEAGUE_AVG_KEY, LS_TOKEN_KEY} from "../utils/constants";
+import {
+    LS_FAVORITES_KEY,
+    LS_LEAGUE_AVG_KEY,
+    LS_TOKEN_KEY,
+} from '../utils/constants';
 
-const initialState = {token: '', favorites: [], leagueAvg: []};
+const initialState = { token: '', favorites: [], leagueAvg: [] };
 
-export default function rootReducer(state = initialState, {type, payload} = {}) {
-    console.log('rootReducer payload', payload)
-    console.log('rootReducer state', state)
+export default function rootReducer(
+    state = initialState,
+    { type, payload } = {}
+) {
+    // console.log('rootReducer payload', payload);
+    // console.log('rootReducer state', state);
     switch (type) {
         case 'token/setToken':
             return handleTokenDispatch(state, payload);
@@ -13,9 +20,15 @@ export default function rootReducer(state = initialState, {type, payload} = {}) 
         case 'favorites/setFavorites':
             return handleFavoritesDispatch(state, payload);
         case 'favorites/addFavorite':
-            return handleFavoritesDispatch(state, state.favorites.concat(payload))
+            return handleFavoritesDispatch(
+                state,
+                state.favorites.concat(payload)
+            );
         case 'favorites/removeFavorite':
-            return handleFavoritesDispatch(state, state.favorites.filter(items => items !== payload))
+            return handleFavoritesDispatch(
+                state,
+                state.favorites.filter((items) => items !== payload)
+            );
         case 'favorites/clearAll':
             return handleFavoritesDispatch(state, []);
         case 'leagueAvg/setAvg':
@@ -28,7 +41,7 @@ export default function rootReducer(state = initialState, {type, payload} = {}) 
 }
 
 function handleTokenDispatch(state, tokenString) {
-    localStorage.setItem(LS_TOKEN_KEY, tokenString);//TODO: move to cookie
+    localStorage.setItem(LS_TOKEN_KEY, tokenString); //TODO: move to cookie
     return {
         ...state,
         token: tokenString,
@@ -50,4 +63,3 @@ function handleLeagueAvgDispatch(state, leagueAvg) {
         leagueAvg,
     };
 }
-

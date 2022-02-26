@@ -11,6 +11,13 @@ Built using React, NodeJS, Express, MongoDB, Puppeteer, jsonwebtoken, React-Rout
 ![Player Page](https://github.com/sisackov/fantasy-football-central/blob/main/docs/screenshots/1645649109084.jpg)
 ![API Docs Page](https://github.com/sisackov/fantasy-football-central/blob/main/docs/screenshots/1645649751393.jpg)
 
+## Known issues and Todos
+
+- Complete AWS deployment
+- Add Jest testing
+- Add socket.io
+- Add eslint security
+
 ## System Design
 
 -   The **mockup outline** can be found [here](./docs/page-outline.pdf).
