@@ -5,6 +5,11 @@ Built using React, NodeJS, Express, MongoDB, Puppeteer, jsonwebtoken, React-Rout
 ### Live Demo: https://fantasy-football-central.herokuapp.com/
 
 ![Landing Page](https://github.com/sisackov/fantasy-football-central/blob/main/docs/screenshots/1645648592623.jpg)
+![Login Page](https://github.com/sisackov/fantasy-football-central/blob/main/docs/screenshots/1645648958035.jpg)
+![Search Page](https://github.com/sisackov/fantasy-football-central/blob/main/docs/screenshots/1645649242521.jpg)
+![Favorites Page](https://github.com/sisackov/fantasy-football-central/blob/main/docs/screenshots/1645649030957.jpg)
+![Player Page](https://github.com/sisackov/fantasy-football-central/blob/main/docs/screenshots/1645649109084.jpg)
+![API Docs Page](https://github.com/sisackov/fantasy-football-central/blob/main/docs/screenshots/1645649751393.jpg)
 
 ## System Design
 
