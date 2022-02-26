@@ -11,6 +11,7 @@ import {
 } from '../utils/constants';
 import { useEffect, useState } from 'react';
 import { fetchAutoCompletePlayers } from '../api/ffc-api';
+import {hashCode} from "../utils/utils";
 const $ = document.querySelector.bind(document);
 
 function SearchBar({ onSearch, initialTerm }) {
@@ -47,11 +48,13 @@ function SearchBar({ onSearch, initialTerm }) {
 
     const handlePositionSelect = (eventKey) => {
         setPosition(eventKey);
+
+        const dropdown = $('#dropdown-menu-align-right');
         if (eventKey) {
-            $('#dropdown-menu-align-right').innerText = eventKey;
-            $('#dropdown-menu-align-right').style.width = '95px';
+            dropdown.innerText = eventKey;
+            dropdown.style.width = '95px';
         } else {
-            $('#dropdown-menu-align-right').innerText = 'Position';
+            dropdown.innerText = 'Position';
         }
     };
 
@@ -81,11 +84,11 @@ function SearchBar({ onSearch, initialTerm }) {
 
         return (
             <ul className='list-group dropdown-list-absolute'>
-                {results.slice(0, DROPDOWN_SIZE).map((result, index) => {
+                {results.slice(0, DROPDOWN_SIZE).map((result) => {
                     return (
                         <li
                             className='list-group-item'
-                            key={`${result}_${index}`}
+                            key={hashCode(result)}
                             onClick={handleDropdownSelect}
                         >
                             {result}
@@ -153,7 +156,7 @@ function SearchBar({ onSearch, initialTerm }) {
                         className='btn btn-primary'
                         onClick={handleSearch}
                     >
-                        Search <i className='bi bi-search'></i>
+                        Search <i className='bi bi-search'> </i>
                     </button>
                 </div>
             </div>

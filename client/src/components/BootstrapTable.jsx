@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { fetchQueriedPlayers } from '../api/ffc-api';
+import { hashCode } from '../utils/utils';
 
 function BootstrapTable({ position, statsType }) {
     const [data, setData] = useState([]);
@@ -61,9 +62,9 @@ function BootstrapTable({ position, statsType }) {
 
     const renderBody = useCallback(() => {
         if (sortedPlayers.length === 0) return <div>Loading...</div>;
-        return sortedPlayers.map((player, index) => {
+        return sortedPlayers.map((player) => {
             return (
-                <tr key={index}>
+                <tr key={hashCode(player.name)}>
                     {/* <th scope='row'>{index + 1}</th> */}
                     <td>{player.name}</td>
                     <td>{player.team}</td>
