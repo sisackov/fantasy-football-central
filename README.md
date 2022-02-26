@@ -1,5 +1,11 @@
 # Fantasy Football Central
 
+Built using React, NodeJS, Express, MongoDB, Puppeteer, jsonwebtoken, React-Router, Bootstrap-v5, C3(charts), react-bootstrap-table2 and Redux.
+
+### Live Demo: https://fantasy-football-central.herokuapp.com/
+
+![Landing Page](https://github.com/sisackov/fantasy-football-central/blob/main/docs/screenshots/1645648592623.jpg)
+
 ## System Design
 
 -   The **mockup outline** can be found [here](./docs/page-outline.pdf).
