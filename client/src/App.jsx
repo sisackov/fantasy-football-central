@@ -18,15 +18,14 @@ import {
     PATH_SIGN_UP,
 } from './utils/constants';
 import store from './store/store';
-import {Provider} from "react-redux";
+import { Provider } from 'react-redux';
 
 function App() {
-    console.log('Initial state: ', store.getState());
-
-    const unsubscribe = store.subscribe(() =>
-        console.log('State after dispatch: ', store.getState())
-    );
-    unsubscribe();
+    // console.log('Initial state: ', store.getState());
+    // const unsubscribe = store.subscribe(() =>
+    //     console.log('State after dispatch: ', store.getState())
+    // );
+    // unsubscribe();
 
     return (
         <>
