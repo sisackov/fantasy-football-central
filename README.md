@@ -105,7 +105,6 @@ Built using React, NodeJS, Express, MongoDB, Puppeteer, jsonwebtoken, React-Rout
 |                  | **Footer**      |                 | :black_square_button: | **2 hours** |     |
 |                  | **Testing**     |                 | :black_square_button: | **3 hours** |     |
 |                  | **SocialLinks** |                 | :black_square_button: | **2 hours** |     |
-|                  |                 | IngredientsForm | :black_square_button: | 2 hours     |     |
 | **Future**       |                 |                 |                       |             |     |
 |                  | **scroll** \*   |                 | :black_square_button: |             |     |
 
