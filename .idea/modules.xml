@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../appleseeds-bootcamp/.idea/appleseeds-bootcamp.iml" filepath="$PROJECT_DIR$/../appleseeds-bootcamp/.idea/appleseeds-bootcamp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../fullstack/client/.idea/client.iml" filepath="$PROJECT_DIR$/../fullstack/client/.idea/client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/fantasy-football-central.iml" filepath="$PROJECT_DIR$/.idea/fantasy-football-central.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../recipe-collections-react/.idea/recipe-collections-react.iml" filepath="$PROJECT_DIR$/../recipe-collections-react/.idea/recipe-collections-react.iml" />
+    </modules>
+  </component>
+</project>
